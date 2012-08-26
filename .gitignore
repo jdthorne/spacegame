@@ -1,0 +1,5 @@
+.tup
+bin
+*.o
+*.a
+moc_*.cxx

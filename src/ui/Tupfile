@@ -1,0 +1,5 @@
+include_rules
+
+: foreach *.h |> !moc |>
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> libui.a
