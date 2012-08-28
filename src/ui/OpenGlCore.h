@@ -5,8 +5,9 @@
 // Qt
 #include <QGLWidget>
 #include <QTimer>
+#include <QTime>
 
-#include <Mesh.h>
+#include <Ship.h>
 
 class OpenGlCore : public QGLWidget
 {
@@ -25,9 +26,11 @@ private slots:
 
 private:
    QTimer timer_;
-   double depth_;
 
-   Mesh testMesh_;
+   Ship testShip_;
+
+   QTime time_;
+   int frames_;
 };
 
 #endif

@@ -12,9 +12,9 @@ int main(int argc, char** argv)
 {
    QApplication app(argc, argv);
 
-   OpenGlCore core;
-   core.show();
+   OpenGlCore* core = new OpenGlCore();
+   core->show();
 
-   return app.exec();
+   app.exec();
 }
 

@@ -1,10 +1,13 @@
+BASE = /Users/james/Projects/Space\ Game/src
+
 CFLAGS += -Wall
 CFLAGS += -Werror
-CFLAGS += -O2
 CFLAGS += -I.
 
-CFLAGS += -I../math
-CFLAGS += -I../ui
+CFLAGS += -I$(BASE)/math
+CFLAGS += -I$(BASE)/ui
+CFLAGS += -I$(BASE)/simulation
+CFLAGS += -I$(BASE)/simulation/modules
 
 CFLAGS += -I/Library/Frameworks/QtCore.framework/Versions/4/Headers/
 CFLAGS += -I/Library/Frameworks/QtGui.framework/Versions/4/Headers/

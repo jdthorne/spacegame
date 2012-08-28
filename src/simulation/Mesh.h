@@ -2,19 +2,27 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include <QList>
+
 #include <Vector.h>
+#include <Quaternion.h>
+
+struct Face
+{
+   Vector normal_;
+   QList<Vector> vertices_;
+};
 
 class Mesh
 {
 
 public:
-   Mesh(QString filename);
+   Mesh(const QString& filename);
 
-   void render();
+   void render(const Vector& position, const Quaternion& rotation);
 
 private:
-   QList<Vector> vertices_;
-   
+   QList<Face> faces_;
 };
 
 #endif
