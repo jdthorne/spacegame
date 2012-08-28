@@ -10,9 +10,9 @@ Gyro::Gyro(Ship& ship, const Vector& position)
 
 void Gyro::simulate()
 {
-   applyTorqueAlongXAxis(power_.x);
-   applyTorqueAlongYAxis(power_.y);
-   applyTorqueAlongZAxis(power_.z);
+   //applyTorqueAlongXAxis(power_.x);
+   //applyTorqueAlongYAxis(power_.y);
+   //applyTorqueAlongZAxis(power_.z);
 }
 
 void Gyro::setPower(const Vector& power)

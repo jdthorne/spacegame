@@ -2,7 +2,7 @@
 #include <Engine.h>
 #include <Ship.h>
 
-Engine::Engine(Ship& ship, const Vector& position, const Quaternion& orientation)
+Engine::Engine(Ship& ship, const Vector position, const Quaternion orientation)
    : Module("engine", ship, position, orientation)
    , power_(0.0)
 {

@@ -13,13 +13,13 @@ class Module
 {
 
 public:
-   Module(const QString& meshName, Ship& ship, const Vector& position, const Quaternion& orientation);
+   Module(const QString& meshName, Ship& ship, const Vector position, const Quaternion orientation);
    virtual ~Module() {};
 
    void render();
 
-   const Vector& position();
-   void setPosition(const Vector& newPosition);
+   const Vector position();
+   void setPosition(const Vector newPosition);
 
    Vector absolutePosition();
 

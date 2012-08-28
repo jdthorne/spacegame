@@ -22,7 +22,7 @@ Quaternion::Quaternion(double w, double x, double y, double z)
 {
 }
 
-Quaternion::Quaternion(double angle, const Vector& axis)
+Quaternion::Quaternion(double angle, const Vector axis)
    : w(cos(angle/2))
    , x(axis.x * sin(angle/2))
    , y(axis.y * sin(angle/2))
@@ -30,7 +30,7 @@ Quaternion::Quaternion(double angle, const Vector& axis)
 {
 }
 
-Quaternion::Quaternion(const Vector& vector)
+Quaternion::Quaternion(const Vector vector)
    : w(0.0)
    , x(vector.x)
    , y(vector.y)
@@ -64,12 +64,12 @@ void Quaternion::normalize()
 // Math is fun
 // http://www.cprogramming.com/tutorial/3d/quaternions.html
 
-Quaternion operator*(double scalar, const Quaternion& quat)
+Quaternion operator*(double scalar, const Quaternion quat)
 {
    return Quaternion(quat.w * scalar, quat.x * scalar, quat.y * scalar, quat.z * scalar);
 }
 
-Quaternion operator*(const Quaternion& a, const Quaternion& b)
+Quaternion operator*(const Quaternion a, const Quaternion b)
 {
    return Quaternion( (a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z ),
                       (a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y ),
@@ -77,7 +77,7 @@ Quaternion operator*(const Quaternion& a, const Quaternion& b)
                       (a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w ) );
 }
 
-Quaternion& Quaternion::operator += (const Quaternion& rhs)
+Quaternion Quaternion::operator += (const Quaternion rhs)
 {
    w += rhs.w;
    x += rhs.x;
@@ -97,7 +97,7 @@ const char* Quaternion::printable()
    return qPrintable(QString::number(w) + " " + QString::number(x) + " " + QString::number(y) + " " + QString::number(z));
 }
 
-Quaternion Quaternion::rotationTo(const Quaternion& rhs) const
+Quaternion Quaternion::rotationTo(const Quaternion rhs) const
 {
    return rhs * this->inverse();
 }

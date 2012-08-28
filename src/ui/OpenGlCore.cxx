@@ -27,6 +27,7 @@ void OpenGlCore::initializeGL()
    glShadeModel (GL_SMOOTH);
 
    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
    glLightfv(GL_LIGHT0, GL_POSITION, light_position);   
 
@@ -63,8 +64,8 @@ void OpenGlCore::paintGL()
 
    glTranslatef(0.0f, 0.0f, -10.0f); 
 
-   GLfloat grey[] = {0.2, 0.2, 0.2, 1.0};
-   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+   //GLfloat grey[] = {0.2, 0.2, 0.2, 1.0};
+   //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
    testShip_.render();
 }  
 

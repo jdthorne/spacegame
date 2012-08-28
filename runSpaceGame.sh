@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tup upd && ./bin/spaceGame
+tup upd && ./bin/spaceGame $*

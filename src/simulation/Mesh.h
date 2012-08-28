@@ -16,12 +16,17 @@ struct Face
 class Mesh
 {
 
-public:
-   Mesh(const QString& filename);
+private:
+   Mesh(const QString filename, const Vector color);
 
-   void render(const Vector& position, const Quaternion& rotation);
+public:
+   void render(const Vector position, const Quaternion rotation);
+
+   static Mesh& byName(const QString name);
 
 private:
+   QString name_;
+   Vector color_;
    QList<Face> faces_;
 };
 

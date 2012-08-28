@@ -10,7 +10,7 @@ class Engine : public Module
 {
 
 public:
-   Engine(Ship& ship, const Vector& position, const Quaternion& orientation);
+   Engine(Ship& ship, const Vector position, const Quaternion orientation);
    virtual ~Engine() {};
 
    virtual void simulate();

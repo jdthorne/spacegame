@@ -10,10 +10,10 @@ Ship::Ship()
 
    installModule(new Engine(*this, Vector(-1, 0, 0), Quaternion::DEFAULT));
    installModule(new Engine(*this, Vector(1, 0, 0), Quaternion::DEFAULT));
+   installModule(new Module("weapon", *this, Vector(1, -1, 0), Quaternion()));
 
-   installModule(new Module("structure", *this, Vector(0, 0, 1), Quaternion()));
+   installModule(new Module("computer", *this, Vector(0, 0, 1), Quaternion()));
    installModule(new Gyro(*this, Vector(0, 0, -0.5)));
-   //installModule(new Module("weapon", *this, Vector(0, -1, 0), Quaternion()));
 
    normalizeModules();
 }
@@ -118,20 +118,16 @@ void Ship::simulateAutopilot()
    Vector fromPoint = Vector(0, 0, 1).rotate(orientation_);
    Vector toPoint = target;
 
-   //Quaternion targetOrientation = fromPoint.rotationTo(toPoint);
-
    double maxTorque = 0.01;
 
    Vector targetRotationAxis = fromPoint.cross(toPoint);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
 
-   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -0.1;
+   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -0.01;
 
    Vector angularVelocityError = (targetAngularVelocity - angularMomentum_);
 
    angularVelocityError = angularVelocityError.boundedToMagnitude(maxTorque);
-
-   qDebug("Torquing by %f", angularVelocityError.magnitude());
 
    angularMomentum_ += angularVelocityError;
 

@@ -9,20 +9,20 @@ class Quaternion
 public:
    Quaternion();
    Quaternion(double w, double x, double y, double z);
-   Quaternion(double angle, const Vector& axis);
-   explicit Quaternion(const Vector& vector);
+   Quaternion(double angle, const Vector axis);
+   explicit Quaternion(const Vector vector);
 
    double angle() const;
    Vector axis() const;
 
-   Quaternion rotationTo(const Quaternion& rhs) const;
+   Quaternion rotationTo(const Quaternion rhs) const;
 
    const char* printable();
 
 public: // operations
    void normalize();
 
-   Quaternion& operator += (const Quaternion& rhs);
+   Quaternion operator += (const Quaternion rhs);
 
    Quaternion inverse() const;
 
@@ -38,7 +38,7 @@ public:
 
 };
 
-Quaternion operator*(double scalar, const Quaternion& quaternion);
-Quaternion operator*(const Quaternion& a, const Quaternion& b);
+Quaternion operator*(double scalar, const Quaternion quaternion);
+Quaternion operator*(Quaternion a, Quaternion b);
 
 #endif
