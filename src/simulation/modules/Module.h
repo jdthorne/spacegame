@@ -16,12 +16,13 @@ public:
    Module(const QString& meshName, Ship& ship, const Vector position, const Quaternion orientation);
    virtual ~Module() {};
 
-   void render();
+   virtual void render();
 
    const Vector position();
    void setPosition(const Vector newPosition);
 
-   Vector absolutePosition(const Vector ofPoint = Vector());
+   Vector absolutePosition();
+   Vector absolutePositionOf(const Vector point);
    Quaternion absoluteOrientation();
 
    virtual void simulate();

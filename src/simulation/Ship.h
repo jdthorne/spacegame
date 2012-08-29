@@ -25,23 +25,26 @@ public:
 
    virtual void render();
 
-   void installModule(Module* module);
-
    void applyLocalForce(const Vector& force, const Vector& atPoint);
    void applyForce(const Vector& force, const Vector& atPoint);
 
    virtual const Vector position();
+   virtual const Vector velocity();
    virtual const Quaternion orientation();
 
    void normalizeModules();
 
+   double deflectorRadius();
+   bool applyCollisionWith(double distance, const Vector position, const Vector velocity);
+
 private:
    World& world_;
+   Mesh& deflector_;
 
+   double deflectorPower_;
+
+   Module* core_;
    QList<Module*> modules_;
-
-   QList<Engine*> engines_;
-   QList<Weapon*> weapons_;
 
    Vector position_;
    Vector velocity_;

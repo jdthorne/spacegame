@@ -3,6 +3,8 @@
 #include <cmath>
 
 const Quaternion Quaternion::DEFAULT = Quaternion();
+const Quaternion Quaternion::SPIN_X = Quaternion(0.0, 1.0, 0.0, 0.0);
+const Quaternion Quaternion::SPIN_Y = Quaternion(0.0, 0.0, 1.0, 0.0);
 const Quaternion Quaternion::SPIN_Z = Quaternion(0.0, 0.0, 0.0, 1.0);
 
 Quaternion::Quaternion()

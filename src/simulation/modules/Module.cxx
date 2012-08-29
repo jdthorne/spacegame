@@ -15,9 +15,13 @@ void Module::render()
    mesh_.render(absolutePosition(), absoluteOrientation());
 }
 
-Vector Module::absolutePosition(const Vector ofPoint)
+Vector Module::absolutePosition()
 {
-   return (ship_.position() + (position_ + ofPoint).rotate(ship_.orientation()));
+   return (ship_.position() + position_.rotate(ship_.orientation()));
+}
+Vector Module::absolutePositionOf(const Vector point)
+{
+   return (ship_.position() + (position_ + point.rotate(orientation_)).rotate(ship_.orientation()));
 }
 Quaternion Module::absoluteOrientation()
 {

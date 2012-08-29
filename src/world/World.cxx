@@ -1,23 +1,18 @@
 #include <World.h>
+#include <Bullet.h>
 #include <QGLWidget>
 #include <cstdlib>
+#include <Helpers.h>
+#include <Ship.h>
 
 World::World()
 {
-   
-}
+   for (int i = 0; i < 5; i++)
+   {
+      addShip();
+   }
 
-void World::addShip()
-{
-   double worldSize = 25.0;
-   Vector position = randomVector(-worldSize, worldSize);
-
-   Ship* ship = new Ship(*this, position);
-
-   ships_.append(ship);
-   all_.append(ship);
-
-   for (int i = 0; i < 50; i++)
+   for (int i = 0; i < 500; i++)
    {
       Vector direction = randomVector(-1.0, 1.0).normalized();
       Vector position = (direction * 400.0);
@@ -26,16 +21,40 @@ void World::addShip()
    }
 }
 
+void World::addShip()
+{
+   double worldSize = 50.0;
+   Vector position = randomVector(-worldSize, worldSize);
+
+   Ship* ship = new Ship(*this, position);
+
+   ships_.append(ship);
+   all_.append(ship);
+}
+
 void World::addItem(WorldItem* item)
 {
-   lineEffects_.append(item);
+   if (dynamic_cast<Bullet*>(item) != NULL)
+   {
+      lineEffects_.append(item);
+   }
+   else
+   {
+      sphereEffects_.append(item);
+   }
    all_.append(item);
 }
 
 void World::removeItem(WorldItem* item)
 {
    lineEffects_.removeAll(item);
+   sphereEffects_.removeAll(item);
    all_.removeAll(item);
+
+   if (objectIs(item, Ship))
+   {
+      ships_.removeAll((Ship*)item);
+   }
 
    delete item;
 }
@@ -50,10 +69,24 @@ void World::simulate()
 
 void World::render()
 {
+   glBegin(GL_POINTS);
+   glPointSize(1.0);
+   glColor3f(1.0, 1.0, 1.0);
+   foreach(Vector star, stars_)
+   {
+      glVertex3f(star.x, star.y, star.z);
+   }
+   glEnd();
+
+   glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
    foreach(Ship* ship, ships_)
    {
       ship->render();
+   }
+   foreach(WorldItem* item, sphereEffects_) 
+   {
+      item->render();
    }
 
    glDisable(GL_LIGHTING);
@@ -62,15 +95,6 @@ void World::render()
    foreach(WorldItem* item, lineEffects_) 
    {
       item->render();
-   }
-   glEnd();
-
-   glBegin(GL_POINTS);
-   glPointSize(1.0);
-   glColor3f(1.0, 1.0, 1.0);
-   foreach(Vector star, stars_)
-   {
-      glVertex3f(star.x, star.y, star.z);
    }
    glEnd();
 }
@@ -95,4 +119,9 @@ WorldItem& World::focusItem()
 QList<Ship*> World::ships()
 {
    return ships_;
+}
+
+bool World::hasRemainingShips()
+{
+   return (ships_.count() > 0);
 }

@@ -22,6 +22,8 @@ public:
    double randomValue(double min = 0.0, double max = 1.0);
    const Vector randomVector(double min = 0.0, double max = 1.0);
 
+   bool hasRemainingShips();
+
    QList<Ship*> ships();
 
    WorldItem& focusItem();
@@ -29,6 +31,7 @@ public:
 private:
    QList<Ship*> ships_;
 
+   QList<WorldItem*> sphereEffects_;
    QList<WorldItem*> lineEffects_;
 
    QList<WorldItem*> all_;

@@ -18,13 +18,7 @@ OpenGlCore::OpenGlCore()
    time_.start();
 
    connect(&timer_, SIGNAL(timeout()), this, SLOT(handleTimeout()));
-   timer_.start(1000 / 60);
-
-   world_.addShip();
-   world_.addShip();
-   world_.addShip();
-   world_.addShip();
-   world_.addShip();
+   timer_.start(1000 / 240);
 }
 
 OpenGlCore::~OpenGlCore()
@@ -47,8 +41,10 @@ void OpenGlCore::initializeGL()
    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
    glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);   
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
+   glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+   glEnable(GL_COLOR_MATERIAL);
 
    glShadeModel(GL_SMOOTH);
    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -57,7 +53,12 @@ void OpenGlCore::initializeGL()
    glEnable(GL_DEPTH_TEST);
    glDepthFunc(GL_LEQUAL);
 
+   //glAlphaFunc(GL_ALWAYS, 0.0);
+
    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+   //glEnable(GL_BLEND);
+   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void OpenGlCore::resizeGL(int w, int h)
@@ -67,7 +68,7 @@ void OpenGlCore::resizeGL(int w, int h)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
 
-   gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 0.1f, 500.0f);
+   gluPerspective(90.0f, (GLfloat)w/(GLfloat)h, 0.1f, 5000.0f);
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
@@ -78,18 +79,10 @@ void OpenGlCore::paintGL()
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    /*
-   xRotation_ = qBound(-0.5, xRotation_, +0.5);
-   yRotation_ = qBound(-0.5, yRotation_, +0.5);
-
-   Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
-   Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
-   Quaternion cameraOrientation = xQuat * yQuat;
 
    //Vector cameraFocusPoint = world_.focusItem().position();
    Vector cameraFocusPoint = Vector();
 
-   Vector cameraDistance = Vector(0, 0, 60);
-   Vector cameraOffset = cameraDistance.rotate(cameraOrientation);
 
    Vector cameraPosition = cameraFocusPoint + cameraOffset;
    */
@@ -97,13 +90,27 @@ void OpenGlCore::paintGL()
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 
-   WorldItem& focus = world_.focusItem();
-   Vector cameraPosition = focus.position() + Vector(0, 5, -10.0).rotate(focus.orientation());
-   Vector cameraFocusPoint = focus.position(); //(Vector(0, 0, -1).rotate(focus.orientation()));
+   if (world_.hasRemainingShips())
+   {
+      WorldItem& focus = world_.focusItem();
 
-   gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,
-             cameraFocusPoint.x, cameraFocusPoint.y, cameraFocusPoint.z,
-             0.0, -1.0, 0.0);
+      xRotation_ = qBound(-0.5, xRotation_, +0.5);
+      yRotation_ = qBound(-0.5, yRotation_, +0.5);
+
+      Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
+      Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
+      Quaternion cameraOrientation = xQuat * yQuat;
+
+      Vector cameraDistance = Vector(0, 0, 10);
+      Vector cameraOffset = cameraDistance.rotate(cameraOrientation);
+      Vector cameraPosition = focus.position() + cameraOffset;
+
+      Vector cameraFocusPoint = focus.position(); //(Vector(0, 0, -1).rotate(focus.orientation()));
+
+      gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,
+                cameraFocusPoint.x, cameraFocusPoint.y, cameraFocusPoint.z,
+                0.0, -1.0, 0.0);
+   }
 
    world_.render();
 }

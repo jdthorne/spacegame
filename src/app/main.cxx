@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <Vector.h>
 #include <OpenGlCore.h>
+#include <ctime>
 
 bool isSimMode(int argc, char** argv)
 {
@@ -25,20 +26,28 @@ int main(int argc, char** argv)
 {
    if (isSimMode(argc, argv))
    {
-      qDebug("Simulating 500 frames...");
+      int frames = 5000.0;
+
+      qDebug("Simulating %d frames...", frames);
+      clock_t start = clock();
+
       World world;
-      world.addShip();
-      for (int frame = 0; frame < 500; frame++)
+      for (int frame = 0; frame < frames; frame++)
       {
          world.simulate();
       }
-      qDebug("Done!");
+
+      clock_t end = clock();
+      double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+
+      qDebug("Simulated at %.5ffps; %d ships remain", (frames / seconds), world.ships().count());
       return 0;
    }
 
    QApplication app(argc, argv);
 
    OpenGlCore* core = new OpenGlCore();
+   core->resize(1280, 720);
    core->show();
 
    app.exec();

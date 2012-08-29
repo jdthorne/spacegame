@@ -6,6 +6,7 @@
 
 #include <Vector.h>
 #include <Quaternion.h>
+#include <Color.h>
 
 struct Face
 {
@@ -17,10 +18,10 @@ class Mesh
 {
 
 private:
-   Mesh(const QString filename, const Vector color);
+   Mesh(const QString filename, const Color color);
 
 public:
-   void render(const Vector position, const Quaternion rotation);
+   void render(const Vector position, const Quaternion rotation, double scale = 1.0);
 
    static Mesh& byName(const QString name);
 
@@ -28,7 +29,7 @@ public:
 
 private:
    QString name_;
-   Vector color_;
+   Color color_;
    QList<Face> faces_;
 };
 

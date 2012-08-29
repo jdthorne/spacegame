@@ -8,7 +8,7 @@
 
 QMap<QString, Mesh*> MESH_LIST;
 
-Mesh::Mesh(const QString name, const Vector color)
+Mesh::Mesh(const QString name, const Color color)
    : name_(name)
    , color_(color)
 {
@@ -56,12 +56,19 @@ Mesh& Mesh::byName(const QString name)
 {
    if (MESH_LIST.count() == 0)
    {
-      Vector grey = Vector(0.2, 0.2, 0.2);
+      Color grey = { 0.2, 0.2, 0.2, 1.0 };
+      Color orange = { 1.0, 0.75, 0.0, 1.0 };
+      Color transparentBlue = { 0.25, 0.25, 1.0, 0.1 };
 
       MESH_LIST["computer"] = new Mesh("computer", grey);
       MESH_LIST["engine"] = new Mesh("engine", grey);
       MESH_LIST["gyro"] = new Mesh("gyro", grey);
       MESH_LIST["weapon"] = new Mesh("weapon", grey);
+
+      MESH_LIST["engine-thrust"] = new Mesh("engine-thrust", orange);
+
+      MESH_LIST["deflector"] = new Mesh("deflector", transparentBlue);
+      MESH_LIST["explosion"] = new Mesh("deflector", orange);
 
       //Vector flame = Vector(0.2, 0.8, 1.0);
       //MESH_LIST["engine-thrust"] = new Mesh("engine-thrust", flame);
@@ -75,7 +82,7 @@ double toDeg(double rad)
    return (rad * 180) / 3.1415926535;
 }
 
-void Mesh::render(const Vector position, const Quaternion rotation)
+void Mesh::render(const Vector position, const Quaternion rotation, double scale)
 {
    glPushMatrix();
    glTranslatef(position.x, position.y, position.z);
@@ -87,8 +94,11 @@ void Mesh::render(const Vector position, const Quaternion rotation)
       glRotatef(toDeg(angle), axis.x, axis.y, axis.z);
    }
 
-   GLfloat color[] = { color_.x, color_.y, color_.z, 1.0 };
-   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
+   glScalef(scale, scale, scale);
+
+   //GLfloat color[] = { color_.r, color_.g, color_.b, 0.01 };
+   //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
+   glColor4f(color_.r, color_.g, color_.b, color_.a);
 
    glBegin(GL_TRIANGLES);
    foreach (Face f, faces_)

@@ -28,6 +28,8 @@ public: // operations
 
 public: // constants
    static const Quaternion DEFAULT;
+   static const Quaternion SPIN_X;
+   static const Quaternion SPIN_Y;
    static const Quaternion SPIN_Z;
 
 public:

@@ -4,21 +4,32 @@
 #include <Gyro.h>
 #include <Vector.h>
 #include <cmath>
+#include <Explosion.h>
 #include <World.h>
+#include <QGLWidget>
+#include <Helpers.h>
 
 Ship::Ship(World& world, const Vector position)
    : world_(world)
+   , deflector_(Mesh::byName("deflector"))
+   , deflectorPower_(1.0)
    , position_(position)
 {
    orientation_.normalize();
 
-   installModule(new Engine(*this, Vector(-1, 0, 0), Quaternion::DEFAULT));
-   installModule(new Engine(*this, Vector(1, 0, 0), Quaternion::DEFAULT));
-   installModule(new Weapon(*this, Vector(1, 1, 0), Quaternion::SPIN_Z));
-   installModule(new Weapon(*this, Vector(-1, 1, 0), Quaternion::SPIN_Z));
+   modules_.append(new Engine(*this, Vector(-1, 0, 0), Quaternion::DEFAULT));
+   modules_.append(new Engine(*this, Vector(1, 0, 0), Quaternion::DEFAULT));
+   modules_.append(new Engine(*this, Vector(-1, 0, 2), Quaternion::SPIN_X));
+   modules_.append(new Engine(*this, Vector(1, 0, 2), Quaternion::SPIN_X));
 
-   installModule(new Module("computer", *this, Vector(0, 0, 1), Quaternion()));
-   installModule(new Gyro(*this, Vector(0, 0, -0.5)));
+   modules_.append(new Weapon(*this, Vector(1, 1, 0), Quaternion::SPIN_Z));
+   modules_.append(new Weapon(*this, Vector(-1, 1, 0), Quaternion::SPIN_Z));
+   modules_.append(new Weapon(*this, Vector(1, -1, 0), Quaternion::DEFAULT));
+   modules_.append(new Weapon(*this, Vector(-1, -1, 0), Quaternion::DEFAULT));
+
+   core_ = new Module("computer", *this, Vector(0, 0, 1), Quaternion());
+   modules_.append(core_);
+   modules_.append(new Gyro(*this, Vector(0, 0, -0.5)));
 
    normalizeModules();
 }
@@ -64,24 +75,14 @@ const Vector Ship::position()
    return position_;
 }
 
+const Vector Ship::velocity()
+{
+   return velocity_;
+}
+
 const Quaternion Ship::orientation()
 {
    return orientation_;
-}
-
-void Ship::installModule(Module* module)
-{
-   modules_.append(module);   
-
-   if (dynamic_cast<Engine*>(module) != NULL)
-   {
-      engines_.append(dynamic_cast<Engine*>(module));
-   }
-
-   if (dynamic_cast<Weapon*>(module) != NULL)
-   {
-      weapons_.append(dynamic_cast<Weapon*>(module));
-   }
 }
 
 void Ship::simulate()
@@ -114,7 +115,49 @@ void Ship::render()
    {
       m->render();
    }
+
+   //deflector_.render(position_, orientation_, deflectorRadius());
 }
+
+double Ship::deflectorRadius()
+{
+   return 25.0 * deflectorPower_;
+}  
+
+bool Ship::applyCollisionWith(double distance, const Vector position, const Vector velocity)
+{
+   if (distance < deflectorRadius())
+   {
+      double deflectorDamage = (velocity_ - velocity).magnitude();
+      deflectorPower_ -= (deflectorDamage / 500.0);
+      return true;
+   }
+
+
+   Vector localPosition = (position - position_).rotate(orientation_.inverse());
+
+   foreach (Module* module, modules_)
+   {
+      if ((module->position() - localPosition).magnitude() < 1.0)
+      {
+         world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 5.0));
+
+         if (module == core_)
+         {            
+            world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 25.0));
+            world_.removeItem(this);
+            return true;
+         }
+
+         modules_.removeAll(module);
+         delete module;
+         return true;
+      }
+   }
+
+   return false;
+}
+
 
 void Ship::applyLocalForce(const Vector& localForce, const Vector& atLocalPoint)
 {
@@ -149,6 +192,11 @@ void Ship::simulateAutopilot()
       }
    }
 
+   if (targetShip == NULL)
+   {
+      return;
+   }
+
    Vector target = targetShip->position() - position_;
    target.normalize();
 
@@ -160,7 +208,7 @@ void Ship::simulateAutopilot()
    Vector targetRotationAxis = fromPoint.cross(toPoint);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
 
-   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -0.05;
+   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -0.1;
 
    Vector angularVelocityError = (targetAngularVelocity - angularMomentum_);
 
@@ -168,20 +216,35 @@ void Ship::simulateAutopilot()
 
    angularMomentum_ += angularVelocityError;
 
+   // ============ ENGINE POWER ===============
+   Vector targetVelocityVector = (targetShip->position() - position_) * -0.1;
+   Vector velocityError = (targetVelocityVector - velocity_);
+
+   double zVelocityError = velocityError.z;
 
    Quaternion angleToTarget = Vector(0, 0, 1).rotate(orientation_).rotationTo(target);
    double thrust = 0.0;
    if (angleToTarget.angle() < 0.1)
    {
-      thrust = 1.0;
-      foreach(Weapon* weapon, weapons_)
+      thrust = zVelocityError;
+
+      if (((targetShip->position() - position_).magnitude() < 50))
       {
-         weapon->fire();
+         foreach(Module* module, modules_)
+         {
+            if (objectIs(module, Weapon))
+            {
+               ((Weapon*)module)->fire();
+            }
+         }
       }
    }  
-   foreach(Engine* engine, engines_)
+   foreach(Module* module, modules_)
    {
-      engine->setPower(thrust);
+      if (objectIs(module, Engine))
+      {
+         ((Engine*)module)->setPower(thrust);
+      }
    }
 
 
