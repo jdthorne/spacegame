@@ -7,7 +7,7 @@
 
 World::World()
 {
-   for (int i = 0; i < 5; i++)
+   for (int i = 0; i < 25; i++)
    {
       addShip();
    }
@@ -67,7 +67,7 @@ void World::simulate()
    }
 }
 
-void World::render()
+void World::render(const Vector cameraPosition)
 {
    glBegin(GL_POINTS);
    glPointSize(1.0);
@@ -82,6 +82,8 @@ void World::render()
    glEnable(GL_LIGHTING);
    foreach(Ship* ship, ships_)
    {
+      double distance = (cameraPosition - ship->position()).magnitude();
+      Mesh::shitty = (distance > 15);
       ship->render();
    }
    foreach(WorldItem* item, sphereEffects_) 

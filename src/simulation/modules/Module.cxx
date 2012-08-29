@@ -44,5 +44,5 @@ void Module::setPosition(const Vector newPosition)
 
 double Module::mass()
 {
-   return 1.0;
+   return 10.0;
 }

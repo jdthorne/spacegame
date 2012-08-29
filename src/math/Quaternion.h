@@ -32,6 +32,9 @@ public: // constants
    static const Quaternion SPIN_Y;
    static const Quaternion SPIN_Z;
 
+   static const Quaternion Z_ROT_090;
+   static const Quaternion Z_ROT_270;
+
 public:
    double w;
    double x;

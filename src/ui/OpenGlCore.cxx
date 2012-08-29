@@ -18,7 +18,7 @@ OpenGlCore::OpenGlCore()
    time_.start();
 
    connect(&timer_, SIGNAL(timeout()), this, SLOT(handleTimeout()));
-   timer_.start(1000 / 240);
+   timer_.start(1000 / 60);
 }
 
 OpenGlCore::~OpenGlCore()
@@ -90,6 +90,7 @@ void OpenGlCore::paintGL()
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 
+   Vector cameraPosition;
    if (world_.hasRemainingShips())
    {
       WorldItem& focus = world_.focusItem();
@@ -103,7 +104,8 @@ void OpenGlCore::paintGL()
 
       Vector cameraDistance = Vector(0, 0, 10);
       Vector cameraOffset = cameraDistance.rotate(cameraOrientation);
-      Vector cameraPosition = focus.position() + cameraOffset;
+
+      cameraPosition = focus.position() + cameraOffset;
 
       Vector cameraFocusPoint = focus.position(); //(Vector(0, 0, -1).rotate(focus.orientation()));
 
@@ -112,7 +114,7 @@ void OpenGlCore::paintGL()
                 0.0, -1.0, 0.0);
    }
 
-   world_.render();
+   world_.render(cameraPosition);
 }
 
 void OpenGlCore::handleTimeout()

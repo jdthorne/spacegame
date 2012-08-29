@@ -17,11 +17,12 @@ public:
    virtual void render();
 
    void setPower(double power);
+   bool thrustIsForward();
 
 private:
    double power_;
    Mesh& thrustMesh_;
-   
+
 };
 
 #endif

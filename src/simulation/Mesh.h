@@ -19,6 +19,7 @@ class Mesh
 
 private:
    Mesh(const QString filename, const Color color);
+   void loadFileIntoFaces(QString name, QList<Face>* list_);
 
 public:
    void render(const Vector position, const Quaternion rotation, double scale = 1.0);
@@ -26,11 +27,14 @@ public:
    static Mesh& byName(const QString name);
 
    static void renderLine(const Vector start, const Vector end, double alpha);
+   static bool shitty;
 
 private:
    QString name_;
    Color color_;
-   QList<Face> faces_;
+
+   QList<Face>* faces_;
+   QList<Face>* facesLo_;
 };
 
 #endif

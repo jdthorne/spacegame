@@ -13,7 +13,8 @@ Engine::Engine(Ship& ship, const Vector position, const Quaternion orientation)
 
 void Engine::simulate()
 {
-   Vector thrust(0, 0, 0.001 * power_);
+   power_ = qBound(0.0, power_, 1.0);
+   Vector thrust(0, 0, 0.01 * power_);
 
    ship_.applyLocalForce(thrust.rotate(orientation_), position_);
 }
@@ -31,4 +32,11 @@ void Engine::render()
    {
       thrustMesh_.render(absolutePosition(), absoluteOrientation());
    }
+}
+
+bool Engine::thrustIsForward()
+{
+   Vector thrustAngle = Vector(0, 0, 1).rotate(orientation_);
+
+   return (thrustAngle.z > 0);
 }

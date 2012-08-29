@@ -9,7 +9,7 @@ Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector v
    , source_(source)
    , position_(position)
    , velocity_(velocity)
-   , life_(60)
+   , life_(180)
 {
    tail_ = velocity_ * -1.0;
 }
@@ -36,7 +36,7 @@ void Bullet::simulate()
          Vector shipVelocity = ship->velocity();
 
          double range = (ship->position() - position_).magnitude();
-         if (range < 6.0 && ship->applyCollisionWith(range, position_, velocity_))
+         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
          {
             world_.addItem(new Explosion(world_, position_, shipVelocity, 0.125));
             world_.removeItem(this);

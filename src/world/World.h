@@ -17,7 +17,7 @@ public:
    void removeItem(WorldItem* item);
 
    void simulate();
-   void render();
+   void render(const Vector cameraPosition);
 
    double randomValue(double min = 0.0, double max = 1.0);
    const Vector randomVector(double min = 0.0, double max = 1.0);

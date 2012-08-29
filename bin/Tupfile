@@ -3,6 +3,7 @@ include_rules
 CFLAGS += -ggdb
 
 CFLAGS += -I$(BASE)/app
+CFLAGS += -I$(BASE)/autopilot
 CFLAGS += -I$(BASE)/math
 CFLAGS += -I$(BASE)/ui
 CFLAGS += -I$(BASE)/simulation
@@ -11,6 +12,7 @@ CFLAGS += -I$(BASE)/simulation/modules
 CFLAGS += -I$(BASE)/world
 
 : foreach ../src/app/*.cxx |> !cc |>
+: foreach ../src/autopilot/*.cxx |> !cc |>
 : foreach ../src/math/*.cxx |> !cc |>
 : foreach ../src/simulation/*.cxx |> !cc |>
 : foreach ../src/simulation/misc/*.cxx |> !cc |>

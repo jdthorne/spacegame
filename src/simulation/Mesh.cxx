@@ -7,10 +7,19 @@
 #include <Mesh.h>
 
 QMap<QString, Mesh*> MESH_LIST;
+bool Mesh::shitty = false;
 
 Mesh::Mesh(const QString name, const Color color)
    : name_(name)
    , color_(color)
+   , faces_(new QList<Face>())
+   , facesLo_(new QList<Face>())
+{
+   loadFileIntoFaces(name, faces_);
+   loadFileIntoFaces(name + "-lo", facesLo_);
+}
+
+void Mesh::loadFileIntoFaces(QString name, QList<Face>* list)
 {
    QString filename = "./meshes/" + name + ".mesh";
 
@@ -39,18 +48,21 @@ Mesh::Mesh(const QString name, const Color color)
          Vector aToC = (face.vertices_[0] - face.vertices_[2]);
 
          face.normal_ = aToB.cross(aToC);
-         faces_.append(face);
+         list->append(face);
 
          face = Face();
       }
       else
       {
-         //qDebug("Error: %s.mesh: Encountered an unexpected number of verts: %d", qPrintable(name), face.vertices_.count());
+         //qDebug("Error: %s.mesh: Encountered an unexpected number of verts: %d", 
+         // qPrintable(name), face.vertices_.count());
          face = Face();
       }
    }
-   qDebug("Loaded '%s' with %d faces", qPrintable(name), faces_.count());
+
+   file.close();
 }
+
 
 Mesh& Mesh::byName(const QString name)
 {
@@ -101,7 +113,8 @@ void Mesh::render(const Vector position, const Quaternion rotation, double scale
    glColor4f(color_.r, color_.g, color_.b, color_.a);
 
    glBegin(GL_TRIANGLES);
-   foreach (Face f, faces_)
+
+   foreach (Face f, *(shitty ? facesLo_ : faces_))
    {
       foreach (Vector v, f.vertices_)
       {

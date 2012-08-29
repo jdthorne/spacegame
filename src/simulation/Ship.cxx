@@ -8,6 +8,7 @@
 #include <World.h>
 #include <QGLWidget>
 #include <Helpers.h>
+#include <Autopilot.h>
 
 Ship::Ship(World& world, const Vector position)
    : world_(world)
@@ -26,6 +27,9 @@ Ship::Ship(World& world, const Vector position)
    modules_.append(new Weapon(*this, Vector(-1, 1, 0), Quaternion::SPIN_Z));
    modules_.append(new Weapon(*this, Vector(1, -1, 0), Quaternion::DEFAULT));
    modules_.append(new Weapon(*this, Vector(-1, -1, 0), Quaternion::DEFAULT));
+
+   modules_.append(new Weapon(*this, Vector(2, 0, 0), Quaternion::Z_ROT_090));
+   modules_.append(new Weapon(*this, Vector(-2, 0, 0), Quaternion::Z_ROT_270));
 
    core_ = new Module("computer", *this, Vector(0, 0, 1), Quaternion());
    modules_.append(core_);
@@ -94,6 +98,19 @@ void Ship::simulate()
    {
       m->simulate();
    }
+
+   foreach(Ship* ship, world_.ships())
+   {
+      if (ship != this)
+      {
+         double range = (ship->position() - position_).magnitude();
+         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
+         {
+            return;
+         }
+      }
+   }
+
 }
 
 void Ship::simulatePhysics()
@@ -102,7 +119,8 @@ void Ship::simulatePhysics()
    position_ += velocity_;
 
    // Rotational
-   Vector angularVelocity = angularMomentum_.multiplyElementsBy(inverseInertialTensor_);
+   //Vector angularVelocity = angularMomentum_.multiplyElementsBy(inverseInertialTensor_);
+   Vector angularVelocity = angularMomentum_;
    Quaternion spin = (-0.5 * Quaternion(angularVelocity)) * orientation_;
    orientation_ += spin;
 
@@ -121,12 +139,12 @@ void Ship::render()
 
 double Ship::deflectorRadius()
 {
-   return 25.0 * deflectorPower_;
+   return 10.0 * deflectorPower_;
 }  
 
 bool Ship::applyCollisionWith(double distance, const Vector position, const Vector velocity)
 {
-   if (distance < deflectorRadius())
+   if (distance <= deflectorRadius())
    {
       double deflectorDamage = (velocity_ - velocity).magnitude();
       deflectorPower_ -= (deflectorDamage / 500.0);
@@ -197,13 +215,15 @@ void Ship::simulateAutopilot()
       return;
    }
 
-   Vector target = targetShip->position() - position_;
+   Vector targetVector = targetShip->position() - position_;
+
+   Vector target = targetVector;
    target.normalize();
 
    Vector fromPoint = Vector(0, 0, 1).rotate(orientation_);
    Vector toPoint = target;
 
-   double maxTorque = 0.01;
+   //double maxTorque = 0.1;
 
    Vector targetRotationAxis = fromPoint.cross(toPoint);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
@@ -212,23 +232,29 @@ void Ship::simulateAutopilot()
 
    Vector angularVelocityError = (targetAngularVelocity - angularMomentum_);
 
-   angularVelocityError = angularVelocityError.boundedToMagnitude(maxTorque);
+   //angularVelocityError = angularVelocityError.boundedToMagnitude(maxTorque);
 
-   angularMomentum_ += angularVelocityError;
+   angularMomentum_ += angularVelocityError; //(angularVelocityError.multiplyElementsBy(inertialTensor_));
 
    // ============ ENGINE POWER ===============
-   Vector targetVelocityVector = (targetShip->position() - position_) * -0.1;
-   Vector velocityError = (targetVelocityVector - velocity_);
+   double distance = targetVector.magnitude() - 30.0;
+   double speed = (velocity_ - targetShip->velocity()).magnitude();
+   double maxAcceleration = (0.01 * 1.0 * 2.0) / mass_;
 
-   double zVelocityError = velocityError.z;
+   if (velocity_.dot(targetShip->velocity()) < 0)
+   {
+      speed *= -1;
+   }
+
+   double powerLevel = Autopilot::powerForSmoothApproach(distance, speed, maxAcceleration);
 
    Quaternion angleToTarget = Vector(0, 0, 1).rotate(orientation_).rotationTo(target);
    double thrust = 0.0;
    if (angleToTarget.angle() < 0.1)
    {
-      thrust = zVelocityError;
+      thrust = powerLevel;
 
-      if (((targetShip->position() - position_).magnitude() < 50))
+      if (((targetShip->position() - position_).magnitude() < 120))
       {
          foreach(Module* module, modules_)
          {
@@ -243,7 +269,12 @@ void Ship::simulateAutopilot()
    {
       if (objectIs(module, Engine))
       {
-         ((Engine*)module)->setPower(thrust);
+         Engine& engine = *((Engine*)module);
+
+         int directionSign = (engine.thrustIsForward() ? +1 : -1);
+         double thrustForThisEngine = thrust * directionSign;
+
+         ((Engine*)module)->setPower(thrustForThisEngine);
       }
    }
 

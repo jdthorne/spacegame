@@ -7,6 +7,9 @@ const Quaternion Quaternion::SPIN_X = Quaternion(0.0, 1.0, 0.0, 0.0);
 const Quaternion Quaternion::SPIN_Y = Quaternion(0.0, 0.0, 1.0, 0.0);
 const Quaternion Quaternion::SPIN_Z = Quaternion(0.0, 0.0, 0.0, 1.0);
 
+const Quaternion Quaternion::Z_ROT_090 = Quaternion(M_PI/2, Vector(0, 0, 1));
+const Quaternion Quaternion::Z_ROT_270 = Quaternion(-M_PI/2, Vector(0, 0, 1));
+
 Quaternion::Quaternion()
    : w(1.0)
    , x(0.0)
