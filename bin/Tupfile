@@ -1,0 +1,29 @@
+include_rules
+
+CFLAGS += -I$(BASE)/math
+CFLAGS += -I$(BASE)/ui
+CFLAGS += -I$(BASE)/simulation
+CFLAGS += -I$(BASE)/simulation/modules
+CFLAGS += -I$(BASE)/world
+
+: foreach ../src/app/*.cxx |> !cc |>
+: foreach ../src/math/*.cxx |> !cc |>
+: foreach ../src/simulation/*.cxx |> !cc |>
+: foreach ../src/simulation/modules/*.cxx |> !cc |>
+: foreach ../src/ui/*.cxx |> !cc |>
+: foreach ../src/world/*.cxx |> !cc |>
+
+: foreach ../src/ui/*.h |> !moc |>
+
+: foreach *.cxx |> !cc |>
+
+LFLAGS += -framework QtCore
+LFLAGS += -framework QtGui
+LFLAGS += -framework QtOpenGL
+
+LFLAGS += -framework OpenGL
+LFLAGS += -framework GLUT
+
+LFLAGS += -lstdc++
+
+: *.o |> clang $(CFLAGS) $(LFLAGS) %f -o %o |> spaceGame.bin

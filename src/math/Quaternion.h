@@ -28,7 +28,7 @@ public: // operations
 
 public: // constants
    static const Quaternion DEFAULT;
-   static const Quaternion FLIPPED;
+   static const Quaternion SPIN_Z;
 
 public:
    double w;

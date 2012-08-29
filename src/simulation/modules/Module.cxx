@@ -12,12 +12,16 @@ Module::Module(const QString& meshName, Ship& ship, const Vector position, const
 
 void Module::render()
 {
-   mesh_.render(absolutePosition(), ship_.orientation() * orientation_);
+   mesh_.render(absolutePosition(), absoluteOrientation());
 }
 
-Vector Module::absolutePosition()
+Vector Module::absolutePosition(const Vector ofPoint)
 {
-   return (ship_.position() + position_.rotate(ship_.orientation()));
+   return (ship_.position() + (position_ + ofPoint).rotate(ship_.orientation()));
+}
+Quaternion Module::absoluteOrientation()
+{
+   return (ship_.orientation() * orientation_);
 }
 
 void Module::simulate()

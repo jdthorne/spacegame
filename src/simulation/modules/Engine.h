@@ -15,6 +15,8 @@ public:
 
    virtual void simulate();
 
+   void setPower(double power);
+
 private:
    double power_;
 

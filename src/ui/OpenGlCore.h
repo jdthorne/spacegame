@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QTime>
 
-#include <Ship.h>
+#include <World.h>
 
 class OpenGlCore : public QGLWidget
 {
@@ -15,22 +15,32 @@ class OpenGlCore : public QGLWidget
 
 public:
    OpenGlCore();
+   virtual ~OpenGlCore();
 
 public:
    virtual void initializeGL();
    virtual void resizeGL(int w, int h);
    virtual void paintGL();
 
+protected:
+   virtual void mouseMoveEvent(QMouseEvent* event);
+
 private slots:
    void handleTimeout();
 
 private:
+   void calculateFramerate();
+
+private:
    QTimer timer_;
 
-   Ship testShip_;
+   World world_;
 
    QTime time_;
    int frames_;
+
+   double xRotation_;
+   double yRotation_;
 };
 
 #endif

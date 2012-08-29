@@ -24,6 +24,8 @@ public:
 
    static Mesh& byName(const QString name);
 
+   static void renderLine(const Vector start, const Vector end, double alpha);
+
 private:
    QString name_;
    Vector color_;

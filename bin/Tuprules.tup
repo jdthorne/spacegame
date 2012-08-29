@@ -4,11 +4,6 @@ CFLAGS += -Wall
 CFLAGS += -Werror
 CFLAGS += -I.
 
-CFLAGS += -I$(BASE)/math
-CFLAGS += -I$(BASE)/ui
-CFLAGS += -I$(BASE)/simulation
-CFLAGS += -I$(BASE)/simulation/modules
-
 CFLAGS += -I/Library/Frameworks/QtCore.framework/Versions/4/Headers/
 CFLAGS += -I/Library/Frameworks/QtGui.framework/Versions/4/Headers/
 CFLAGS += -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/

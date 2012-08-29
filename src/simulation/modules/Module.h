@@ -21,7 +21,8 @@ public:
    const Vector position();
    void setPosition(const Vector newPosition);
 
-   Vector absolutePosition();
+   Vector absolutePosition(const Vector ofPoint = Vector());
+   Quaternion absoluteOrientation();
 
    virtual void simulate();
    virtual double mass();

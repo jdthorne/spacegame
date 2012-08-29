@@ -61,6 +61,7 @@ Mesh& Mesh::byName(const QString name)
       MESH_LIST["computer"] = new Mesh("computer", grey);
       MESH_LIST["engine"] = new Mesh("engine", grey);
       MESH_LIST["gyro"] = new Mesh("gyro", grey);
+      MESH_LIST["weapon"] = new Mesh("weapon", grey);
 
       //Vector flame = Vector(0.2, 0.8, 1.0);
       //MESH_LIST["engine-thrust"] = new Mesh("engine-thrust", flame);
@@ -101,4 +102,11 @@ void Mesh::render(const Vector position, const Quaternion rotation)
    glEnd();
 
    glPopMatrix();
+}
+
+void Mesh::renderLine(const Vector start, const Vector end, double alpha)
+{
+   glColor4f(0.25, 0.75, 1.0, alpha);
+   glVertex3f(start.x, start.y, start.z);
+   glVertex3f(end.x, end.y, end.z);
 }

@@ -26,10 +26,11 @@ int main(int argc, char** argv)
    if (isSimMode(argc, argv))
    {
       qDebug("Simulating 500 frames...");
-      Ship testShip;
+      World world;
+      world.addShip();
       for (int frame = 0; frame < 500; frame++)
       {
-         testShip.simulate();
+         world.simulate();
       }
       qDebug("Done!");
       return 0;

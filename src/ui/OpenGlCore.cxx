@@ -1,18 +1,36 @@
+#include <QMouseEvent>
+
 #include <OpenGlCore.h>
+#include <Quaternion.h>
 #include <glut.h>
+#include <math.h>
+
 
 #define FPS_SAMPLE_FRAMES 240.0
 
 OpenGlCore::OpenGlCore()
    : timer_(this)
-   , testShip_()
    , frames_(FPS_SAMPLE_FRAMES)
+   , xRotation_(0)
+   , yRotation_(0)
 {
+   setMouseTracking(true);
    time_.start();
 
    connect(&timer_, SIGNAL(timeout()), this, SLOT(handleTimeout()));
    timer_.start(1000 / 60);
+
+   world_.addShip();
+   world_.addShip();
+   world_.addShip();
+   world_.addShip();
+   world_.addShip();
 }
+
+OpenGlCore::~OpenGlCore()
+{
+   qDebug("Destroyed!");
+}  
 
 void OpenGlCore::initializeGL()
 {
@@ -44,34 +62,64 @@ void OpenGlCore::initializeGL()
 
 void OpenGlCore::resizeGL(int w, int h)
 {
-    glViewport(0, 0, w, h);
+   glViewport(0, 0, w, h);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
 
-    gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 0.1f, 100.0f);
+   gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 0.1f, 500.0f);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
- }
+   glMatrixMode(GL_MODELVIEW);
+   glLoadIdentity();
+}
 
 void OpenGlCore::paintGL()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+   /*
+   xRotation_ = qBound(-0.5, xRotation_, +0.5);
+   yRotation_ = qBound(-0.5, yRotation_, +0.5);
+
+   Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
+   Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
+   Quaternion cameraOrientation = xQuat * yQuat;
+
+   //Vector cameraFocusPoint = world_.focusItem().position();
+   Vector cameraFocusPoint = Vector();
+
+   Vector cameraDistance = Vector(0, 0, 60);
+   Vector cameraOffset = cameraDistance.rotate(cameraOrientation);
+
+   Vector cameraPosition = cameraFocusPoint + cameraOffset;
+   */
+
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 
-   glTranslatef(0.0f, 0.0f, -10.0f); 
+   WorldItem& focus = world_.focusItem();
+   Vector cameraPosition = focus.position() + Vector(0, 5, -10.0).rotate(focus.orientation());
+   Vector cameraFocusPoint = focus.position(); //(Vector(0, 0, -1).rotate(focus.orientation()));
 
-   //GLfloat grey[] = {0.2, 0.2, 0.2, 1.0};
-   //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
-   testShip_.render();
-}  
+   gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,
+             cameraFocusPoint.x, cameraFocusPoint.y, cameraFocusPoint.z,
+             0.0, -1.0, 0.0);
+
+   world_.render();
+}
 
 void OpenGlCore::handleTimeout()
 {
-   if (frames_ <= 0)
+   calculateFramerate();
+
+   world_.simulate();
+
+   update();
+}
+
+void OpenGlCore::calculateFramerate()
+{
+  if (frames_ <= 0)
    {
       qDebug("Current framerate: %f", (FPS_SAMPLE_FRAMES / (time_.elapsed() / 1000.0)));
 
@@ -79,8 +127,10 @@ void OpenGlCore::handleTimeout()
       frames_ = FPS_SAMPLE_FRAMES;
    }
    frames_--;
-
-   testShip_.simulate();
-   update();
 }
 
+void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
+{
+   xRotation_ = ((double)event->x() / width()) - 0.5;
+   yRotation_ = ((double)event->y() / height()) - 0.5;
+}
