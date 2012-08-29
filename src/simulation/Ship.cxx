@@ -217,6 +217,9 @@ void Ship::simulateAutopilot()
 
    Vector targetVector = targetShip->position() - position_;
 
+   double interceptTime = (targetVector.magnitude() / 0.75);
+   targetVector += (targetShip->velocity() * interceptTime);
+
    Vector target = targetVector;
    target.normalize();
 

@@ -7,7 +7,7 @@
 
 World::World()
 {
-   for (int i = 0; i < 25; i++)
+   for (int i = 0; i < 45; i++)
    {
       addShip();
    }
