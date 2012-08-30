@@ -9,14 +9,21 @@ class Bullet : public WorldItem
 {
 
 public:
-   Bullet(World& world, Ship* source, const Vector position, const Vector velocity);
+   Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team);
    virtual ~Bullet();
 
    virtual void simulate();
-   virtual void render();
 
+   int life();
+   int team();
    virtual const Vector position();
+   virtual const Vector velocity();
    virtual const Quaternion orientation();
+
+public: // constants
+   static const int MAX_LIFE;
+   static const double RANGE;
+   static const double SPEED;
 
 private:
    World& world_;
@@ -25,9 +32,8 @@ private:
    Vector position_;
    Vector velocity_;
 
-   Vector tail_;
-
    int life_;
+   int team_;
 };
 
 #endif

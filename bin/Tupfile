@@ -1,19 +1,36 @@
-include_rules
+
+BASE = ../src
+
+CFLAGS += -Wall
+CFLAGS += -Werror
+CFLAGS += -O3
+CFLAGS += -I.
+
+!moc = |> moc %f -o %o |> moc_%B.cxx
+!cc = |> clang $(CFLAGS) -c %f -o %o |> %B.o
+!ar = |> ar crs %o %f |>
 
 CFLAGS += -ggdb
 
 CFLAGS += -I$(BASE)/app
 CFLAGS += -I$(BASE)/autopilot
 CFLAGS += -I$(BASE)/math
+CFLAGS += -I$(BASE)/render
 CFLAGS += -I$(BASE)/ui
 CFLAGS += -I$(BASE)/simulation
 CFLAGS += -I$(BASE)/simulation/misc
 CFLAGS += -I$(BASE)/simulation/modules
 CFLAGS += -I$(BASE)/world
+CFLAGS += -I/Library/Frameworks/QtCore.framework/Versions/4/Headers/
+CFLAGS += -I/Library/Frameworks/QtGui.framework/Versions/4/Headers/
+CFLAGS += -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/
+CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers
+CFLAGS += -I/System/Library/Frameworks/GLUT.framework/Headers
 
 : foreach ../src/app/*.cxx |> !cc |>
 : foreach ../src/autopilot/*.cxx |> !cc |>
 : foreach ../src/math/*.cxx |> !cc |>
+: foreach ../src/render/*.cxx |> !cc |>
 : foreach ../src/simulation/*.cxx |> !cc |>
 : foreach ../src/simulation/misc/*.cxx |> !cc |>
 : foreach ../src/simulation/modules/*.cxx |> !cc |>

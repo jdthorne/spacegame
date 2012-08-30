@@ -16,7 +16,6 @@ Quaternion::Quaternion()
    , y(0.0)
    , z(0.0)
 {
-
 }
 
 Quaternion::Quaternion(double w, double x, double y, double z)
@@ -97,9 +96,9 @@ Quaternion Quaternion::inverse() const
    return Quaternion(w, -x, -y, -z);
 }
 
-const char* Quaternion::printable()
+QString Quaternion::toString()
 {
-   return qPrintable(QString::number(w) + " " + QString::number(x) + " " + QString::number(y) + " " + QString::number(z));
+   return QString::number(w) + " " + QString::number(x) + " " + QString::number(y) + " " + QString::number(z);
 }
 
 Quaternion Quaternion::rotationTo(const Quaternion rhs) const

@@ -1,6 +1,7 @@
 #ifndef EXPLOSION_H
 #define EXPLOSION_H
 
+#include <QList>
 #include <WorldItem.h>
 
 class World;
@@ -13,20 +14,27 @@ public:
    Explosion(World& world, const Vector position, const Vector velocity, double size);
    virtual ~Explosion();
 
+   double glow();
+   double size();
    virtual void simulate();
-   virtual void render();
 
    virtual const Vector position();
    virtual const Quaternion orientation();
 
+   QList<Vector> fragments();
+
 private:
    World& world_;
-   Mesh& mesh_;
 
    Vector position_;
    Vector velocity_;
 
-   double life_;
+   QList<Vector> fragments_;
+
+   double size_;
+
+   int ticks_;
+   double lifetime_;
 };
 
 #endif

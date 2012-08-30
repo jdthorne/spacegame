@@ -12,6 +12,31 @@
 		},
 		{
 			"path": "bin"
+		},
+		{
+			"path": "/Users/james/Projects/Starsplosion"
 		}
-	]
+	],
+	"settings":
+	{
+		"sublimeclang_options":
+		[
+			"-Wall",
+         "-ferror-limit=0",
+			"-I/Users/james/Projects/Spacegame/src/app",
+			"-I/Users/james/Projects/Spacegame/src/autopilot",
+         "-I/Users/james/Projects/Spacegame/src/math",
+			"-I/Users/james/Projects/Spacegame/src/render",
+			"-I/Users/james/Projects/Spacegame/src/ui",
+			"-I/Users/james/Projects/Spacegame/src/simulation",
+			"-I/Users/james/Projects/Spacegame/src/simulation/misc",
+			"-I/Users/james/Projects/Spacegame/src/simulation/modules",
+			"-I/Users/james/Projects/Spacegame/src/world",
+			"-I/Library/Frameworks/QtCore.framework/Versions/4/Headers/",
+			"-I/Library/Frameworks/QtGui.framework/Versions/4/Headers/",
+			"-I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/",
+			"-I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
+			"-I/System/Library/Frameworks/GLUT.framework/Headers"
+		]
+	}
 }

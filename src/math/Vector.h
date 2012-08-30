@@ -45,6 +45,8 @@ public:
    double z;
 };
 
+#define printVec(vec) qPrintable(vec.toString())
+
 Vector operator*(const Vector& vector, double scalar);
 
 #endif

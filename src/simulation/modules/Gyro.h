@@ -10,12 +10,12 @@ class Gyro : public Module
 {
 
 public:
-   Gyro(Ship& ship, const Vector& position);
+   Gyro(Ship& ship, const Vector position);
    virtual ~Gyro() {};
 
    virtual void simulate();
 
-   void setPower(const Vector& power);
+   void setPower(const Vector power);
 
 private:
    void applyTorqueAlongXAxis(double power);

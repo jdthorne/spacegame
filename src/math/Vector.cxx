@@ -112,7 +112,15 @@ Quaternion Vector::rotationTo(const Vector& lookAt) const
 
    double angle = acos(this->dot(lookAt));
 
-   return Quaternion(angle, axis);
+   if (angle < 0.000001)
+   {
+      return Quaternion();
+   }
+
+   Quaternion result = Quaternion(angle, axis);
+   result.normalize();
+
+   return result;
 }
 
 Vector Vector::boundedToMagnitude(double maxMagnitude)

@@ -2,8 +2,8 @@
 #include <Gyro.h>
 #include <Ship.h>
 
-Gyro::Gyro(Ship& ship, const Vector& position)
-   : Module("gyro", ship, position, Quaternion())
+Gyro::Gyro(Ship& ship, const Vector position)
+   : Module(ship, position, Quaternion())
 {
 
 }
@@ -15,7 +15,7 @@ void Gyro::simulate()
    //applyTorqueAlongZAxis(power_.z);
 }
 
-void Gyro::setPower(const Vector& power)
+void Gyro::setPower(const Vector power)
 {
    power_ = power * 0.001;
 }

@@ -1,7 +1,8 @@
-BASE = /Users/james/Projects/Space\ Game/src
+BASE = ../src
 
 CFLAGS += -Wall
 CFLAGS += -Werror
+CFLAGS += -O3
 CFLAGS += -I.
 
 CFLAGS += -I/Library/Frameworks/QtCore.framework/Versions/4/Headers/

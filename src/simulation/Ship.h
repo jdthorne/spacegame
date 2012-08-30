@@ -7,6 +7,7 @@
 #include <WorldItem.h>
 #include <Quaternion.h>
 #include <Module.h>
+#include <RacistList.h>
 
 class World;
 class Engine;
@@ -15,15 +16,22 @@ class Weapon;
 class Ship : public WorldItem
 {
 
-public:
-   Ship(World& world, const Vector position);
+private:
+   Ship(World& world, const Vector position, int team);
    virtual ~Ship();
+
+public:
+   static Ship* createSwarmer(World& world, const Vector position, int team);
+   static Ship* createAstronach(World& world, const Vector position, int team);
+
+public:
+   RacistList<Module*> modules();
+
+   int team();
 
    virtual void simulate();
    void simulatePhysics();
    void simulateAutopilot();
-
-   virtual void render();
 
    void applyLocalForce(const Vector& force, const Vector& atPoint);
    void applyForce(const Vector& force, const Vector& atPoint);
@@ -39,12 +47,12 @@ public:
 
 private:
    World& world_;
-   Mesh& deflector_;
+   int team_;
 
    double deflectorPower_;
 
    Module* core_;
-   QList<Module*> modules_;
+   RacistList<Module*> modules_;
 
    Vector position_;
    Vector velocity_;

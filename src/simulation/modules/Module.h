@@ -3,7 +3,6 @@
 
 #include <QString>
 
-#include <Mesh.h>
 #include <Vector.h>
 #include <Quaternion.h>
 
@@ -13,10 +12,8 @@ class Module
 {
 
 public:
-   Module(const QString& meshName, Ship& ship, const Vector position, const Quaternion orientation);
+   Module(Ship& ship, const Vector position, const Quaternion orientation);
    virtual ~Module() {};
-
-   virtual void render();
 
    const Vector position();
    void setPosition(const Vector newPosition);
@@ -29,7 +26,6 @@ public:
    virtual double mass();
 
 protected:
-   Mesh mesh_;
    Ship& ship_;
 
    Vector position_;

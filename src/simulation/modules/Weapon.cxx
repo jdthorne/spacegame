@@ -2,9 +2,10 @@
 #include <World.h>
 #include <Weapon.h>
 #include <Ship.h>
+#include <Bullet.h>
 
 Weapon::Weapon(Ship& ship, const Vector position, const Quaternion orientation)
-   : Module("weapon", ship, position, orientation)
+   : Module(ship, position, orientation)
    , cooldown_(0)
 {
 
@@ -29,13 +30,13 @@ void Weapon::fire()
    Vector startPoint = absolutePositionOf(fireChamber);
 
    double inaccuracy = 0.01;
-   Vector initialVelocity = Vector(0, 0, 0.75).rotate(absoluteOrientation());
+   Vector initialVelocity = Vector(0, 0, 1).rotate(absoluteOrientation());
    Vector randomVelocity = ship_.world_.randomVector(-inaccuracy, inaccuracy);
 
    Vector velocity = initialVelocity + randomVelocity + ship_.velocity();
 
-   Bullet* bullet = new Bullet(ship_.world_, &ship_, startPoint, velocity);
+   Bullet* bullet = new Bullet(ship_.world_, &ship_, startPoint, velocity, ship_.team());
    ship_.world_.addItem(bullet);
 
-   cooldown_ = ship_.world_.randomValue(8, 16);
+   cooldown_ = ship_.world_.randomValue(5, 15);
 }

@@ -10,6 +10,8 @@
 
 OpenGlCore::OpenGlCore()
    : timer_(this)
+   , world_()
+   , renderCore_(world_)
    , frames_(FPS_SAMPLE_FRAMES)
    , xRotation_(0)
    , yRotation_(0)
@@ -87,10 +89,9 @@ void OpenGlCore::paintGL()
    Vector cameraPosition = cameraFocusPoint + cameraOffset;
    */
 
-   glMatrixMode(GL_MODELVIEW);
-   glLoadIdentity();
-
    Vector cameraPosition;
+   Quaternion cameraOrientation;
+
    if (world_.hasRemainingShips())
    {
       WorldItem& focus = world_.focusItem();
@@ -100,21 +101,19 @@ void OpenGlCore::paintGL()
 
       Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
       Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
-      Quaternion cameraOrientation = xQuat * yQuat;
+      Quaternion userOrientation = xQuat * yQuat;
 
       Vector cameraDistance = Vector(0, 0, 10);
-      Vector cameraOffset = cameraDistance.rotate(cameraOrientation);
+      Vector cameraOffset = cameraDistance.rotate(userOrientation);
 
       cameraPosition = focus.position() + cameraOffset;
 
-      Vector cameraFocusPoint = focus.position(); //(Vector(0, 0, -1).rotate(focus.orientation()));
+      Vector cameraFocusPoint = focus.position();
 
-      gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,
-                cameraFocusPoint.x, cameraFocusPoint.y, cameraFocusPoint.z,
-                0.0, -1.0, 0.0);
+      cameraOrientation = Vector(0, 0, 1).rotationTo( (cameraPosition - cameraFocusPoint).normalized() );
    }
 
-   world_.render(cameraPosition);
+   renderCore_.render(cameraPosition, cameraOrientation);
 }
 
 void OpenGlCore::handleTimeout()

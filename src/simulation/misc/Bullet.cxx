@@ -4,18 +4,27 @@
 #include <World.h>
 #include <Ship.h>
 
-Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector velocity)
+const int Bullet::MAX_LIFE = 45;
+const double Bullet::SPEED = 3.0;
+const double Bullet::RANGE = SPEED * MAX_LIFE;
+
+Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team)
    : world_(world)
    , source_(source)
    , position_(position)
-   , velocity_(velocity)
-   , life_(180)
+   , velocity_(velocity.normalized() * SPEED)
+   , life_(MAX_LIFE)
+   , team_(team)
 {
-   tail_ = velocity_ * -1.0;
 }
 
 Bullet::~Bullet()
 {
+}
+
+int Bullet::life()
+{
+   return life_;
 }
 
 void Bullet::simulate()
@@ -31,7 +40,7 @@ void Bullet::simulate()
 
    foreach(Ship* ship, world_.ships())
    {
-      if (ship != source_)
+      if (ship != source_ && ship->team() != team_)
       {
          Vector shipVelocity = ship->velocity();
 
@@ -46,17 +55,23 @@ void Bullet::simulate()
    }
 }
 
-void Bullet::render()
-{
-   Mesh::renderLine(position_ + tail_, position_, (life_ / 120.0));
-}
-
 const Vector Bullet::position()
 {
    return position_;
 }
 
+const Vector Bullet::velocity()
+{
+   return velocity_;
+}
+
+
 const Quaternion Bullet::orientation()
 {
    return Quaternion();
+}
+
+int Bullet::team()
+{
+   return team_;
 }

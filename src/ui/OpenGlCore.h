@@ -8,6 +8,7 @@
 #include <QTime>
 
 #include <World.h>
+#include <RenderCore.h>
 
 class OpenGlCore : public QGLWidget
 {
@@ -35,6 +36,7 @@ private:
    QTimer timer_;
 
    World world_;
+   RenderCore renderCore_;
 
    QTime time_;
    int frames_;

@@ -14,14 +14,13 @@ public:
    virtual ~Engine() {};
 
    virtual void simulate();
-   virtual void render();
 
+   double power();
    void setPower(double power);
    bool thrustIsForward();
 
 private:
    double power_;
-   Mesh& thrustMesh_;
 
 };
 

@@ -3,6 +3,8 @@
 
 struct Color
 {
+   Color(double r, double g, double b, double a);
+
    double r, g, b, a;
 };
 

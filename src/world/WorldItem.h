@@ -13,7 +13,6 @@ public:
 
 public:
    virtual void simulate() = 0;
-   virtual void render() = 0;
 
    virtual const Vector position() = 0;
    virtual const Quaternion orientation() = 0;

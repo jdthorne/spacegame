@@ -1,18 +1,12 @@
 #include <Module.h>
 #include <Ship.h>
 
-Module::Module(const QString& meshName, Ship& ship, const Vector position, const Quaternion orientation)
-   : mesh_(Mesh::byName(meshName))
-   , ship_(ship)
+Module::Module(Ship& ship, const Vector position, const Quaternion orientation)
+   : ship_(ship)
    , position_(position)
    , orientation_(orientation)
 {
 
-}
-
-void Module::render()
-{
-   mesh_.render(absolutePosition(), absoluteOrientation());
 }
 
 Vector Module::absolutePosition()

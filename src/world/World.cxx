@@ -6,30 +6,31 @@
 #include <Ship.h>
 
 World::World()
-{
-   for (int i = 0; i < 45; i++)
+{  
+   double worldSize = 20.0;
+   /*
    {
-      addShip();
-   }
+      Vector position = randomVector(-worldSize, worldSize);
 
-   for (int i = 0; i < 500; i++)
+      Ship* ship = Ship::createAstronach(*this, position, 0);
+
+      ships_.append(ship);
+      all_.append(ship);
+   }
+   */
+
+   for (int team = 0; team <= 1; team++)
    {
-      Vector direction = randomVector(-1.0, 1.0).normalized();
-      Vector position = (direction * 400.0);
+      for (int i = 0; i < 30; i++)
+      {
+         Vector position = randomVector(-worldSize, worldSize) + (Vector(0, -600, 0)*team);
 
-      stars_.append(position);
+         Ship* ship = Ship::createSwarmer(*this, position, team);
+
+         ships_.append(ship);
+         all_.append(ship);
+      }
    }
-}
-
-void World::addShip()
-{
-   double worldSize = 50.0;
-   Vector position = randomVector(-worldSize, worldSize);
-
-   Ship* ship = new Ship(*this, position);
-
-   ships_.append(ship);
-   all_.append(ship);
 }
 
 void World::addItem(WorldItem* item)
@@ -67,40 +68,6 @@ void World::simulate()
    }
 }
 
-void World::render(const Vector cameraPosition)
-{
-   glBegin(GL_POINTS);
-   glPointSize(1.0);
-   glColor3f(1.0, 1.0, 1.0);
-   foreach(Vector star, stars_)
-   {
-      glVertex3f(star.x, star.y, star.z);
-   }
-   glEnd();
-
-   glEnable(GL_DEPTH_TEST);
-   glEnable(GL_LIGHTING);
-   foreach(Ship* ship, ships_)
-   {
-      double distance = (cameraPosition - ship->position()).magnitude();
-      Mesh::shitty = (distance > 15);
-      ship->render();
-   }
-   foreach(WorldItem* item, sphereEffects_) 
-   {
-      item->render();
-   }
-
-   glDisable(GL_LIGHTING);
-   glBegin(GL_LINES);
-   glColor3f(0.25, 0.75, 1.0);
-   foreach(WorldItem* item, lineEffects_) 
-   {
-      item->render();
-   }
-   glEnd();
-}
-
 double World::randomValue(double min, double max)
 {
    return min + ( (double)rand() / RAND_MAX ) * (max - min);
@@ -127,3 +94,9 @@ bool World::hasRemainingShips()
 {
    return (ships_.count() > 0);
 }
+
+RacistList<WorldItem*> World::items()
+{
+   return all_;
+}
+

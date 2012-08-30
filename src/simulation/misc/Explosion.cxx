@@ -1,15 +1,24 @@
 
+#include <cmath>
+
 #include <Explosion.h>
 #include <Mesh.h>
 #include <World.h>
 
 Explosion::Explosion(World& world, const Vector position, const Vector velocity, double size)
    : world_(world)
-   , mesh_(Mesh::byName("explosion"))
    , position_(position)
    , velocity_(velocity)
-   , life_(size)
+   , size_(size)
+   , ticks_(0)
+   , lifetime_(30.0 + (sqrt(size) * 30.0))
 {
+   int fragments = qBound(5.0, (size * 5.0), 50.0);
+
+   for (int i = 0; i < fragments; i++)
+   {
+      fragments_.append(world_.randomVector(-size / 2, size / 2));
+   }
 }
 
 Explosion::~Explosion()
@@ -19,18 +28,35 @@ Explosion::~Explosion()
 void Explosion::simulate()
 {
    position_ += velocity_;
+   for (int i = 0; i < fragments_.count(); i++)
+   {
+      fragments_[i] = fragments_[i] * 1.001;
+   }  
 
-   life_ = life_ * 0.95;
-   if (life_ <= 0.01)
+   ticks_++;
+
+   if (ticks_ > lifetime_)
    {  
       world_.removeItem(this);
       return;
    }
 }
 
-void Explosion::render()
+QList<Vector> Explosion::fragments()
 {
-   mesh_.render(position_, orientation(), life_);
+   return fragments_;
+}
+
+double Explosion::size()
+{
+   return size_;
+}
+
+double Explosion::glow()
+{
+   double fractionOfLifeCompleted = (ticks_ / lifetime_);
+   double glow = sqrt(1 - fractionOfLifeCompleted);
+   return glow;
 }
 
 const Vector Explosion::position()

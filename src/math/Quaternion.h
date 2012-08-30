@@ -1,6 +1,9 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
+
+#include <QString>
+
 class Vector;
 
 class Quaternion
@@ -17,7 +20,7 @@ public:
 
    Quaternion rotationTo(const Quaternion rhs) const;
 
-   const char* printable();
+   QString toString();
 
 public: // operations
    void normalize();
@@ -42,6 +45,8 @@ public:
    double z;
 
 };
+
+#define printQuat(quat) qPrintable(quat.toString())
 
 Quaternion operator*(double scalar, const Quaternion quaternion);
 Quaternion operator*(Quaternion a, Quaternion b);

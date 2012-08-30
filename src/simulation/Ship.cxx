@@ -9,38 +9,91 @@
 #include <QGLWidget>
 #include <Helpers.h>
 #include <Autopilot.h>
+#include <FlightComputer.h>
+#include <Bullet.h>
+#include <Structure.h>
 
-Ship::Ship(World& world, const Vector position)
+Ship::Ship(World& world, const Vector position, int team)
    : world_(world)
-   , deflector_(Mesh::byName("deflector"))
+   , team_(team)
    , deflectorPower_(1.0)
    , position_(position)
 {
    orientation_.normalize();
+}
 
-   modules_.append(new Engine(*this, Vector(-1, 0, 0), Quaternion::DEFAULT));
-   modules_.append(new Engine(*this, Vector(1, 0, 0), Quaternion::DEFAULT));
-   modules_.append(new Engine(*this, Vector(-1, 0, 2), Quaternion::SPIN_X));
-   modules_.append(new Engine(*this, Vector(1, 0, 2), Quaternion::SPIN_X));
+Ship* Ship::createSwarmer(World& world, const Vector position, int team)
+{
+   Ship* ship = new Ship(world, position, team);
 
-   modules_.append(new Weapon(*this, Vector(1, 1, 0), Quaternion::SPIN_Z));
-   modules_.append(new Weapon(*this, Vector(-1, 1, 0), Quaternion::SPIN_Z));
-   modules_.append(new Weapon(*this, Vector(1, -1, 0), Quaternion::DEFAULT));
-   modules_.append(new Weapon(*this, Vector(-1, -1, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(-1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(-1, 0, 2), Quaternion::SPIN_X));
+   ship->modules_.append(new Engine(*ship, Vector(1, 0, 2), Quaternion::SPIN_X));
 
-   modules_.append(new Weapon(*this, Vector(2, 0, 0), Quaternion::Z_ROT_090));
-   modules_.append(new Weapon(*this, Vector(-2, 0, 0), Quaternion::Z_ROT_270));
+   ship->modules_.append(new Weapon(*ship, Vector(1, 1, 0), Quaternion::SPIN_Z));
+   ship->modules_.append(new Weapon(*ship, Vector(-1, 1, 0), Quaternion::SPIN_Z));
+   ship->modules_.append(new Weapon(*ship, Vector(1, -1, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Weapon(*ship, Vector(-1, -1, 0), Quaternion::DEFAULT));
 
-   core_ = new Module("computer", *this, Vector(0, 0, 1), Quaternion());
-   modules_.append(core_);
-   modules_.append(new Gyro(*this, Vector(0, 0, -0.5)));
+   ship->modules_.append(new Weapon(*ship, Vector(2, 0, 0), Quaternion::Z_ROT_090));
+   ship->modules_.append(new Weapon(*ship, Vector(-2, 0, 0), Quaternion::Z_ROT_270));
 
-   normalizeModules();
+   ship->core_ = new FlightComputer(*ship, Vector(0, 0, 1), Quaternion());
+   ship->modules_.append(ship->core_);
+   ship->modules_.append(new Gyro(*ship, Vector(0, 0, -0.5)));
+
+   ship->normalizeModules();
+
+   return ship;
+}
+
+Ship* Ship::createAstronach(World& world, const Vector position, int team)
+{
+   Ship* ship = new Ship(world, position, team);
+
+   // Massive engine bank - MWAHAHAHA
+   for (int y = -1; y <= 1; y++)
+   {
+      for (int x = -4; x <= 4; x++)
+      {
+         ship->modules_.append(new Engine(*ship, Vector(x, y, 0), Quaternion::DEFAULT));
+         ship->modules_.append(new Gyro(*ship, Vector(x, y, 1.5)));
+      }
+   }
+   for (int x = -3; x <= 3; x++)
+   {
+      ship->modules_.append(new Engine(*ship, Vector(x, 1, 6), Quaternion::SPIN_X));
+      ship->modules_.append(new Engine(*ship, Vector(x, -1, 6), Quaternion::SPIN_X));
+
+      ship->modules_.append(new Weapon(*ship, Vector(x, 2, 1), Quaternion::SPIN_Z));
+      ship->modules_.append(new Weapon(*ship, Vector(x, -2, 1), Quaternion::DEFAULT));
+   }
+
+   for (int x = -3; x <= 3; x++)
+   {
+      for (int z = 3; z <= 5; z+= 2)
+      {
+         ship->modules_.append(new Structure(*ship, Vector(x, 0, z), Quaternion::DEFAULT));
+      }
+   }
+   ship->core_ = new FlightComputer(*ship, Vector(0, 1, 3), Quaternion());
+   ship->modules_.append(ship->core_);
+   ship->modules_.append(new Gyro(*ship, Vector(0, 0, -0.5)));
+
+   ship->normalizeModules();
+
+   return ship;
 }
 
 Ship::~Ship()
 {
 
+}
+
+int Ship::team()
+{
+   return team_;
 }
 
 void Ship::normalizeModules()
@@ -127,16 +180,6 @@ void Ship::simulatePhysics()
    orientation_.normalize();
 }
 
-void Ship::render()
-{
-   foreach (Module* m, modules_)
-   {
-      m->render();
-   }
-
-   //deflector_.render(position_, orientation_, deflectorRadius());
-}
-
 double Ship::deflectorRadius()
 {
    return 10.0 * deflectorPower_;
@@ -158,11 +201,13 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
    {
       if ((module->position() - localPosition).magnitude() < 1.0)
       {
-         world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 5.0));
+         velocity_ += (velocity - velocity_) * 0.01;
+
+         world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 3.0));
 
          if (module == core_)
          {            
-            world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 25.0));
+            world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 10.0));
             world_.removeItem(this);
             return true;
          }
@@ -199,7 +244,7 @@ void Ship::simulateAutopilot()
    double closestRange = 1.0/0.0;
    foreach (Ship* ship, allShips)
    {
-      if (ship != this)
+      if (ship != this && ship->team() != team_)
       {
          double range = (ship->position() - position_).magnitude();
          if (range < closestRange)
@@ -217,8 +262,8 @@ void Ship::simulateAutopilot()
 
    Vector targetVector = targetShip->position() - position_;
 
-   double interceptTime = (targetVector.magnitude() / 0.75);
-   targetVector += (targetShip->velocity() * interceptTime);
+   double interceptTime = (targetVector.magnitude() / Bullet::SPEED);
+   targetVector += ((targetShip->velocity() - velocity_) * interceptTime);
 
    Vector target = targetVector;
    target.normalize();
@@ -231,16 +276,17 @@ void Ship::simulateAutopilot()
    Vector targetRotationAxis = fromPoint.cross(toPoint);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
 
-   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -0.1;
+   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -1;
 
-   Vector angularVelocityError = (targetAngularVelocity - angularMomentum_);
+   //Vector angularVelocityError = (targetAngularVelocity - angularMomentum_);
 
    //angularVelocityError = angularVelocityError.boundedToMagnitude(maxTorque);
 
-   angularMomentum_ += angularVelocityError; //(angularVelocityError.multiplyElementsBy(inertialTensor_));
+   //angularMomentum_ += angularVelocityError; //(angularVelocityError.multiplyElementsBy(inertialTensor_));
+   angularMomentum_ = targetAngularVelocity;
 
    // ============ ENGINE POWER ===============
-   double distance = targetVector.magnitude() - 30.0;
+   double distance = targetVector.magnitude() - 100.0;
    double speed = (velocity_ - targetShip->velocity()).magnitude();
    double maxAcceleration = (0.01 * 1.0 * 2.0) / mass_;
 
@@ -289,3 +335,9 @@ void Ship::simulateAutopilot()
 
    //gyro.setPower(Vector(target.x, 0, 0));
 }
+
+RacistList<Module*> Ship::modules()
+{
+   return modules_;
+}
+
