@@ -12,6 +12,7 @@ CFLAGS += -I.
 
 CFLAGS += -ggdb
 
+CFLAGS += -I$(BASE)/3rdparty/lodepng
 CFLAGS += -I$(BASE)/app
 CFLAGS += -I$(BASE)/autopilot
 CFLAGS += -I$(BASE)/math
@@ -27,6 +28,7 @@ CFLAGS += -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/
 CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers
 CFLAGS += -I/System/Library/Frameworks/GLUT.framework/Headers
 
+: foreach ../src/3rdparty/lodepng/*.cpp |> !cc |>
 : foreach ../src/app/*.cxx |> !cc |>
 : foreach ../src/autopilot/*.cxx |> !cc |>
 : foreach ../src/math/*.cxx |> !cc |>

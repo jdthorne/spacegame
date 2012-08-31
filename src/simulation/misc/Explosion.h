@@ -3,19 +3,24 @@
 
 #include <QList>
 #include <WorldItem.h>
+#include <ObjectType.h>
 
 class World;
 class Mesh;
+class Module;
 
 class Explosion : public WorldItem
 {
 
 public:
-   Explosion(World& world, const Vector position, const Vector velocity, double size);
+   Explosion(World& world, double size, ObjectType explodingObjectType,
+             const Vector position, const Quaternion orientation, 
+             const Vector velocity);
    virtual ~Explosion();
 
    double glow();
    double size();
+   double expansion();
    virtual void simulate();
 
    virtual const Vector position();
@@ -23,11 +28,14 @@ public:
 
    QList<Vector> fragments();
 
+   ObjectType explodingObjectType();
+
 private:
    World& world_;
 
    Vector position_;
    Vector velocity_;
+   Quaternion orientation_;
 
    QList<Vector> fragments_;
 
@@ -35,6 +43,8 @@ private:
 
    int ticks_;
    double lifetime_;
+
+   ObjectType explodingObjectType_;
 };
 
 #endif

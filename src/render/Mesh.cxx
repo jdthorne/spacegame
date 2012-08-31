@@ -114,3 +114,25 @@ void Mesh::renderRawVerts(bool shitty)
    }
    glEnd();
 }
+
+void Mesh::renderExplodingVerts(double distance)
+{
+   glBegin(GL_TRIANGLES);
+   QVector<Vector>& data = *faceLoData_;
+
+   int i = 0;
+   while (i < data.count())
+   {
+      double m = (distance * i / data.count());
+
+      Vector normal = data[i++];
+      Vector move = normal * m;
+
+      glNormalv(normal);
+      glVertexv(data[i++] + move);
+      glVertexv(data[i++] + (move * 1.1));
+      glVertexv(data[i++] + (move * 1.2));
+   }
+   glEnd();
+   
+}

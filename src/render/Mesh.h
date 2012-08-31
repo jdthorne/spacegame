@@ -32,6 +32,8 @@ public:
                bool shitty, Color colorModifier = Color(1, 1, 1, 1));
    void renderRawVerts(bool shitty);
 
+   void renderExplodingVerts(double distance);
+
 private:
    QString name_;
    Color color_;

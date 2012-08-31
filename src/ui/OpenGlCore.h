@@ -25,6 +25,8 @@ public:
 
 protected:
    virtual void mouseMoveEvent(QMouseEvent* event);
+   virtual void wheelEvent(QWheelEvent* event);
+   virtual void mousePressEvent(QMouseEvent* event);
 
 private slots:
    void handleTimeout();
@@ -35,6 +37,9 @@ private:
 private:
    QTimer timer_;
 
+   Vector cameraPosition_;
+   Quaternion cameraOrientation_;
+
    World world_;
    RenderCore renderCore_;
 
@@ -43,6 +48,7 @@ private:
 
    double xRotation_;
    double yRotation_;
+   double distance_;
 };
 
 #endif

@@ -5,11 +5,16 @@
 #include <QString>
 #include <QList>
 #include <QVector>
+#include <QGLWidget>
 
 // Spacegame
+#include <ObjectType.h>
 #include <World.h>
+#include <Explosion.h>
 
 class Ship;
+class Module;
+class Mesh;
 
 /**
  ******************************************************************************
@@ -26,9 +31,13 @@ public:
    ~RenderCore();
 
 public:
+   void initialize();
    void render(const Vector cameraPosition, const Quaternion cameraOrientation);
    
 private: // helpers
+   void loadGeneral();
+   void loadTextures();
+
    void setupCamera();
 
    void drawStars();
@@ -39,9 +48,13 @@ private: // helpers
    void drawShip(Ship& ship);
 
    void drawExplosions();
+   void drawExplosionFragment(Explosion* explosion, const Vector frag, double scale);
    void drawEngineFlares();
 
    bool shittyRange(const Vector position);
+
+private:
+   Mesh& meshForType(ObjectType type);
 
 private: // members
    World& world_;
@@ -50,6 +63,8 @@ private: // members
    Quaternion cameraOrientation_;
 
    QVector<Vector> stars_;
+
+   GLuint* textures_;
 };
 
 #endif

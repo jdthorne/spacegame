@@ -35,3 +35,15 @@ void RenderHelpers::glNormalv(const Vector vertex)
    glNormal3f(vertex.x, vertex.y, vertex.z);
 }
 
+void RenderHelpers::glBillboard()
+{
+   float modelView[16];
+   glGetFloatv(GL_MODELVIEW_MATRIX, modelView);
+
+   for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++)
+   {
+      modelView[i*4 + j] = (i == j ? 1.0 : 0.0);
+   }
+   glLoadMatrixf(modelView);
+}
+

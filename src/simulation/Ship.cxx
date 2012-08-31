@@ -203,15 +203,17 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
       {
          velocity_ += (velocity - velocity_) * 0.01;
 
-         world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 3.0));
-
          if (module == core_)
-         {            
-            world_.addItem(new Explosion(world_, module->absolutePosition(), velocity_, 10.0));
+         {
+            world_.addItem(new Explosion(world_, 10.0, NullType,
+                                         module->absolutePosition(), module->absoluteOrientation(), velocity_));
             world_.removeItem(this);
             return true;
          }
 
+         world_.addItem(new Explosion(world_, 3.0, typeOf(module),
+                                      module->absolutePosition(), module->absoluteOrientation(), 
+                                      velocity_));
          modules_.removeAll(module);
          delete module;
          return true;
@@ -220,6 +222,12 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 
    return false;
 }
+
+void Ship::explodeModule(Module* module)
+{
+   qDebug("Warning: [Ship] 'explodeModule(Module* module)' is not implemented");
+}
+
 
 
 void Ship::applyLocalForce(const Vector& localForce, const Vector& atLocalPoint)
@@ -339,5 +347,16 @@ void Ship::simulateAutopilot()
 RacistList<Module*> Ship::modules()
 {
    return modules_;
+}
+
+void Ship::lockToTestBench()
+{
+   deflectorPower_ = 0.0;
+   return;
+
+   position_ = Vector(0, 0, 0);
+   velocity_ = Vector(0, 0, 0);
+   orientation_ = Quaternion();
+   angularMomentum_ = Vector(0, 0, 0);
 }
 

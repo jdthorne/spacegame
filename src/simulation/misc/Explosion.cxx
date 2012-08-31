@@ -5,13 +5,16 @@
 #include <Mesh.h>
 #include <World.h>
 
-Explosion::Explosion(World& world, const Vector position, const Vector velocity, double size)
+Explosion::Explosion(World& world, double size, ObjectType explodingObjectType,
+                     const Vector position, const Quaternion orientation, 
+                     const Vector velocity)
    : world_(world)
    , position_(position)
    , velocity_(velocity)
-   , size_(size)
+   , size_(size / 3.0)
    , ticks_(0)
-   , lifetime_(30.0 + (sqrt(size) * 30.0))
+   , lifetime_(30.0 + (sqrt(size) * 90.0))
+   , explodingObjectType_(explodingObjectType)
 {
    int fragments = qBound(5.0, (size * 5.0), 50.0);
 
@@ -54,9 +57,12 @@ double Explosion::size()
 
 double Explosion::glow()
 {
-   double fractionOfLifeCompleted = (ticks_ / lifetime_);
-   double glow = sqrt(1 - fractionOfLifeCompleted);
-   return glow;
+   double t = (ticks_ / lifetime_);
+   double decay = 0.95;
+
+   double glow = (1 - pow(decay, -t)) / log(decay);
+
+   return 1.0 - glow;
 }
 
 const Vector Explosion::position()
@@ -66,5 +72,16 @@ const Vector Explosion::position()
 
 const Quaternion Explosion::orientation()
 {
-   return Quaternion();
+   return orientation_;
 }
+
+double Explosion::expansion()
+{
+   return ticks_ / lifetime_;
+}
+
+ObjectType Explosion::explodingObjectType()
+{
+   return explodingObjectType_;
+}
+

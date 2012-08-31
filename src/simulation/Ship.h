@@ -41,6 +41,9 @@ public:
    virtual const Quaternion orientation();
 
    void normalizeModules();
+   void lockToTestBench();
+
+   void explodeModule(Module* module);
 
    double deflectorRadius();
    bool applyCollisionWith(double distance, const Vector position, const Vector velocity);

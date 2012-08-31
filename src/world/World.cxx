@@ -7,57 +7,21 @@
 
 World::World()
 {  
-   double worldSize = 20.0;
-   /*
-   {
-      Vector position = randomVector(-worldSize, worldSize);
 
-      Ship* ship = Ship::createAstronach(*this, position, 0);
+   // Create a single ship
+   Ship* ship = Ship::createSwarmer(*this, Vector(0, 0, 0), 0);
 
-      ships_.append(ship);
-      all_.append(ship);
-   }
-   */
-
-   for (int team = 0; team <= 1; team++)
-   {
-      for (int i = 0; i < 30; i++)
-      {
-         Vector position = randomVector(-worldSize, worldSize) + (Vector(0, -600, 0)*team);
-
-         Ship* ship = Ship::createSwarmer(*this, position, team);
-
-         ships_.append(ship);
-         all_.append(ship);
-      }
-   }
+   all_.append(ship);
 }
 
 void World::addItem(WorldItem* item)
 {
-   if (dynamic_cast<Bullet*>(item) != NULL)
-   {
-      lineEffects_.append(item);
-   }
-   else
-   {
-      sphereEffects_.append(item);
-   }
    all_.append(item);
 }
 
 void World::removeItem(WorldItem* item)
 {
-   lineEffects_.removeAll(item);
-   sphereEffects_.removeAll(item);
-   all_.removeAll(item);
-
-   if (objectIs(item, Ship))
-   {
-      ships_.removeAll((Ship*)item);
-   }
-
-   delete item;
+   toRemove_.append(item);
 }
 
 void World::simulate()
@@ -66,6 +30,13 @@ void World::simulate()
    {
       item->simulate();
    }
+
+   foreach (WorldItem* item, toRemove_)
+   {
+      all_.removeAll(item);
+      delete item;
+   }
+   toRemove_.clear();
 }
 
 double World::randomValue(double min, double max)
@@ -82,17 +53,17 @@ const Vector World::randomVector(double min, double max)
 
 WorldItem& World::focusItem()
 {
-   return *(ships_[0]);
+   return *(ships()[0]);
 }
 
 QList<Ship*> World::ships()
 {
-   return ships_;
+   return all_.all<Ship*>();
 }
 
 bool World::hasRemainingShips()
 {
-   return (ships_.count() > 0);
+   return (ships().count() > 0);
 }
 
 RacistList<WorldItem*> World::items()

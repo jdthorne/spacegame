@@ -14,6 +14,8 @@ namespace RenderHelpers
    void glTranslatev(const Vector vertex);
    void glVertexv(const Vector vertex);
    void glNormalv(const Vector vertex);
+
+   void glBillboard();
 }
 
 #endif

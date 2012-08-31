@@ -23,6 +23,7 @@
 		[
 			"-Wall",
          "-ferror-limit=0",
+         "-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
 			"-I/Users/james/Projects/Spacegame/src/app",
 			"-I/Users/james/Projects/Spacegame/src/autopilot",
          "-I/Users/james/Projects/Spacegame/src/math",

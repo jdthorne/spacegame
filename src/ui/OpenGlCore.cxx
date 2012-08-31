@@ -15,6 +15,7 @@ OpenGlCore::OpenGlCore()
    , frames_(FPS_SAMPLE_FRAMES)
    , xRotation_(0)
    , yRotation_(0)
+   , distance_(10)
 {
    setMouseTracking(true);
    time_.start();
@@ -30,37 +31,7 @@ OpenGlCore::~OpenGlCore()
 
 void OpenGlCore::initializeGL()
 {
-   glEnable(GL_NORMALIZE);
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
-
-   GLfloat mat_specular[] = { 0.2, 0.2, 0.2, 1.0 };
-   GLfloat mat_shininess[] = { 1.0 };
-   GLfloat light_position[] = { 0, 0, 1.0, 0.0 };
-   glClearColor (0.0, 0.0, 0.0, 0.0);
-   glShadeModel (GL_SMOOTH);
-
-   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);
-   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-   glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-   glEnable(GL_COLOR_MATERIAL);
-
-   glShadeModel(GL_SMOOTH);
-   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-   glClearDepth(1.0f);
-
-   glEnable(GL_DEPTH_TEST);
-   glDepthFunc(GL_LEQUAL);
-
-   //glAlphaFunc(GL_ALWAYS, 0.0);
-
-   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-   //glEnable(GL_BLEND);
-   //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+   renderCore_.initialize();
 }
 
 void OpenGlCore::resizeGL(int w, int h)
@@ -80,45 +51,42 @@ void OpenGlCore::paintGL()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   /*
-
-   //Vector cameraFocusPoint = world_.focusItem().position();
-   Vector cameraFocusPoint = Vector();
-
-
-   Vector cameraPosition = cameraFocusPoint + cameraOffset;
-   */
-
-   Vector cameraPosition;
-   Quaternion cameraOrientation;
-
-   if (world_.hasRemainingShips())
-   {
-      WorldItem& focus = world_.focusItem();
+   //if (world_.hasRemainingShips())
+   //{
+      //WorldItem& focus = world_.focusItem();
+      Vector focusPoint = Vector(0, 0, 0);
 
       xRotation_ = qBound(-0.5, xRotation_, +0.5);
       yRotation_ = qBound(-0.5, yRotation_, +0.5);
+      distance_ = qBound(1.0, distance_, 100.0);
 
       Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
       Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
       Quaternion userOrientation = xQuat * yQuat;
 
-      Vector cameraDistance = Vector(0, 0, 10);
+      Vector cameraDistance = Vector(0, 0, distance_);
       Vector cameraOffset = cameraDistance.rotate(userOrientation);
 
-      cameraPosition = focus.position() + cameraOffset;
+      cameraPosition_ = focusPoint + cameraOffset;
 
-      Vector cameraFocusPoint = focus.position();
+      Vector cameraFocusPoint = focusPoint;
 
-      cameraOrientation = Vector(0, 0, 1).rotationTo( (cameraPosition - cameraFocusPoint).normalized() );
-   }
+      Vector positionToFocus = (cameraPosition_ - cameraFocusPoint).normalized();
+      cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
+   //}
 
-   renderCore_.render(cameraPosition, cameraOrientation);
+   renderCore_.render(cameraPosition_, cameraOrientation_);
 }
 
 void OpenGlCore::handleTimeout()
 {
    calculateFramerate();
+
+   if (world_.hasRemainingShips())
+   {
+      Ship* ship = world_.ships()[0];
+      ship->lockToTestBench();
+   }
 
    world_.simulate();
 
@@ -141,4 +109,26 @@ void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
 {
    xRotation_ = ((double)event->x() / width()) - 0.5;
    yRotation_ = ((double)event->y() / height()) - 0.5;
+}
+
+void OpenGlCore::wheelEvent(QWheelEvent* event)
+{
+   distance_ -= (event->delta() * 0.025);
+}
+
+
+#include <Bullet.h>
+void OpenGlCore::mousePressEvent(QMouseEvent* event)
+{
+   if (!world_.hasRemainingShips())
+   {
+      Ship* newShip = Ship::createSwarmer(world_, Vector(0, 0, 0), 0);
+      world_.addItem(newShip);
+      return;
+   }
+
+   Vector randomness = world_.randomVector(-0.02, 0.02);
+   Bullet* bullet = new Bullet(world_, NULL, Vector(0, 40, 40), Vector(0, -1, -1) + randomness, 1);
+
+   world_.addItem(bullet);
 }

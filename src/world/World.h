@@ -13,7 +13,6 @@ class World
 public:
    World();
 
-   void addShip(int team);
    void addItem(WorldItem* item);
    void removeItem(WorldItem* item);
 
@@ -31,12 +30,8 @@ public:
    WorldItem& focusItem();
 
 private:
-   QList<Ship*> ships_;
-
-   QList<WorldItem*> sphereEffects_;
-   QList<WorldItem*> lineEffects_;
-
    RacistList<WorldItem*> all_;
+   QList<WorldItem*> toRemove_;
 };
 
 #endif
