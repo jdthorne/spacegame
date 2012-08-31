@@ -13,6 +13,8 @@ class World
 public:
    World();
 
+   void addShip(int team);
+
    void addItem(WorldItem* item);
    void removeItem(WorldItem* item);
 

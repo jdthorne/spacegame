@@ -51,14 +51,15 @@ void OpenGlCore::paintGL()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   //if (world_.hasRemainingShips())
-   //{
-      //WorldItem& focus = world_.focusItem();
+   if (world_.hasRemainingShips())
+   {
+      WorldItem& focus = world_.focusItem();
       Vector focusPoint = Vector(0, 0, 0);
+      focusPoint = focus.position();
 
       xRotation_ = qBound(-0.5, xRotation_, +0.5);
       yRotation_ = qBound(-0.5, yRotation_, +0.5);
-      distance_ = qBound(1.0, distance_, 100.0);
+      distance_ = qBound(1.0, distance_, 500.0);
 
       Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
       Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
@@ -73,7 +74,7 @@ void OpenGlCore::paintGL()
 
       Vector positionToFocus = (cameraPosition_ - cameraFocusPoint).normalized();
       cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
-   //}
+   }
 
    renderCore_.render(cameraPosition_, cameraOrientation_);
 }
@@ -84,8 +85,8 @@ void OpenGlCore::handleTimeout()
 
    if (world_.hasRemainingShips())
    {
-      Ship* ship = world_.ships()[0];
-      ship->lockToTestBench();
+      //Ship* ship = world_.ships()[0];
+      //ship->lockToTestBench();
    }
 
    world_.simulate();

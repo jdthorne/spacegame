@@ -12,6 +12,21 @@ World::World()
    Ship* ship = Ship::createSwarmer(*this, Vector(0, 0, 0), 0);
 
    all_.append(ship);
+
+   for (int i = 0; i < 20; i++)
+   {
+      addShip(0);
+      addShip(1);
+   }
+}
+
+void World::addShip(int team)
+{
+   double worldSize = 60;
+   Vector position = randomVector(-worldSize, worldSize);
+
+   Ship* ship = Ship::createSwarmer(*this, position + Vector(0, 200*team, 0), team);
+   addItem(ship);
 }
 
 void World::addItem(WorldItem* item)
