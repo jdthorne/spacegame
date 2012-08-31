@@ -53,9 +53,14 @@ void OpenGlCore::paintGL()
 
    if (world_.hasRemainingShips())
    {
-      WorldItem& focus = world_.focusItem();
-      Vector focusPoint = Vector(0, 0, 0);
-      focusPoint = focus.position();
+      Vector center;
+      foreach(Ship* ship, world_.ships())
+      {
+         center += ship->position();
+      }
+      center = center * (1.0/world_.ships().count());
+
+      Vector focusPoint = center;
 
       xRotation_ = qBound(-0.5, xRotation_, +0.5);
       yRotation_ = qBound(-0.5, yRotation_, +0.5);

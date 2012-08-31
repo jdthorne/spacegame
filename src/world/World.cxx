@@ -13,7 +13,7 @@ World::World()
 
    all_.append(ship);
 
-   for (int i = 0; i < 20; i++)
+   for (int i = 0; i < 50; i++)
    {
       addShip(0);
       addShip(1);
@@ -25,7 +25,7 @@ void World::addShip(int team)
    double worldSize = 60;
    Vector position = randomVector(-worldSize, worldSize);
 
-   Ship* ship = Ship::createSwarmer(*this, position + Vector(0, 200*team, 0), team);
+   Ship* ship = Ship::createSwarmer(*this, position + Vector(500*team, 0, 0), team);
    addItem(ship);
 }
 
@@ -48,10 +48,10 @@ void World::simulate()
 
    foreach (WorldItem* item, toRemove_)
    {
+      toRemove_.removeAll(item);
       all_.removeAll(item);
-      delete item;
+      //delete item;
    }
-   toRemove_.clear();
 }
 
 double World::randomValue(double min, double max)

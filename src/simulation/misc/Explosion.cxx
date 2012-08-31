@@ -16,7 +16,7 @@ Explosion::Explosion(World& world, double size, ObjectType explodingObjectType,
    , lifetime_(30.0 + (sqrt(size) * 90.0))
    , explodingObjectType_(explodingObjectType)
 {
-   int fragments = qBound(5.0, (size * 5.0), 50.0);
+   int fragments = qBound(0.0, (size * 5.0), 10.0);
 
    for (int i = 0; i < fragments; i++)
    {

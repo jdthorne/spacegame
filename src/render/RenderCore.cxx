@@ -182,6 +182,7 @@ void RenderCore::drawBasicMeshes()
 
 void RenderCore::drawBullets()
 {
+   return;
    glBegin(GL_LINES);
 
    foreach(Bullet* bullet, world_.items().all<Bullet*>())

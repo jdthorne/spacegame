@@ -303,6 +303,10 @@ void Ship::simulateAutopilot()
       speed *= -1;
    }
 
+   // MOAR EXCITEMENT
+   distance = 999999;
+   speed = 0;
+
    double powerLevel = Autopilot::powerForSmoothApproach(distance, speed, maxAcceleration);
 
    Quaternion angleToTarget = Vector(0, 0, 1).rotate(orientation_).rotationTo(target);
