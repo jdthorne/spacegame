@@ -7,10 +7,12 @@
 #include <QTimer>
 #include <QTime>
 
-#include <World.h>
-#include <RenderCore.h>
+// Spacegame
+#include <Vector.h>
+#include <Quaternion.h>
 
 class Simulation;
+class RenderCore;
 
 class OpenGlCore : public QGLWidget
 {
@@ -46,7 +48,7 @@ private:
    Quaternion cameraOrientation_;
 
    Simulation* simulation_;
-   RenderCore renderCore_;
+   RenderCore* renderCore_;
 
    QTime time_;
    int frames_;

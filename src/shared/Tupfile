@@ -1,0 +1,9 @@
+
+include_rules
+
+SRC = ..
+
+#CFLAGS += -I$(SRC)/3rdparty/lodepng
+
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> libshared.a

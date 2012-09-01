@@ -1,11 +1,12 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <Ship.h>
 #include <WorldItem.h>
 #include <RacistList.h>
 
 #include <Vector.h>
+
+class Ship;
 
 class World
 {

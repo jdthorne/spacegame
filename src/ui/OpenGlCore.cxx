@@ -3,6 +3,9 @@
 #include <OpenGlCore.h>
 #include <Quaternion.h>
 #include <Simulation.h>
+#include <RenderCore.h>
+#include <WorldItem.h>
+#include <Ship.h>
 #include <glut.h>
 #include <math.h>
 
@@ -12,10 +15,10 @@
 OpenGlCore::OpenGlCore()
    : timer_(this)
    , simulation_(NULL)
-   , renderCore_()
+   , renderCore_(new RenderCore())
    , frames_(FPS_SAMPLE_FRAMES)
    , mouseDown_(false)
-   , xRotation_(0)
+   , xRotation_(0) 
    , yRotation_(0)
    , distance_(10)
 {
@@ -38,7 +41,7 @@ OpenGlCore::~OpenGlCore()
 
 void OpenGlCore::initializeGL()
 {
-   renderCore_.initialize();
+   renderCore_->initialize();
 }
 
 void OpenGlCore::resizeGL(int w, int h)
@@ -93,7 +96,7 @@ void OpenGlCore::paintGL()
       cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
    }
 
-   renderCore_.render(simulation_->world(), cameraPosition_, cameraOrientation_);
+   renderCore_->render(simulation_->world(), cameraPosition_, cameraOrientation_);
 }
 
 void OpenGlCore::handleTimeout()

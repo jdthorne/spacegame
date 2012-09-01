@@ -1,0 +1,15 @@
+
+include_rules
+
+SRC = ..
+
+CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/simulation
+CFLAGS += -I$(SRC)/world
+CFLAGS += -I$(SRC)/render
+CFLAGS += -I$(SRC)/shared
+
+: foreach *.h |> !moc |>
+: foreach *.cxx |> !cc |>
+
+: *.o |> !ar |> libui.a

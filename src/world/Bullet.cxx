@@ -1,6 +1,5 @@
 #include <Bullet.h>
 #include <Explosion.h>
-#include <Mesh.h>
 #include <World.h>
 #include <Ship.h>
 

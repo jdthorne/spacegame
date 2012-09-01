@@ -1,0 +1,10 @@
+
+include_rules
+
+SRC = ../..
+
+CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/world
+
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> libworld-modules.a

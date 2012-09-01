@@ -28,18 +28,19 @@
 			"-I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
 			"-I/System/Library/Frameworks/GLUT.framework/Headers",
 
-         "-I/Users/james/Projects/Spacegame/bin/../src",
-         "-I/Users/james/Projects/Spacegame/bin/../src/3rdparty",
-         "-I/Users/james/Projects/Spacegame/bin/../src/3rdparty/lodepng",
-         "-I/Users/james/Projects/Spacegame/bin/../src/app",
-         "-I/Users/james/Projects/Spacegame/bin/../src/autopilot",
-         "-I/Users/james/Projects/Spacegame/bin/../src/math",
-         "-I/Users/james/Projects/Spacegame/bin/../src/render",
-         "-I/Users/james/Projects/Spacegame/bin/../src/simulation",
-         "-I/Users/james/Projects/Spacegame/bin/../src/simulation/testbench",
-         "-I/Users/james/Projects/Spacegame/bin/../src/ui",
-         "-I/Users/james/Projects/Spacegame/bin/../src/world",
-         "-I/Users/james/Projects/Spacegame/bin/../src/world/modules"
+         "-I/Users/james/Projects/Spacegame/src",
+         "-I/Users/james/Projects/Spacegame/src/3rdparty",
+         "-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
+         "-I/Users/james/Projects/Spacegame/src/app",
+         "-I/Users/james/Projects/Spacegame/src/autopilot",
+         "-I/Users/james/Projects/Spacegame/src/math",
+         "-I/Users/james/Projects/Spacegame/src/shared",
+         "-I/Users/james/Projects/Spacegame/src/render",
+         "-I/Users/james/Projects/Spacegame/src/simulation",
+         "-I/Users/james/Projects/Spacegame/src/simulation/testbench",
+         "-I/Users/james/Projects/Spacegame/src/ui",
+         "-I/Users/james/Projects/Spacegame/src/world",
+         "-I/Users/james/Projects/Spacegame/src/world/modules"
 		]
 	}
 }

@@ -1,0 +1,5 @@
+
+include_rules
+
+: foreach *.cpp |> !cc |>
+: *.o |> !ar |> liblodepng.a

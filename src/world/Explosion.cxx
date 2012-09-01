@@ -2,7 +2,6 @@
 #include <cmath>
 
 #include <Explosion.h>
-#include <Mesh.h>
 #include <World.h>
 
 Explosion::Explosion(World& world, double size, ObjectType explodingObjectType,

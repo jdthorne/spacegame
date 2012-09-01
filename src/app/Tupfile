@@ -1,0 +1,27 @@
+
+include_rules
+
+SRC = ..
+
+CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/simulation
+CFLAGS += -I$(SRC)/simulation/testbench
+CFLAGS += -I$(SRC)/ui
+
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> libapp.a
+
+# Compile the executable
+LIBS += $(SRC)/3rdparty/lodepng/liblodepng.a
+LIBS += $(SRC)/app/libapp.a
+LIBS += $(SRC)/math/libmath.a
+LIBS += $(SRC)/render/librender.a
+LIBS += $(SRC)/shared/libshared.a
+LIBS += $(SRC)/simulation/libsimulation.a
+LIBS += $(SRC)/simulation/testbench/libsimulation-testbench.a
+LIBS += $(SRC)/ui/libui.a
+LIBS += $(SRC)/world/libworld.a
+LIBS += $(SRC)/world/autopilot/libworld-autopilot.a
+LIBS += $(SRC)/world/modules/libworld-modules.a
+
+: $(LIBS) |> clang $(CFLAGS) $(LFLAGS) %f -o %o |> spaceGame.bin

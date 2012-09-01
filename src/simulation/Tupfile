@@ -1,0 +1,11 @@
+
+include_rules
+
+SRC = ..
+
+CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/world
+CFLAGS += -I$(SRC)/world/modules
+
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> libsimulation.a

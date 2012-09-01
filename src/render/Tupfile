@@ -1,0 +1,14 @@
+
+include_rules
+
+SRC = ..
+
+CFLAGS += -I$(SRC)/3rdparty/lodepng
+CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/shared
+CFLAGS += -I$(SRC)/world
+CFLAGS += -I$(SRC)/world/modules
+CFLAGS += -I$(SRC)/world/autopilot
+
+: foreach *.cxx |> !cc |>
+: *.o |> !ar |> librender.a

@@ -6,9 +6,9 @@
 #include <Vector.h>
 #include <WorldItem.h>
 #include <Quaternion.h>
-#include <Module.h>
 #include <RacistList.h>
 
+class Module;
 class World;
 class Engine;
 class Weapon;

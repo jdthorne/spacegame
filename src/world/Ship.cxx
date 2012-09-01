@@ -9,6 +9,7 @@
 #include <QGLWidget>
 #include <Helpers.h>
 #include <Autopilot.h>
+#include <Engine.h>
 #include <FlightComputer.h>
 #include <Bullet.h>
 #include <Structure.h>

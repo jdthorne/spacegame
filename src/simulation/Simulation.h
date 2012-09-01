@@ -5,7 +5,7 @@
 #include <QString>
 
 // Spacegame
-#include <World.h>
+class World;
 
 /**
  ******************************************************************************
@@ -30,7 +30,7 @@ protected:
    virtual void runSimulationSpecifics() = 0;
 
 protected: // members
-   World world_;
+   World* world_;
 
 };
 

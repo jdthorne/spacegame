@@ -6,7 +6,6 @@
 
 // Space Game
 #include <stdio.h>
-#include <Vector.h>
 #include <OpenGlCore.h>
 #include <ExplosionDev.h>
 #include <BattleDev.h>
@@ -26,6 +25,7 @@ bool isSimMode(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
+   /*
    if (isSimMode(argc, argv))
    {
       int frames = 50000.0;
@@ -54,6 +54,7 @@ int main(int argc, char** argv)
       qDebug("Simulated at %.5ffps; %d ships remain", (frames / seconds), world.ships().count());
       return 0;
    }
+      */
 
    QApplication app(argc, argv);
 

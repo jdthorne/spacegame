@@ -6,7 +6,6 @@
 #include <ObjectType.h>
 
 class World;
-class Mesh;
 class Module;
 
 class Explosion : public WorldItem

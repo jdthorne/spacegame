@@ -19,10 +19,10 @@ BattleDev::BattleDev()
 void BattleDev::addShip(int team)
 {
    double worldSize = 60;
-   Vector position = world_.randomVector(-worldSize, worldSize);
+   Vector position = world_->randomVector(-worldSize, worldSize);
 
-   Ship* ship = Ship::createSwarmer(world_, position + Vector(500 * team, 0, 0), team);
-   world_.addItem(ship);
+   Ship* ship = Ship::createSwarmer(*world_, position + Vector(500 * team, 0, 0), team);
+   world_->addItem(ship);
 }
 
 BattleDev::~BattleDev()
