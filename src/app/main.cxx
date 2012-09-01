@@ -26,15 +26,24 @@ int main(int argc, char** argv)
 {
    if (isSimMode(argc, argv))
    {
-      int frames = 5000.0;
+      int frames = 50000.0;
 
       qDebug("Simulating %d frames...", frames);
       clock_t start = clock();
 
       World world;
+      clock_t delta = clock();
       for (int frame = 0; frame < frames; frame++)
       {
          world.simulate();
+
+         if (frame % 240 == 0)
+         {
+            double timePassed = (double)(clock() - delta) / CLOCKS_PER_SEC;
+
+            qDebug(" => Running at %.5ffps (%d objects)", (240 / timePassed), world.items().count());
+            delta = clock();
+         }
       }
 
       clock_t end = clock();
