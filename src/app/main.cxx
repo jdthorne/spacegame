@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <Vector.h>
 #include <OpenGlCore.h>
+#include <ExplosionDev.h>
+#include <BattleDev.h>
 #include <ctime>
 
 bool isSimMode(int argc, char** argv)
@@ -58,6 +60,9 @@ int main(int argc, char** argv)
    OpenGlCore* core = new OpenGlCore();
    core->resize(1280, 720);
    core->show();
+
+   Simulation* simulation = new ExplosionDev();
+   core->loadSimulation(simulation);
 
    app.exec();
 }

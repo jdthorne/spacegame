@@ -27,12 +27,12 @@ class RenderCore
 {
 
 public:
-   RenderCore(World& world);
+   RenderCore();
    ~RenderCore();
 
 public:
    void initialize();
-   void render(const Vector cameraPosition, const Quaternion cameraOrientation);
+   void render(const World& world, const Vector cameraPosition, const Quaternion cameraOrientation);
    
 private: // helpers
    void loadGeneral();
@@ -57,7 +57,7 @@ private:
    Mesh& meshForType(ObjectType type);
 
 private: // members
-   World& world_;
+   const World* world_;
 
    Vector cameraPosition_;
    Quaternion cameraOrientation_;

@@ -25,12 +25,14 @@
 
 using namespace RenderHelpers;
 
-RenderCore::RenderCore(World& world)
-   : world_(world)
+RenderCore::RenderCore()
+   : world_(NULL)
 {
+   World world;
+
    for (int i = 0; i < 500; i++)
    {
-      Vector direction = world_.randomVector(-1.0, 1.0).normalized();
+      Vector direction = world.randomVector(-1.0, 1.0).normalized();
       Vector position = (direction * 400.0);
 
       stars_.append(position);
@@ -122,8 +124,9 @@ void RenderCore::loadTextures()
  * @{
  ******************************************************************************
  */
-void RenderCore::render(const Vector cameraPosition, const Quaternion cameraOrientation)
+void RenderCore::render(const World& world, const Vector cameraPosition, const Quaternion cameraOrientation)
 {
+   world_ = &world;
    cameraPosition_ = cameraPosition;
    cameraOrientation_ = cameraOrientation;
 
@@ -172,7 +175,7 @@ void RenderCore::drawBasicMeshes()
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
 
-   foreach(Ship* ship, world_.ships())
+   foreach(Ship* ship, world_->ships())
    {
       drawShip(*ship);
    }
@@ -184,7 +187,7 @@ void RenderCore::drawBullets()
 {
    glBegin(GL_LINES);
 
-   foreach(Bullet* bullet, world_.items().all<Bullet*>())
+   foreach(Bullet* bullet, world_->items().all<Bullet*>())
    {
       Vector start = bullet->position();
       Vector end = bullet->position() + bullet->velocity();
@@ -257,7 +260,7 @@ void RenderCore::drawShip(Ship& ship)
  */
 void RenderCore::drawExplosions()
 {
-   foreach(Explosion* explosion, world_.items().all<Explosion*>())
+   foreach(Explosion* explosion, world_->items().all<Explosion*>())
    {
       if (explosion->explodingObjectType() == NullType)
       {
@@ -293,7 +296,7 @@ void RenderCore::drawExplosions()
 
    glDepthMask(GL_FALSE);
 
-   foreach(Explosion* explosion, world_.items().all<Explosion*>())
+   foreach(Explosion* explosion, world_->items().all<Explosion*>())
    {
       double alpha = explosion->glow();
       double scale = explosion->size();
@@ -339,7 +342,7 @@ void RenderCore::drawExplosionFragment(Explosion* explosion, const Vector frag, 
 
 void RenderCore::drawEngineFlares()
 {
-   foreach(Ship* ship, world_.ships())
+   foreach(Ship* ship, world_->ships())
    {
       foreach(Engine* engine, ship->modules().all<Engine*>())
       {

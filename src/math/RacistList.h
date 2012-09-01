@@ -17,7 +17,7 @@ public:
 
 public:
    template <typename X>
-   QList<X> all()
+   QList<X> all() const
    {
       QList<X> results;
       foreach (T item, *this)

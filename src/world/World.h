@@ -13,8 +13,6 @@ class World
 public:
    World();
 
-   void addShip(int team);
-
    void addItem(WorldItem* item);
    void removeItem(WorldItem* item);
 
@@ -25,11 +23,11 @@ public:
 
    bool hasRemainingShips();
 
-   RacistList<WorldItem*> items();
+   RacistList<WorldItem*> items() const;
 
-   QList<Ship*> ships();
+   QList<Ship*> ships() const;
 
-   WorldItem& focusItem();
+   WorldItem& focusItem() const;
 
 private:
    RacistList<WorldItem*> all_;

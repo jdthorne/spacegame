@@ -2,9 +2,6 @@
 	"folders":
 	[
 		{
-			"path": "/Users/james/Library/Application Support/Sublime Text 2/Packages/User"
-		},
-		{
 			"path": "meshes"
 		},
 		{
@@ -15,29 +12,34 @@
 		},
 		{
 			"path": "/Users/james/Projects/Starsplosion"
-		}
+		},
+      {
+         "path": "/Users/james/Library/Application Support/Sublime Text 2/Packages"
+      }
 	],
 	"settings":
 	{
 		"sublimeclang_options":
 		[
-			"-Wall",
-         "-ferror-limit=0",
-         "-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
-			"-I/Users/james/Projects/Spacegame/src/app",
-			"-I/Users/james/Projects/Spacegame/src/autopilot",
-         "-I/Users/james/Projects/Spacegame/src/math",
-			"-I/Users/james/Projects/Spacegame/src/render",
-			"-I/Users/james/Projects/Spacegame/src/ui",
-			"-I/Users/james/Projects/Spacegame/src/simulation",
-			"-I/Users/james/Projects/Spacegame/src/simulation/misc",
-			"-I/Users/james/Projects/Spacegame/src/simulation/modules",
-			"-I/Users/james/Projects/Spacegame/src/world",
+			"-ferror-limit=0",
 			"-I/Library/Frameworks/QtCore.framework/Versions/4/Headers/",
 			"-I/Library/Frameworks/QtGui.framework/Versions/4/Headers/",
 			"-I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/",
 			"-I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
-			"-I/System/Library/Frameworks/GLUT.framework/Headers"
+			"-I/System/Library/Frameworks/GLUT.framework/Headers",
+
+         "-I/Users/james/Projects/Spacegame/bin/../src",
+         "-I/Users/james/Projects/Spacegame/bin/../src/3rdparty",
+         "-I/Users/james/Projects/Spacegame/bin/../src/3rdparty/lodepng",
+         "-I/Users/james/Projects/Spacegame/bin/../src/app",
+         "-I/Users/james/Projects/Spacegame/bin/../src/autopilot",
+         "-I/Users/james/Projects/Spacegame/bin/../src/math",
+         "-I/Users/james/Projects/Spacegame/bin/../src/render",
+         "-I/Users/james/Projects/Spacegame/bin/../src/simulation",
+         "-I/Users/james/Projects/Spacegame/bin/../src/simulation/testbench",
+         "-I/Users/james/Projects/Spacegame/bin/../src/ui",
+         "-I/Users/james/Projects/Spacegame/bin/../src/world",
+         "-I/Users/james/Projects/Spacegame/bin/../src/world/modules"
 		]
 	}
 }

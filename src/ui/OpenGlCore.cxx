@@ -2,6 +2,7 @@
 
 #include <OpenGlCore.h>
 #include <Quaternion.h>
+#include <Simulation.h>
 #include <glut.h>
 #include <math.h>
 
@@ -10,9 +11,10 @@
 
 OpenGlCore::OpenGlCore()
    : timer_(this)
-   , world_()
-   , renderCore_(world_)
+   , simulation_(NULL)
+   , renderCore_()
    , frames_(FPS_SAMPLE_FRAMES)
+   , mouseDown_(false)
    , xRotation_(0)
    , yRotation_(0)
    , distance_(10)
@@ -22,6 +24,11 @@ OpenGlCore::OpenGlCore()
 
    connect(&timer_, SIGNAL(timeout()), this, SLOT(handleTimeout()));
    timer_.start(1000 / 60);
+}
+
+void OpenGlCore::loadSimulation(Simulation* simulation)
+{
+   simulation_ = simulation;
 }
 
 OpenGlCore::~OpenGlCore()
@@ -51,14 +58,19 @@ void OpenGlCore::paintGL()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-   if (world_.hasRemainingShips())
+   if (simulation_ == NULL)
+   {
+      return;
+   }
+
+   if (simulation_->world().hasRemainingShips())
    {
       Vector center;
-      foreach(Ship* ship, world_.ships())
+      foreach(Ship* ship, simulation_->world().ships())
       {
          center += ship->position();
       }
-      center = center * (1.0/world_.ships().count());
+      center = center * (1.0/simulation_->world().ships().count());
 
       Vector focusPoint = center;
 
@@ -81,20 +93,22 @@ void OpenGlCore::paintGL()
       cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
    }
 
-   renderCore_.render(cameraPosition_, cameraOrientation_);
+   renderCore_.render(simulation_->world(), cameraPosition_, cameraOrientation_);
 }
 
 void OpenGlCore::handleTimeout()
 {
    calculateFramerate();
 
-   if (world_.hasRemainingShips())
+   if (simulation_ != NULL)
    {
-      //Ship* ship = world_.ships()[0];
-      //ship->lockToTestBench();
-   }
+      if (mouseDown_)
+      {
+         simulation_->triggerEvent();
+      }
 
-   world_.simulate();
+      simulation_->simulate();
+   }
 
    update();
 }
@@ -122,19 +136,12 @@ void OpenGlCore::wheelEvent(QWheelEvent* event)
    distance_ -= (event->delta() * 0.025);
 }
 
-
-#include <Bullet.h>
 void OpenGlCore::mousePressEvent(QMouseEvent* event)
 {
-   if (!world_.hasRemainingShips())
-   {
-      Ship* newShip = Ship::createSwarmer(world_, Vector(0, 0, 0), 0);
-      world_.addItem(newShip);
-      return;
-   }
-
-   Vector randomness = world_.randomVector(-0.02, 0.02);
-   Bullet* bullet = new Bullet(world_, NULL, Vector(0, 40, 40), Vector(0, -1, -1) + randomness, 1);
-
-   world_.addItem(bullet);
+   mouseDown_ = true;
 }
+void OpenGlCore::mouseReleaseEvent(QMouseEvent* event)
+{
+   mouseDown_ = false;
+}
+
