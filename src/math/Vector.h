@@ -37,7 +37,11 @@ public: // Operators
 
    Vector boundedToMagnitude(double maxMagnitude);
 
-   double magnitude();
+   double magnitude() const;
+   double distanceTo(const Vector rhs) const;
+
+   static const Vector intersectionBetweenLineAndSphere(Vector lineStart, Vector direction,
+                                                        Vector sphereCenter, double sphereRadius);
 
 public:
    double x;

@@ -32,7 +32,6 @@
          "-I/Users/james/Projects/Spacegame/src/3rdparty",
          "-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
          "-I/Users/james/Projects/Spacegame/src/app",
-         "-I/Users/james/Projects/Spacegame/src/autopilot",
          "-I/Users/james/Projects/Spacegame/src/math",
          "-I/Users/james/Projects/Spacegame/src/shared",
          "-I/Users/james/Projects/Spacegame/src/render",
@@ -40,6 +39,7 @@
          "-I/Users/james/Projects/Spacegame/src/simulation/testbench",
          "-I/Users/james/Projects/Spacegame/src/ui",
          "-I/Users/james/Projects/Spacegame/src/world",
+         "-I/Users/james/Projects/Spacegame/src/world/autopilot",
          "-I/Users/james/Projects/Spacegame/src/world/modules"
 		]
 	}

@@ -36,7 +36,6 @@ void OpenGlCore::loadSimulation(Simulation* simulation)
 
 OpenGlCore::~OpenGlCore()
 {
-   qDebug("Destroyed!");
 }  
 
 void OpenGlCore::initializeGL()
@@ -75,7 +74,8 @@ void OpenGlCore::paintGL()
       }
       center = center * (1.0/simulation_->world().ships().count());
 
-      Vector focusPoint = center;
+      //Vector focusPoint = center;
+      Vector focusPoint = simulation_->world().focusItem().position();
 
       xRotation_ = qBound(-0.5, xRotation_, +0.5);
       yRotation_ = qBound(-0.5, yRotation_, +0.5);

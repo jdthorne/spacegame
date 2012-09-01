@@ -59,11 +59,9 @@ int main(int argc, char** argv)
    QApplication app(argc, argv);
 
    OpenGlCore* core = new OpenGlCore();
+   core->loadSimulation(new ExplosionDev());
    core->resize(1280, 720);
    core->show();
-
-   Simulation* simulation = new ExplosionDev();
-   core->loadSimulation(simulation);
 
    app.exec();
 }

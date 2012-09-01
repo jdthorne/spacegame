@@ -8,8 +8,9 @@
 #include <Vector.h>
 
 BattleDev::BattleDev()
+   : Simulation()
 {
-   for (int i = 0; i < 50; i++)
+   for (int i = 0; i < 100; i++)
    {
       addShip(0);
       addShip(1);
@@ -27,6 +28,7 @@ void BattleDev::addShip(int team)
 
 BattleDev::~BattleDev()
 {
+
 }
 
 void BattleDev::runSimulationSpecifics()

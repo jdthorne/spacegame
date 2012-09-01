@@ -189,8 +189,8 @@ void RenderCore::drawBullets()
 
    foreach(Bullet* bullet, world_->items().all<Bullet*>())
    {
-      Vector start = bullet->position();
-      Vector end = bullet->position() + bullet->velocity();
+      Vector start = bullet->position() - bullet->velocity();
+      Vector end = bullet->position();
 
       double alpha = bullet->life() / Bullet::MAX_LIFE;
       if (bullet->team() == 0)
@@ -259,7 +259,14 @@ void RenderCore::drawShip(Ship& ship)
  ******************************************************************************
  */
 void RenderCore::drawExplosions()
-{
+{   
+   glEnable(GL_BLEND);
+
+   glDisable(GL_COLOR_MATERIAL);
+
+   glDepthMask(GL_FALSE);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
    foreach(Explosion* explosion, world_->items().all<Explosion*>())
    {
       if (explosion->explodingObjectType() == NullType)
@@ -286,15 +293,10 @@ void RenderCore::drawExplosions()
       glPopMatrix();
    }
 
-   glEnable(GL_TEXTURE_2D);
-   glBindTexture(GL_TEXTURE_2D, textures_[0]);
-
-   glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-   glDisable(GL_COLOR_MATERIAL);
-
-   glDepthMask(GL_FALSE);
+   glEnable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, textures_[0]);
 
    foreach(Explosion* explosion, world_->items().all<Explosion*>())
    {
@@ -312,6 +314,7 @@ void RenderCore::drawExplosions()
       drawExplosionFragment(explosion, Vector(0, 0, 0.01), scale * 30.0);
    }
 
+   glDisable(GL_BLEND);
    glDisable(GL_TEXTURE_2D);
    glDepthMask(GL_TRUE);
 }

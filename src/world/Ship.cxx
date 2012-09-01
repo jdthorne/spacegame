@@ -183,7 +183,7 @@ void Ship::simulatePhysics()
 
 double Ship::deflectorRadius()
 {
-   return 10.0 * deflectorPower_;
+   return 25.0 * deflectorPower_;
 }  
 
 bool Ship::applyCollisionWith(double distance, const Vector position, const Vector velocity)
@@ -197,10 +197,11 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 
 
    Vector localPosition = (position - position_).rotate(orientation_.inverse());
+   double collisionRadius = 1.0 + (velocity.magnitude() * 1.5);
 
    foreach (Module* module, modules_)
    {
-      if ((module->position() - localPosition).magnitude() < 1.0)
+      if ((module->position() - localPosition).magnitude() < collisionRadius)
       {
          velocity_ += (velocity - velocity_) * 0.01;
 

@@ -12,7 +12,7 @@ Engine::Engine(Ship& ship, const Vector position, const Quaternion orientation)
 void Engine::simulate()
 {
    power_ = qBound(0.0, power_, 1.0);
-   Vector thrust(0, 0, 0.01 * power_);
+   Vector thrust(0, 0, 0.05 * power_);
 
    ship_.applyLocalForce(thrust.rotate(orientation_), position_);
 }

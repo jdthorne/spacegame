@@ -65,7 +65,7 @@ Vector Vector::rotate(const Quaternion& angle) const
    return Vector(angle * Quaternion(*this) * angle.inverse());
 }
 
-double Vector::magnitude()
+double Vector::magnitude() const
 {
    return sqrt(x*x + y*y + z*z);
 }
@@ -133,4 +133,42 @@ Vector Vector::boundedToMagnitude(double maxMagnitude)
 
    double scale = currentMagnitude / maxMagnitude;
    return (*this) * (1.0/scale);
+}
+
+double Vector::distanceTo(const Vector rhs) const
+{
+   return (*this - rhs).magnitude();
+}
+
+const Vector Vector::intersectionBetweenLineAndSphere(Vector lineStart, Vector direction,
+                                                     Vector sphereCenter, double sphereRadius)
+{
+   // Math is hard.
+   // Lazy is easier.
+
+   double originalDistance = lineStart.distanceTo(sphereCenter) - sphereRadius;
+   double testDistance = 0.0;
+   double delta = 0.1;
+
+   direction.normalize();
+
+   while (true)
+   {
+      Vector testPoint = lineStart + (direction * testDistance);
+
+      double newDistance = testPoint.distanceTo(sphereCenter) - sphereRadius;
+      if ( newDistance < 0 )
+      {
+         return testPoint;
+      }
+
+      if (newDistance > originalDistance)
+      {
+         return lineStart;
+      }
+
+      testDistance += delta;
+   }
+ 
+   return lineStart;  
 }

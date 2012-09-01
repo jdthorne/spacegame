@@ -29,7 +29,7 @@ void Weapon::fire()
    Vector fireChamber = Vector(0, 0.3, 0);
    Vector startPoint = absolutePositionOf(fireChamber);
 
-   double inaccuracy = 0.01;
+   double inaccuracy = 0.03;
    Vector initialVelocity = Vector(0, 0, 1).rotate(absoluteOrientation());
    Vector randomVelocity = ship_.world_.randomVector(-inaccuracy, inaccuracy);
 
