@@ -123,7 +123,7 @@ Quaternion Vector::rotationTo(const Vector& lookAt) const
    return result;
 }
 
-Vector Vector::boundedToMagnitude(double maxMagnitude)
+Vector Vector::boundedToMagnitude(double maxMagnitude) const
 {
    double currentMagnitude = this->magnitude();
    if (currentMagnitude < maxMagnitude)

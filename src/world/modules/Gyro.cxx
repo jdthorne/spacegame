@@ -10,14 +10,14 @@ Gyro::Gyro(Ship& ship, const Vector position)
 
 void Gyro::simulate()
 {
-   //applyTorqueAlongXAxis(power_.x);
-   //applyTorqueAlongYAxis(power_.y);
-   //applyTorqueAlongZAxis(power_.z);
+   applyTorqueAlongXAxis(power_.x);
+   applyTorqueAlongYAxis(power_.y);
+   applyTorqueAlongZAxis(power_.z);
 }
 
 void Gyro::setPower(const Vector power)
 {
-   power_ = power * 0.001;
+   power_ = power.boundedToMagnitude(1.0) * 0.001;
 }
 
 void Gyro::applyTorqueAlongXAxis(double power)

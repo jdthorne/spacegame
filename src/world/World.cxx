@@ -30,7 +30,7 @@ void World::simulate()
    {
       toRemove_.removeAll(item);
       all_.removeAll(item);
-      //delete item;
+      delete item;
    }
 }
 

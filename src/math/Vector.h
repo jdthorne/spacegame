@@ -35,7 +35,7 @@ public: // Operators
 
    QString toString() const;
 
-   Vector boundedToMagnitude(double maxMagnitude);
+   Vector boundedToMagnitude(double maxMagnitude) const;
 
    double magnitude() const;
    double distanceTo(const Vector rhs) const;

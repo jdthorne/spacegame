@@ -10,7 +10,7 @@
 BattleDev::BattleDev()
    : Simulation()
 {
-   for (int i = 0; i < 100; i++)
+   for (int i = 0; i < 1; i++)
    {
       addShip(0);
       addShip(1);
@@ -19,10 +19,9 @@ BattleDev::BattleDev()
 
 void BattleDev::addShip(int team)
 {
-   double worldSize = 60;
-   Vector position = world_->randomVector(-worldSize, worldSize);
+   Vector position = world_->randomVector(-15, 15) + Vector(0, 0, -25 * team);
 
-   Ship* ship = Ship::createSwarmer(*world_, position + Vector(500 * team, 0, 0), team);
+   Ship* ship = Ship::createSwarmer(*world_, position, team);
    world_->addItem(ship);
 }
 

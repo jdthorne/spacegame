@@ -31,12 +31,12 @@ void Weapon::fire()
 
    double inaccuracy = 0.03;
    Vector initialVelocity = Vector(0, 0, 1).rotate(absoluteOrientation());
-   Vector randomVelocity = ship_.world_.randomVector(-inaccuracy, inaccuracy);
+   Vector randomVelocity = ship_.world().randomVector(-inaccuracy, inaccuracy);
 
    Vector velocity = initialVelocity + randomVelocity + ship_.velocity();
 
-   Bullet* bullet = new Bullet(ship_.world_, &ship_, startPoint, velocity, ship_.team());
-   ship_.world_.addItem(bullet);
+   Bullet* bullet = new Bullet(ship_.world(), &ship_, startPoint, velocity, ship_.team());
+   ship_.world().addItem(bullet);
 
-   cooldown_ = ship_.world_.randomValue(35, 60);
+   cooldown_ = ship_.world().randomValue(35, 60);
 }

@@ -7,13 +7,16 @@
 #include <WorldItem.h>
 #include <Quaternion.h>
 #include <RacistList.h>
+#include <RigidBody.h>
 
 class Module;
 class World;
 class Engine;
 class Weapon;
+class ShipControl;
+class Autopilot;
 
-class Ship : public WorldItem
+class Ship : public RigidBody, public WorldItem
 {
 
 private:
@@ -28,20 +31,18 @@ public:
    RacistList<Module*> modules();
 
    int team();
+   World& world();
 
    virtual void simulate();
-   void simulatePhysics();
-   void simulateAutopilot();
+   void simulateModules();
+   void simulateCollisions();
 
-   void applyLocalForce(const Vector& force, const Vector& atPoint);
-   void applyForce(const Vector& force, const Vector& atPoint);
+   void normalizeModules();
+   void lockToTestBench();
 
    virtual const Vector position();
    virtual const Vector velocity();
    virtual const Quaternion orientation();
-
-   void normalizeModules();
-   void lockToTestBench();
 
    void explodeModule(Module* module);
 
@@ -50,25 +51,14 @@ public:
 
 private:
    World& world_;
+   ShipControl* shipControl_;
+   Autopilot* autopilot_;
    int team_;
 
    double deflectorPower_;
 
    Module* core_;
    RacistList<Module*> modules_;
-
-   Vector position_;
-   Vector velocity_;
-
-   Quaternion orientation_;
-   Vector angularMomentum_;
-
-   Vector inertialTensor_;
-   Vector inverseInertialTensor_;
-
-   double mass_;
-
-   friend class Weapon;
 };
 
 #endif
