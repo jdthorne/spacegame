@@ -6,6 +6,7 @@ SRC = ..
 CFLAGS += -I$(SRC)/math
 CFLAGS += -I$(SRC)/simulation
 CFLAGS += -I$(SRC)/simulation/testbench
+CFLAGS += -I$(SRC)/world
 CFLAGS += -I$(SRC)/ui
 
 : foreach *.cxx |> !cc |>

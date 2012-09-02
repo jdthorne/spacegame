@@ -1,34 +1,34 @@
-#ifndef EXPLOSIONDEV
-#define EXPLOSIONDEV
+#ifndef OFFLINECORE
+#define OFFLINECORE
 
 // Qt
 #include <QString>
 
 // Spacegame
-#include <Simulation.h>
+
+class Simulation;
 
 /**
  ******************************************************************************
  *
- * \brief            ExplosionDev
+ * \brief            OfflineCore
  *
  ******************************************************************************
  */
-class ExplosionDev : public Simulation
+class OfflineCore
 {
 
 public:
-   ExplosionDev();
-   ~ExplosionDev();
+   OfflineCore();
+   ~OfflineCore();
 
 public:
-   virtual void triggerEvent();
-   virtual void runSimulationSpecifics();
+   static bool isSimMode(int argc, char** argv);
+   static void runSimulation(Simulation* simulation);
 
 private: // helpers
 
 private: // members
-   int laserCharge_;
 
 };
 

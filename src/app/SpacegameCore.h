@@ -1,34 +1,31 @@
-#ifndef EXPLOSIONDEV
-#define EXPLOSIONDEV
+#ifndef SPACEGAMECORE
+#define SPACEGAMECORE
 
 // Qt
 #include <QString>
 
 // Spacegame
-#include <Simulation.h>
 
 /**
  ******************************************************************************
  *
- * \brief            ExplosionDev
+ * \brief            SpacegameCore
  *
  ******************************************************************************
  */
-class ExplosionDev : public Simulation
+class SpacegameCore
 {
 
 public:
-   ExplosionDev();
-   ~ExplosionDev();
+   SpacegameCore();
+   ~SpacegameCore();
 
 public:
-   virtual void triggerEvent();
-   virtual void runSimulationSpecifics();
+   static void runSpacegame(int argc, char** argv);
 
 private: // helpers
 
 private: // members
-   int laserCharge_;
 
 };
 
