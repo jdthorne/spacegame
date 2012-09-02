@@ -133,6 +133,12 @@ int Ship::team()
 {
    return team_;
 }
+
+Hud& Ship::hud()
+{
+   return hud_;
+}
+
 //! @}
 
 /**
@@ -144,6 +150,7 @@ int Ship::team()
  */
 void Ship::simulate()
 {
+   hud_.clear();
    autopilot_->run();
    simulatePhysics();
    simulateModules();
@@ -224,7 +231,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 
 double Ship::deflectorRadius()
 {
-   return 25.0 * deflectorPower_;
+   return 12.0 * deflectorPower_;
 }  
 
 void Ship::lockToTestBench()

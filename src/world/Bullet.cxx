@@ -4,7 +4,7 @@
 #include <Ship.h>
 
 const int Bullet::MAX_LIFE = 45;
-const double Bullet::SPEED = 3.0;
+const double Bullet::SPEED = 1.0;
 const double Bullet::RANGE = SPEED * MAX_LIFE;
 
 Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team)

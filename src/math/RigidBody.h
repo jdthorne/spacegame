@@ -27,6 +27,8 @@ public:
    void applyLocalForce(const Vector force, const Vector atPoint);
    void applyForce(const Vector force, const Vector atPoint);
 
+   void applyTorque(const Vector torque);
+
 public:
    const Vector angularVelocity();
 

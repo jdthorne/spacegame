@@ -206,6 +206,16 @@ void RenderCore::drawBullets()
       glVertexv(end);
    }
 
+   foreach(Ship* ship, world_->ships())
+   {
+
+      foreach (Vector v, ship->hud().vectors())
+      {
+         glVertexv(ship->position());
+         glVertexv(ship->position() + v);
+      }
+   }
+
    glEnd();
 }
 
@@ -368,7 +378,7 @@ void RenderCore::drawEngineFlares()
 
 bool RenderCore::shittyRange(const Vector position)
 {
-   return (position - cameraPosition_).magnitude() > 45;
+   return (position - cameraPosition_).magnitude() > 90;
 }
 
 Mesh& RenderCore::meshForType(ObjectType type)

@@ -46,7 +46,11 @@ void RigidBody::applyForce(const Vector force, const Vector atPoint)
 {
    velocity_ += force * (1.0 / mass_);
 
-   Vector torque = force.cross(atPoint);
+   applyTorque(force.cross(atPoint));
+}
+
+void RigidBody::applyTorque(const Vector torque)
+{
    angularMomentum_ += torque;   
 }
 

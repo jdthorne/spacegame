@@ -39,12 +39,18 @@ public:
    ShipControl(Ship& ship);
    ~ShipControl();
 
-public: // Physics
+public: // Debug
+   void displayOnHud(const Vector vector);
+
+   // Physics
    const Vector angularVelocity();
    void setGyroPowerLevel(Vector power);
 
-public: // Sensors
+   // Sensors
    QList<SensorResult> scan();
+
+   // Weapons
+   void fireWeapons();
 
 private: // helpers
 

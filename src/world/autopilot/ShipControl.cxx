@@ -6,6 +6,7 @@
 #include <ShipControl.h>
 #include <World.h>
 #include <Gyro.h>
+#include <Weapon.h>
 
 ShipControl::ShipControl(Ship& ship)
    : ship_(ship)
@@ -20,13 +21,25 @@ ShipControl::~ShipControl()
 /**
  ******************************************************************************
  *
+ * \brief            Debug
+ *
+ ******************************************************************************
+ */
+void ShipControl::displayOnHud(const Vector vector)
+{
+   ship_.hud().display(vector.rotate(ship_.orientation()));
+}
+
+/**
+ ******************************************************************************
+ *
  * \brief            Physics
  * @{
  ******************************************************************************
  */
 const Vector ShipControl::angularVelocity()
 {
-   return ship_.angularVelocity();
+   return ship_.angularVelocity().rotate(ship_.orientation());
 }
 
 void ShipControl::setGyroPowerLevel(Vector power)
@@ -48,15 +61,40 @@ void ShipControl::setGyroPowerLevel(Vector power)
  */
 QList<SensorResult> ShipControl::scan()
 {
+   Quaternion orientationCorrection = ship_.orientation().inverse();
+
    QList<SensorResult> results;
    foreach(Ship* target, ship_.world().ships())
    {
+      if (target == &ship_)
+      {
+         continue;
+      }
+
       SensorResult result;
-      result.vector_ = (target->position() - ship_.position()).rotate(ship_.orientation());
-      result.velocity_ = (target->velocity() - ship_.velocity()).rotate(ship_.orientation());
+      result.vector_ = (target->position() - ship_.position()).rotate(orientationCorrection);
+      result.velocity_ = (target->velocity() - ship_.velocity()).rotate(orientationCorrection);
       result.friendly_ = (target->team() == ship_.team());
+
+      results.append(result);
    }
 
    return results;
 }
 //! @}
+
+/**
+ ******************************************************************************
+ *
+ * \brief            Weapons
+ *
+ ******************************************************************************
+ */
+void ShipControl::fireWeapons()
+{
+   foreach(Weapon* weapon, ship_.modules().all<Weapon*>())
+   {
+      weapon->fire();
+   }
+}
+

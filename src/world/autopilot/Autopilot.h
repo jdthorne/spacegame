@@ -15,6 +15,7 @@ public:
 private:
    void findTarget();
    void rotateToFaceTarget();
+   void fireWeaponsIfReady();
 
 private:
    int sign(double value);
@@ -22,7 +23,7 @@ private:
 
 private: // members
    ShipControl& ship_;
-   
+
    SensorResult target_;
 
 };

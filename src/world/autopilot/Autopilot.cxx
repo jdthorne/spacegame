@@ -23,6 +23,8 @@ void Autopilot::run()
 {
    findTarget();
    rotateToFaceTarget();
+
+   fireWeaponsIfReady();
 }
 
 void Autopilot::findTarget()
@@ -59,6 +61,16 @@ void Autopilot::rotateToFaceTarget()
    Vector angularVelocityError = (targetAngularVelocity - ship_.angularVelocity());
 
    ship_.setGyroPowerLevel(angularVelocityError);
+}
+
+void Autopilot::fireWeaponsIfReady()
+{
+   Quaternion remainingTurn = Vector(0, 0, 1).rotationTo(target_.vector_.normalized());
+
+   if (remainingTurn.angle() < 0.2)
+   {
+      ship_.fireWeapons();
+   }
 }
 //! @}
 

@@ -8,6 +8,7 @@
 #include <Quaternion.h>
 #include <RacistList.h>
 #include <RigidBody.h>
+#include <Hud.h>
 
 class Module;
 class World;
@@ -49,6 +50,8 @@ public:
    double deflectorRadius();
    bool applyCollisionWith(double distance, const Vector position, const Vector velocity);
 
+   Hud& hud();
+
 private:
    World& world_;
    ShipControl* shipControl_;
@@ -59,6 +62,8 @@ private:
 
    Module* core_;
    RacistList<Module*> modules_;
+
+   Hud hud_;
 };
 
 #endif
