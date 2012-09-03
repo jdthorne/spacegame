@@ -15,7 +15,8 @@ public:
 private:
    void findTarget();
    void rotateToFaceTarget();
-   void fireWeaponsIfReady();
+   void closeToWeaponsRange();
+   void fire();
 
 private:
    int sign(double value);

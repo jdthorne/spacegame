@@ -28,7 +28,8 @@ void Autopilot::run()
    findTarget();
    rotateToFaceTarget();
 
-   fireWeaponsIfReady();
+   closeToWeaponsRange();
+   fire();
 }
 
 void Autopilot::findTarget()
@@ -77,7 +78,35 @@ void Autopilot::rotateToFaceTarget()
    ship_.setGyroPowerLevel(angularVelocityError.normalized());
 }
 
-void Autopilot::fireWeaponsIfReady()
+void Autopilot::closeToWeaponsRange()
+{
+   Vector goal = target_.vector_ - Vector(0, 0, 25);
+
+   double idealSpeed = goal.z;
+
+   double speed = target_.velocity_.z;
+   double distance = goal.z;
+   double accelerationRequiredToStop = -(speed*speed) / (2*distance);
+
+   double maxAcceleration = ship_.maximumForce() / ship_.mass();
+   if (fabs(accelerationRequiredToStop) > (maxAcceleration * 0.9))
+   {
+      idealSpeed = 0;
+   }
+   if (log_) qDebug("%f / %f ==> %f", accelerationRequiredToStop, maxAcceleration, idealSpeed);
+
+   if (idealSpeed > 5)
+   {
+      idealSpeed = 5;
+   }
+
+   double speedError = idealSpeed + target_.velocity_.z;
+   double thrustError = speedError * ship_.mass();
+
+   ship_.setEnginePowerLevel(Vector(0, 0, thrustError));
+}
+
+void Autopilot::fire()
 {
    Quaternion remainingTurn = Vector(0, 0, 1).rotationTo(target_.vector_.normalized());
 

@@ -1,4 +1,7 @@
 
+// System
+#include <cmath>
+
 // Qt
 
 // Spacegame
@@ -7,6 +10,7 @@
 #include <World.h>
 #include <Gyro.h>
 #include <Weapon.h>
+#include <Engine.h>
 
 ShipControl::ShipControl(Ship& ship)
    : ship_(ship)
@@ -37,6 +41,11 @@ void ShipControl::displayOnHud(const Vector vector)
  * @{
  ******************************************************************************
  */
+double ShipControl::mass()
+{
+   return ship_.mass_;
+}
+
 const Vector ShipControl::angularVelocity()
 {
    return ship_.angularVelocity().rotate(ship_.orientation().inverse());
@@ -62,10 +71,39 @@ void ShipControl::setGyroPowerLevel(Vector power)
 
 double ShipControl::maximumTorque()
 {
-   double result = Gyro::MAXIMUM_TORQUE * (ship_.modules().all<Gyro*>()).count();
+   double result = Gyro::MAXIMUM_TORQUE * ship_.modules().all<Gyro*>().count();
 
    return result;
 }
+
+double ShipControl::maximumForce()
+{
+   double result = Engine::MAXIMUM_THRUST * ship_.modules().all<Engine*>().count() * 0.5;
+
+   return result;
+}
+
+
+void ShipControl::setEnginePowerLevel(Vector power)
+{
+   foreach(Engine* engine, ship_.modules().all<Engine*>())
+   {
+      double direction = engine->thrust().z * power.z;
+      if (direction > 0)
+      {
+         engine->setPower(fabs(power.z));
+      }
+      else if (direction < 0)
+      {
+         engine->setPower(-fabs(power.z));
+      }
+      else
+      {
+         engine->setPower(0);
+      }
+   }
+}
+
 
 //! @}
 

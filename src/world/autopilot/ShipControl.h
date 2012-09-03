@@ -43,12 +43,16 @@ public: // Debug
    void displayOnHud(const Vector vector);
 
    // Physics
+   double mass();
    const Vector angularVelocity();
    const Vector angularMomentum();
    const Vector inertialTensor();
+
    void setGyroPowerLevel(Vector power);
+   void setEnginePowerLevel(Vector power);
 
    double maximumTorque();
+   double maximumForce();
 
    // Sensors
    QList<SensorResult> scan();

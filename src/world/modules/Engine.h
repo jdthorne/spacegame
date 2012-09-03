@@ -17,7 +17,10 @@ public:
 
    double power();
    void setPower(double power);
-   bool thrustIsForward();
+
+   const Vector thrust();
+
+   static const double MAXIMUM_THRUST;
 
 private:
    double power_;
