@@ -11,7 +11,7 @@ BattleDev::BattleDev()
    : Simulation()
 {
    // Create swarmers
-   for (int i = 0; i < 15; i++)
+   for (int i = 0; i < 25; i++)
    {
       int team = 0;
       Vector position = world_->randomVector(-175, 175);
@@ -21,7 +21,7 @@ BattleDev::BattleDev()
    }
 
    // Create astronach
-   for (int i = 0; i < 15; i++)
+   for (int i = 0; i < 13; i++)
    {
       int team = 1;
       Vector position = world_->randomVector(-12, 12);

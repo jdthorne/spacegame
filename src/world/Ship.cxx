@@ -77,20 +77,20 @@ Ship* Ship::createAstronach(World& world, const Vector position, int team)
    // Rear engine pod
    ship->modules_.append(new Structure(*ship, Vector(0, 0, 0), Quaternion::DEFAULT));
 
-   ship->modules_.append(new Engine(*ship, Vector(+1, 0, 0), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(-1, 0, 0), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(0, +1, 0), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(0, -1, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(+1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(-1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(0, +1, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(0, -1, 0), Quaternion::DEFAULT));
 
    // Outer engines
-   ship->modules_.append(new Engine(*ship, Vector(-1, -1, 1), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(+1, -1, 1), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(-1, +1, 1), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(+1, +1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(-1, -1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(+1, -1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(-1, +1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(+1, +1, 1), Quaternion::DEFAULT));
 
-   // Edge Engines
-   ship->modules_.append(new Engine(*ship, Vector(+2, 0, 1), Quaternion::DEFAULT));
-   ship->modules_.append(new Engine(*ship, Vector(-2, 0, 1), Quaternion::DEFAULT));   
+   // Edge Structures
+   ship->modules_.append(new Structure(*ship, Vector(+2, 0, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(-2, 0, 1), Quaternion::DEFAULT));   
 
    // Main weapons array
    ship->modules_.append(new Weapon(*ship, Vector(-1, +2, 1), Quaternion::SPIN_Z));   
@@ -124,10 +124,10 @@ Ship* Ship::createAstronach(World& world, const Vector position, int team)
    ship->modules_.append(new Weapon(*ship, Vector(0, -2, 2), Quaternion::DEFAULT));   
 
    // Forward engines
-   ship->modules_.append(new Engine(*ship, Vector(-1, -1, 3), Quaternion::SPIN_X));
-   ship->modules_.append(new Engine(*ship, Vector(+1, -1, 3), Quaternion::SPIN_X));
-   ship->modules_.append(new Engine(*ship, Vector(-1, +1, 3), Quaternion::SPIN_X));
-   ship->modules_.append(new Engine(*ship, Vector(+1, +1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Structure(*ship, Vector(-1, -1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Structure(*ship, Vector(+1, -1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Structure(*ship, Vector(-1, +1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Structure(*ship, Vector(+1, +1, 3), Quaternion::SPIN_X));
 
    // Forward weapons pod
    ship->modules_.append(new Structure(*ship, Vector(0, 0, 4), Quaternion::DEFAULT));
