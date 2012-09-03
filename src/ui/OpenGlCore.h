@@ -13,16 +13,18 @@
 
 class Simulation;
 class RenderCore;
+class Camera;
 
 class OpenGlCore : public QGLWidget
 {
    Q_OBJECT
 
 public:
-   OpenGlCore();
+   OpenGlCore(QWidget* parent);
    virtual ~OpenGlCore();
 
    void loadSimulation(Simulation* simulation);
+   Camera& camera();
 
 public:
    virtual void initializeGL();
@@ -44,8 +46,7 @@ private:
 private:
    QTimer timer_;
 
-   Vector cameraPosition_;
-   Quaternion cameraOrientation_;
+   Camera* camera_;
 
    Simulation* simulation_;
    RenderCore* renderCore_;
@@ -53,9 +54,8 @@ private:
    QTime time_;
    int frames_;
 
-   bool mouseDown_;
-   double xRotation_;
-   double yRotation_;
+   double xStart_;
+   double yStart_;
    double distance_;
 };
 

@@ -5,6 +5,8 @@
 #include <Simulation.h>
 #include <RenderCore.h>
 #include <WorldItem.h>
+#include <CameraSidebar.h>
+#include <Camera.h>
 #include <Ship.h>
 #include <glut.h>
 #include <math.h>
@@ -12,14 +14,15 @@
 
 #define FPS_SAMPLE_FRAMES 240.0
 
-OpenGlCore::OpenGlCore()
-   : timer_(this)
+OpenGlCore::OpenGlCore(QWidget* parent)
+   : QGLWidget(parent)
+   , timer_(this)
+   , camera_(new Camera())
    , simulation_(NULL)
    , renderCore_(new RenderCore())
    , frames_(FPS_SAMPLE_FRAMES)
-   , mouseDown_(false)
-   , xRotation_(0) 
-   , yRotation_(0)
+   , xStart_(0)
+   , yStart_(0)
    , distance_(10)
 {
    setMouseTracking(true);
@@ -67,6 +70,15 @@ void OpenGlCore::paintGL()
 
    if (simulation_->world().hasRemainingShips())
    {
+      WorldItem* focusItem = &simulation_->world().focusItem();
+
+      Vector offset = Vector(0, 2, 0).rotate(focusItem->orientation());
+      camera_->updateFocusItem(focusItem->position() + offset, focusItem->orientation().inverse());
+   }
+
+   /*
+   if (simulation_->world().hasRemainingShips())
+   {
       Vector center;
       foreach(Ship* ship, simulation_->world().ships())
       {
@@ -74,29 +86,31 @@ void OpenGlCore::paintGL()
       }
       center = center * (1.0/simulation_->world().ships().count());
 
-      //Vector focusPoint = center;
-      Vector focusPoint = simulation_->world().focusItem().position();
+      //Vector focusPoint = simulation_->world().focusItem().position();
+      Vector focusPoint = center;
 
-      xRotation_ = qBound(-0.5, xRotation_, +0.5);
-      yRotation_ = qBound(-0.5, yRotation_, +0.5);
       distance_ = qBound(1.0, distance_, 500.0);
 
-      Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
-      Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
-      Quaternion userOrientation = simulation_->world().focusItem().orientation() * xQuat * yQuat;
+      //userOrientation = simulation_->world().focusItem().orientation() * Quaternion(0, 1, 0, 0);
 
       Vector cameraDistance = Vector(0, 0, distance_);
-      Vector cameraOffset = cameraDistance.rotate(userOrientation);
+      Vector cameraOffset = cameraDistance.rotate(cameraOrientation_);
 
       cameraPosition_ = focusPoint + cameraOffset;
 
-      Vector cameraFocusPoint = focusPoint;
+      //Vector cameraFocusPoint = focusPoint;
 
-      Vector positionToFocus = (cameraPosition_ - cameraFocusPoint).normalized();
-      cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
+      //Vector positionToFocus = (cameraPosition_ - cameraFocusPoint).normalized();
+      //cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
    }
+   */
 
-   renderCore_->render(simulation_->world(), cameraPosition_, cameraOrientation_);
+   renderCore_->render(simulation_->world(), *camera_);
+}
+
+Camera& OpenGlCore::camera()
+{
+   return *camera_;
 }
 
 void OpenGlCore::handleTimeout()
@@ -105,11 +119,6 @@ void OpenGlCore::handleTimeout()
 
    if (simulation_ != NULL)
    {
-      if (mouseDown_)
-      {
-         simulation_->triggerEvent();
-      }
-
       simulation_->simulate();
    }
 
@@ -130,8 +139,19 @@ void OpenGlCore::calculateFramerate()
 
 void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
 {
-   xRotation_ = ((double)event->x() / width()) - 0.5;
-   yRotation_ = ((double)event->y() / height()) - 0.5;
+   if (event->buttons() == Qt::LeftButton)
+   {
+      double deltaX = ((double)(event->x() - xStart_) / width());
+      double deltaY = ((double)(event->y() - yStart_) / height());
+
+      Quaternion xRotation = Quaternion(deltaX * -5, Vector(0, 1, 0));
+      Quaternion yRotation = Quaternion(deltaY * +5, Vector(1, 0, 0));
+
+      camera_->addUserOrientation(xRotation * yRotation);
+   }
+
+   xStart_ = event->x();
+   yStart_ = event->y();
 }
 
 void OpenGlCore::wheelEvent(QWheelEvent* event)
@@ -141,10 +161,9 @@ void OpenGlCore::wheelEvent(QWheelEvent* event)
 
 void OpenGlCore::mousePressEvent(QMouseEvent* event)
 {
-   mouseDown_ = true;
 }
 void OpenGlCore::mouseReleaseEvent(QMouseEvent* event)
 {
-   mouseDown_ = false;
+
 }
 

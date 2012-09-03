@@ -11,6 +11,7 @@
 #include <Mesh.h>
 #include <RenderHelpers.h>
 #include <Ship.h>
+#include <Camera.h>
 
 #include <Engine.h>
 #include <FlightComputer.h>
@@ -124,11 +125,10 @@ void RenderCore::loadTextures()
  * @{
  ******************************************************************************
  */
-void RenderCore::render(const World& world, const Vector cameraPosition, const Quaternion cameraOrientation)
+void RenderCore::render(const World& world, const Camera& camera)
 {
    world_ = &world;
-   cameraPosition_ = cameraPosition;
-   cameraOrientation_ = cameraOrientation;
+   camera_ = &camera;
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
@@ -143,12 +143,9 @@ void RenderCore::render(const World& world, const Vector cameraPosition, const Q
 
 void RenderCore::setupCamera()
 {
-   Vector eye = cameraPosition_;
-   Vector focus = cameraPosition_ + Vector(0, 0, -10).rotate(cameraOrientation_);
-
-   gluLookAt(eye.x, eye.y, eye.z,
-             focus.x, focus.y, focus.z,
-             0, 1, 0);
+   Quaternion look = camera_->orientation();
+   glRotateq(look);
+   glTranslatev(camera_->position() * -1);
 }
 
 void RenderCore::drawStars()
@@ -159,7 +156,7 @@ void RenderCore::drawStars()
    glPointSize(2.0);
    glColor3f(1.0, 1.0, 1.0);
 
-   glTranslatev(cameraPosition_);
+   glTranslatev(camera_->position());
 
    glBegin(GL_POINTS);
    foreach(Vector star, stars_)
@@ -243,7 +240,7 @@ void RenderCore::drawEffects()
  */
 void RenderCore::drawShip(Ship& ship)
 {
-   double distance = (cameraPosition_ - ship.position()).magnitude();
+   double distance = (camera_->position() - ship.position()).magnitude();
    bool shitty = (distance > 15);
  
    Color teamRed = Color(1.0, 0.0, 0.0, 1.0);
@@ -391,7 +388,7 @@ void RenderCore::drawEngineFlares()
 
 bool RenderCore::shittyRange(const Vector position)
 {
-   return (position - cameraPosition_).magnitude() > 90;
+   return (position - camera_->position()).magnitude() > 90;
 }
 
 Mesh& RenderCore::meshForType(ObjectType type)

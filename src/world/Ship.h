@@ -32,6 +32,7 @@ public:
    RacistList<Module*> modules();
 
    int team();
+   int id();
    World& world();
 
    virtual void simulateMovement();
@@ -60,6 +61,7 @@ private:
    ShipControl* shipControl_;
    Autopilot* autopilot_;
    int team_;
+   int id_;
 
    double deflectorPower_;
 

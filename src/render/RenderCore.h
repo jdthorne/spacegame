@@ -15,6 +15,7 @@
 class Ship;
 class Module;
 class Mesh;
+class Camera;
 
 /**
  ******************************************************************************
@@ -32,7 +33,7 @@ public:
 
 public:
    void initialize();
-   void render(const World& world, const Vector cameraPosition, const Quaternion cameraOrientation);
+   void render(const World& world, const Camera& camera);
    
 private: // helpers
    void loadGeneral();
@@ -58,9 +59,7 @@ private:
 
 private: // members
    const World* world_;
-
-   Vector cameraPosition_;
-   Quaternion cameraOrientation_;
+   const Camera* camera_;
 
    QVector<Vector> stars_;
 

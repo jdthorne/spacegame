@@ -4,7 +4,7 @@
 
 // Spacegame
 #include <SpacegameCore.h>
-#include <OpenGlCore.h>
+#include <MainWindow.h>
 #include <ExplosionDev.h>
 #include <BattleDev.h>
 
@@ -21,10 +21,10 @@ void SpacegameCore::runSpacegame(int argc, char** argv)
 {
    QApplication app(argc, argv);
 
-   OpenGlCore* core = new OpenGlCore();
-   core->loadSimulation(new BattleDev());
-   core->resize(1280, 720);
-   core->show();
+   MainWindow* window = new MainWindow();
+   window->loadSimulation(new BattleDev());
+   window->resize(1280, 720);
+   window->show();
 
    app.exec();
 }

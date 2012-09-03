@@ -59,7 +59,7 @@ void Autopilot::findTarget()
    double interceptSpeed = target_.velocity_.z;
    double interceptTime = distance / interceptSpeed;
 
-   if (interceptSpeed > 0.0 && distance > 0)
+   if (interceptSpeed > 0.0 && distance > 1)
    {
       if (interceptTime > Bullet::MAX_LIFE)
       {

@@ -23,6 +23,10 @@ Ship::Ship(World& world, const Vector position, int team)
    , team_(team)
    , deflectorPower_(1.0)
 {
+   static int id = 0;
+
+   id_ = id++;
+
    velocity_ = Vector(0, 0, 0);
    position_ = position;
    orientation_.normalize();
@@ -140,6 +144,10 @@ Hud& Ship::hud()
    return hud_;
 }
 
+int Ship::id()
+{
+   return id_;
+}
 //! @}
 
 /**
@@ -185,7 +193,7 @@ void Ship::simulateShipToShipCollisions()
          double range = (ship->position() - position_).magnitude();
          if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
          {
-            velocity_ = (velocity_ * 0.9) + (shipVelocity * 0.1);
+            velocity_ = (velocity_ * 0.5) + (shipVelocity * 0.5);
          }
       }
    }
@@ -204,7 +212,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
    if (distance <= deflectorRadius())
    {
       double deflectorDamage = (velocity_ - velocity).magnitude();
-      deflectorPower_ -= (deflectorDamage / 500.0);
+      deflectorPower_ -= (deflectorDamage / 800.0);
       return true;
    }
 
