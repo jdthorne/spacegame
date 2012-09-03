@@ -10,10 +10,24 @@
 BattleDev::BattleDev()
    : Simulation()
 {
-   for (int i = 0; i < 25; i++)
+   // Create swarmers
+   for (int i = 0; i < 15; i++)
    {
-      addShip(0);
-      addShip(1);
+      int team = 0;
+      Vector position = world_->randomVector(-175, 175);
+
+      Ship* ship = Ship::createSwarmer(*world_, position, team);
+      world_->addItem(ship);
+   }
+
+   // Create astronach
+   for (int i = 0; i < 15; i++)
+   {
+      int team = 1;
+      Vector position = world_->randomVector(-12, 12);
+
+      Ship* ship = Ship::createAstronach(*world_, position + Vector(0, 0, 0), team);
+      world_->addItem(ship);
    }
 }
 

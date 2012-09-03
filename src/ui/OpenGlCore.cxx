@@ -23,7 +23,6 @@ OpenGlCore::OpenGlCore(QWidget* parent)
    , frames_(FPS_SAMPLE_FRAMES)
    , xStart_(0)
    , yStart_(0)
-   , distance_(10)
 {
    setMouseTracking(true);
    time_.start();
@@ -156,7 +155,7 @@ void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
 
 void OpenGlCore::wheelEvent(QWheelEvent* event)
 {
-   distance_ -= (event->delta() * 0.025);
+   camera_->addZoom(event->delta() * 0.025);
 }
 
 void OpenGlCore::mousePressEvent(QMouseEvent* event)

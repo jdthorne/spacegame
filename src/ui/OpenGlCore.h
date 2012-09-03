@@ -56,7 +56,6 @@ private:
 
    double xStart_;
    double yStart_;
-   double distance_;
 };
 
 #endif

@@ -8,7 +8,6 @@ Weapon::Weapon(Ship& ship, const Vector position, const Quaternion orientation)
    : Module(ship, position, orientation)
    , cooldown_(0)
 {
-
 }
 
 void Weapon::simulate()

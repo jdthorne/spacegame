@@ -70,6 +70,78 @@ Ship* Ship::createSwarmer(World& world, const Vector position, int team)
    return ship;
 }
 
+Ship* Ship::createAstronach(World& world, const Vector position, int team)
+{
+   Ship* ship = new Ship(world, position, team);
+
+   // Rear engine pod
+   ship->modules_.append(new Structure(*ship, Vector(0, 0, 0), Quaternion::DEFAULT));
+
+   ship->modules_.append(new Engine(*ship, Vector(+1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(-1, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(0, +1, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(0, -1, 0), Quaternion::DEFAULT));
+
+   // Outer engines
+   ship->modules_.append(new Engine(*ship, Vector(-1, -1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(+1, -1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(-1, +1, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(+1, +1, 1), Quaternion::DEFAULT));
+
+   // Edge Engines
+   ship->modules_.append(new Engine(*ship, Vector(+2, 0, 1), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(-2, 0, 1), Quaternion::DEFAULT));   
+
+   // Main weapons array
+   ship->modules_.append(new Weapon(*ship, Vector(-1, +2, 1), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(+1, +2, 1), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(-1, -2, 1), Quaternion::DEFAULT));   
+   ship->modules_.append(new Weapon(*ship, Vector(+1, -2, 1), Quaternion::DEFAULT));   
+
+   ship->modules_.append(new Weapon(*ship, Vector(+2, +1, 1), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(-2, +1, 1), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(+2, -1, 1), Quaternion::DEFAULT));   
+   ship->modules_.append(new Weapon(*ship, Vector(-2, -1, 1), Quaternion::DEFAULT));   
+
+   ship->modules_.append(new Weapon(*ship, Vector(-3, 0, 1), Quaternion::Z_ROT_270));   
+   ship->modules_.append(new Weapon(*ship, Vector(+3, 0, 1), Quaternion::Z_ROT_090));   
+
+   // More structure
+   ship->core_ = new FlightComputer(*ship, Vector(0, 0, 2), Quaternion::DEFAULT);
+   ship->modules_.append(ship->core_);
+
+   ship->modules_.append(new Structure(*ship, Vector(+1, 0, 2), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(-1, 0, 2), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(0, +1, 2), Quaternion::DEFAULT));
+   ship->modules_.append(new Structure(*ship, Vector(0, -1, 2), Quaternion::DEFAULT));
+
+   ship->modules_.append(new Gyro(*ship, Vector(+1, 0, 2)));
+   ship->modules_.append(new Gyro(*ship, Vector(-1, 0, 2)));
+   ship->modules_.append(new Gyro(*ship, Vector(0, +1, 2)));
+   ship->modules_.append(new Gyro(*ship, Vector(0, -1, 2)));
+
+   ship->modules_.append(new Weapon(*ship, Vector(0, +2, 2), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(0, -2, 2), Quaternion::DEFAULT));   
+
+   // Forward engines
+   ship->modules_.append(new Engine(*ship, Vector(-1, -1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Engine(*ship, Vector(+1, -1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Engine(*ship, Vector(-1, +1, 3), Quaternion::SPIN_X));
+   ship->modules_.append(new Engine(*ship, Vector(+1, +1, 3), Quaternion::SPIN_X));
+
+   // Forward weapons pod
+   ship->modules_.append(new Structure(*ship, Vector(0, 0, 4), Quaternion::DEFAULT));
+
+   ship->modules_.append(new Weapon(*ship, Vector(0, +1, 4), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(0, -1, 4), Quaternion::DEFAULT));   
+   ship->modules_.append(new Weapon(*ship, Vector(+1, 0, 4), Quaternion::Z_ROT_090));   
+   ship->modules_.append(new Weapon(*ship, Vector(-1, 0, 4), Quaternion::Z_ROT_270));   
+
+
+   ship->normalizeModules();
+   return ship;
+}
+
 void Ship::normalizeModules()
 {
    Vector centerOfMass;
@@ -211,8 +283,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 {
    if (distance <= deflectorRadius())
    {
-      double deflectorDamage = (velocity_ - velocity).magnitude();
-      deflectorPower_ -= (deflectorDamage / 800.0);
+      deflectorPower_ -= (0.5 / mass_);
       return true;
    }
 

@@ -5,6 +5,7 @@
 #include <Camera.h>
 
 Camera::Camera()
+   : zoom_(1.0)
 {
    userOrientation_ = Quaternion(0, 0, 1, 0);
 }
@@ -15,7 +16,9 @@ Camera::~Camera()
 
 const Vector Camera::position() const
 {
-   return position_;
+   Vector offset = Vector(0, 0, -zoom_).rotate(orientation().inverse());
+
+   return position_ + offset;
 }
 
 const Quaternion Camera::orientation() const
@@ -33,3 +36,9 @@ void Camera::updateFocusItem(const Vector position, const Quaternion orientation
    position_ = position;
    baseOrientation_ = orientation;
 }
+
+void Camera::addZoom(double zoom)
+{
+   zoom_ += zoom;
+}
+

@@ -29,12 +29,15 @@ public:
    const Quaternion orientation() const;
 
    void addUserOrientation(const Quaternion orientation);
+   void addZoom(double zoom);
 
 private: // helpers
 
 private: // members
    Quaternion userOrientation_;
    Quaternion baseOrientation_;
+
+   double zoom_;
 
    Vector position_;
 };

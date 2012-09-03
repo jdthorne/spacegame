@@ -218,7 +218,8 @@ void RenderCore::drawShip(Ship& ship)
 
    foreach (Module* module, ship.modules())
    {
-      Color color = objectIs(module, FlightComputer) ? teamColor : Color(1, 1, 1, 1);
+      bool isColored = objectIs(module, FlightComputer) || objectIs(module, Structure);
+      Color color = isColored ? teamColor : Color(1, 1, 1, 1);
       glColorc(Color(0.2, 0.2, 0.2, 1.0) * color);
 
       glPushMatrix();
