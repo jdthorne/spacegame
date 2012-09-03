@@ -14,12 +14,14 @@ class Explosion : public WorldItem
 public:
    Explosion(World& world, double size, ObjectType explodingObjectType,
              const Vector position, const Quaternion orientation, 
-             const Vector velocity);
+             const Vector velocity, int team);
    virtual ~Explosion();
 
    double glow();
    double size();
    double expansion();
+
+   int team();
 
    virtual void simulateMovement();
    virtual void simulateCollisions();
@@ -41,6 +43,7 @@ private:
 
    QList<Vector> fragments_;
 
+   int team_;
    double size_;
 
    int ticks_;

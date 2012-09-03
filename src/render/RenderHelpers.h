@@ -17,6 +17,8 @@ namespace RenderHelpers
    void glNormalv(const Vector vertex);
    void glColorc(const Color color);
 
+   void glSphere(const Vector position, double scale);
+
    void glBillboard();
 }
 

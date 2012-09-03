@@ -41,11 +41,11 @@ void Bullet::simulateCollisions()
          Vector shipVelocity = ship->velocity();
          
          double range = (ship->position() - position_).magnitude();
-         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
+         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_, team_))
          {
             world_.addItem(new Explosion(world_, 0.125, NullType, 
                              position_, Quaternion(), 
-                             shipVelocity));
+                             shipVelocity, team_));
 
             world_.removeItem(this);
             return;

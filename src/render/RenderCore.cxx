@@ -137,7 +137,6 @@ void RenderCore::render(const World& world, const Camera& camera)
 
    drawStars();
    drawBasicMeshes();
-   drawBullets();
    drawEffects();
 }
 
@@ -180,42 +179,6 @@ void RenderCore::drawBasicMeshes()
    glDisable(GL_LIGHTING);
 }
 
-void RenderCore::drawBullets()
-{
-   glBegin(GL_LINES);
-
-   foreach(Bullet* bullet, world_->items().all<Bullet*>())
-   {
-      Vector start = bullet->position() + bullet->direction();
-      Vector end = bullet->position();
-
-      double alpha = bullet->life() / Bullet::MAX_LIFE;
-      if (bullet->team() == 0)
-      {
-         glColor4f(1.0, 0.75, 0.25, alpha);
-      }
-      else
-      {
-         glColor4f(0.25, 0.75, 1.0, alpha);
-      }
-
-      glVertexv(start);
-      glVertexv(end);
-   }
-
-   foreach(Ship* ship, world_->ships())
-   {
-
-      foreach (Vector v, ship->hud().vectors())
-      {
-         glVertexv(ship->position());
-         glVertexv(ship->position() + v);
-      }
-   }
-
-   glEnd();
-}
-
 void RenderCore::drawEffects()
 {
    glEnable(GL_BLEND);
@@ -223,6 +186,7 @@ void RenderCore::drawEffects()
    glDepthMask(GL_FALSE);
 
    drawExplosions();  
+   drawBullets();  
    drawEngineFlares();
 
    glDepthMask(GL_TRUE);
@@ -280,8 +244,6 @@ void RenderCore::drawShip(Ship& ship)
  */
 void RenderCore::drawExplosions()
 {   
-   glEnable(GL_BLEND);
-
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
    foreach(Explosion* explosion, world_->items().all<Explosion*>())
@@ -319,45 +281,44 @@ void RenderCore::drawExplosions()
    {
       double alpha = explosion->glow();
       double scale = explosion->size();
-      glColor4f(1.0, 0.75, 0.25, 0.4 * alpha);
 
+      glColorc(Color::glowForTeam(explosion->team(), 0.4 * alpha));
       foreach(Vector frag, explosion->fragments())
       {
          drawExplosionFragment(explosion, frag, scale);
       }
 
-      glColor4f(1.0, 0.75, 0.25, 0.2 * alpha);
+      glColorc(Color::glowForTeam(explosion->team(), 0.2 * alpha));
       drawExplosionFragment(explosion, Vector(0, 0, 0.01), scale * 15.0);
       drawExplosionFragment(explosion, Vector(0, 0, 0.01), scale * 30.0);
    }
 
-   glDisable(GL_BLEND);
    glDisable(GL_TEXTURE_2D);
 }
 
 void RenderCore::drawExplosionFragment(Explosion* explosion, const Vector frag, double scale)
 {
-   glPushMatrix();
-
    Vector position = frag + explosion->position();
-   glTranslatev(position);
-
-   glBillboard();
-
-   glScalef(scale, scale, scale);
-   glRotatef(0.5, frag.x, frag.y, frag.z);
-   glBegin(GL_QUADS);
-
-   glTexCoord2d(0.0, 0.0); glVertex2d(-1.0, -1.0);
-   glTexCoord2d(1.0, 0.0); glVertex2d(1.0, -1.0);
-   glTexCoord2d(1.0, 1.0); glVertex2d(1.0, 1.0);
-   glTexCoord2d(0.0, 1.0); glVertex2d(-1.0, 1.0);
-
-   glEnd();
-
-   glPopMatrix();
+   glSphere(position, scale);
 }
 
+void RenderCore::drawBullets()
+{
+   glEnable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, textures_[0]);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+   foreach(Bullet* bullet, world_->items().all<Bullet*>())
+   {
+      glColorc(Color::glowForTeam(bullet->team(), 0.1));
+      glSphere(bullet->position(), 2.0);
+
+      glColorc(Color::glowForTeam(bullet->team(), 1.0));
+      glSphere(bullet->position(), 0.2);
+   }
+
+   glDisable(GL_TEXTURE_2D);
+}
 
 void RenderCore::drawEngineFlares()
 {

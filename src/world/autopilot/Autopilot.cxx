@@ -27,8 +27,9 @@ Autopilot::~Autopilot()
 void Autopilot::run()
 {
    findTarget();
-   rotateToFaceTarget();
+   findTargetProjection();
 
+   rotateToFaceTarget();
    closeToWeaponsRange();
    fire();
 }
@@ -52,10 +53,13 @@ void Autopilot::findTarget()
          maxDistance = distance;
       }
    }
+}
 
+void Autopilot::findTargetProjection()
+{
    projectedTarget_ = target_;
 
-   double distance = target_.vector_.magnitude();
+   double distance = target_.vector_.z;
    double interceptSpeed = target_.velocity_.z;
    double interceptTime = distance / interceptSpeed;
 
@@ -72,6 +76,7 @@ void Autopilot::findTarget()
       projectedTarget_.vector_ = target_.vector_ + movementWhileIntercepting;
    }
 }
+
 
 void Autopilot::rotateToFaceTarget()
 {

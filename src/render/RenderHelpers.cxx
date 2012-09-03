@@ -52,3 +52,24 @@ void RenderHelpers::glColorc(const Color color)
    glColor4f(color.r, color.g, color.b, color.a);
 }
 
+void RenderHelpers::glSphere(const Vector position, double scale)
+{
+   glPushMatrix();
+
+   glTranslatev(position);
+
+   glBillboard();
+
+   glScalef(scale, scale, scale);
+   glBegin(GL_QUADS);
+
+   glTexCoord2d(0.0, 0.0); glVertex2d(-1.0, -1.0);
+   glTexCoord2d(1.0, 0.0); glVertex2d(1.0, -1.0);
+   glTexCoord2d(1.0, 1.0); glVertex2d(1.0, 1.0);
+   glTexCoord2d(0.0, 1.0); glVertex2d(-1.0, 1.0);
+
+   glEnd();
+   glPopMatrix();
+
+}
+

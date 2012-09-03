@@ -6,10 +6,11 @@
 
 Explosion::Explosion(World& world, double size, ObjectType explodingObjectType,
                      const Vector position, const Quaternion orientation, 
-                     const Vector velocity)
+                     const Vector velocity, int team)
    : world_(world)
    , position_(position)
    , velocity_(velocity)
+   , team_(team)
    , size_(size / 3.0)
    , ticks_(0)
    , lifetime_(30.0 + (sqrt(size) * 90.0))
@@ -90,5 +91,10 @@ double Explosion::expansion()
 ObjectType Explosion::explodingObjectType()
 {
    return explodingObjectType_;
+}
+
+int Explosion::team()
+{
+   return team_;
 }
 

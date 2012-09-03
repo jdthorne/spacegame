@@ -191,7 +191,7 @@ void Ship::simulateShipToShipCollisions()
          Vector shipVelocity = ship->velocity();
 
          double range = (ship->position() - position_).magnitude();
-         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
+         if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_, team_))
          {
             velocity_ = (velocity_ * 0.5) + (shipVelocity * 0.5);
          }
@@ -207,7 +207,7 @@ void Ship::simulateShipToShipCollisions()
  * @{
  ******************************************************************************
  */
-bool Ship::applyCollisionWith(double distance, const Vector position, const Vector velocity)
+bool Ship::applyCollisionWith(double distance, const Vector position, const Vector velocity, int team)
 {
    if (distance <= deflectorRadius())
    {
@@ -231,7 +231,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
             world_.addItem(new Explosion(world_, 10.0, NullType,
                                          module->absolutePosition(), 
                                          module->absoluteOrientation(), 
-                                         velocity_));
+                                         velocity_, team));
             world_.removeItem(this);
             return true;
          }
@@ -239,7 +239,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
          world_.addItem(new Explosion(world_, 3.0, typeOf(module),
                                       module->absolutePosition(), 
                                       module->absoluteOrientation(), 
-                                      velocity_));
+                                      velocity_, team));
          modules_.removeAll(module);
          delete module;
          return true;

@@ -52,7 +52,7 @@ public:
    void explodeModule(Module* module);
 
    double deflectorRadius();
-   bool applyCollisionWith(double distance, const Vector position, const Vector velocity);
+   bool applyCollisionWith(double distance, const Vector position, const Vector velocity, int team);
 
    Hud& hud();
 

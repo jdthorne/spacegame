@@ -14,6 +14,7 @@ public:
 
 private:
    void findTarget();
+   void findTargetProjection();
    void rotateToFaceTarget();
    void closeToWeaponsRange();
    void fire();

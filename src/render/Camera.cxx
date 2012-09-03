@@ -6,7 +6,7 @@
 
 Camera::Camera()
 {
-
+   userOrientation_ = Quaternion(0, 0, 1, 0);
 }
 
 Camera::~Camera()
