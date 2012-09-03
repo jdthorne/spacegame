@@ -16,6 +16,7 @@ public:
    virtual ~Module() {};
 
    const Vector position();
+   const Quaternion orientation();
    void setPosition(const Vector newPosition);
 
    Vector absolutePosition();

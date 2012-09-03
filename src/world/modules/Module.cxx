@@ -40,3 +40,9 @@ double Module::mass()
 {
    return 10.0;
 }
+
+const Quaternion Module::orientation()
+{
+   return orientation_;
+}
+

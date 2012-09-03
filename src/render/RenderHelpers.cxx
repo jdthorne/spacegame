@@ -47,3 +47,8 @@ void RenderHelpers::glBillboard()
    glLoadMatrixf(modelView);
 }
 
+void RenderHelpers::glColorc(const Color color)
+{
+   glColor4f(color.r, color.g, color.b, color.a);
+}
+

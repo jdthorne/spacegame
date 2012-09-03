@@ -22,10 +22,9 @@ void World::removeItem(WorldItem* item)
 
 void World::simulate()
 {
-   foreach (WorldItem* item, all_)
-   {
-      item->simulate();
-   }
+   foreach (WorldItem* item, all_)      item->simulateMovement();
+   foreach (WorldItem* item, all_)      item->simulateCollisions();
+   foreach (WorldItem* item, all_)      item->simulateLogic();
 
    foreach (WorldItem* item, toRemove_)
    {

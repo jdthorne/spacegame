@@ -34,9 +34,12 @@ public:
    int team();
    World& world();
 
-   virtual void simulate();
+   virtual void simulateMovement();
+   virtual void simulateCollisions();
+   virtual void simulateLogic();
+
    void simulateModules();
-   void simulateCollisions();
+   void simulateShipToShipCollisions();
 
    void normalizeModules();
    void lockToTestBench();

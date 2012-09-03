@@ -56,9 +56,14 @@ Vector Quaternion::axis() const
    return axis;
 }
 
+double Quaternion::magnitude()
+{
+   return sqrt(w*w + x*x + y*y + z*z);
+}
+
 void Quaternion::normalize()
 {
-   double scale = sqrt(w*w + x*x + y*y + z*z);
+   double scale = magnitude();
    w /= scale;
    x /= scale;
    y /= scale;

@@ -81,24 +81,6 @@ void Mesh::loadFileIntoFaces(QString name, QVector<Vector>* list)
    file.close();
 }
 
-void Mesh::render(const Vector position, const Quaternion rotation, double scale, bool shitty, Color colorModifier)
-{
-   glPushMatrix();
-
-   glTranslatev(position);
-   glRotateq(rotation);
-   glScalef(scale, scale, scale);
-
-   glColor4f(color_.r * colorModifier.r, 
-             color_.g * colorModifier.g, 
-             color_.b * colorModifier.b, 
-             color_.a * colorModifier.a);
-
-   renderRawVerts(shitty);
-
-   glPopMatrix();
-}
-
 void Mesh::renderRawVerts(bool shitty)
 {
    glBegin(GL_TRIANGLES);

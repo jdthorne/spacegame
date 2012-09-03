@@ -189,7 +189,7 @@ void RenderCore::drawBullets()
 
    foreach(Bullet* bullet, world_->items().all<Bullet*>())
    {
-      Vector start = bullet->position() - bullet->velocity();
+      Vector start = bullet->position() + bullet->direction();
       Vector end = bullet->position();
 
       double alpha = bullet->life() / Bullet::MAX_LIFE;
@@ -223,10 +223,12 @@ void RenderCore::drawEffects()
 {
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+   glDepthMask(GL_FALSE);
 
    drawExplosions();  
    drawEngineFlares();
 
+   glDepthMask(GL_TRUE);
    glDisable(GL_BLEND);
 }
 
@@ -249,14 +251,25 @@ void RenderCore::drawShip(Ship& ship)
 
    Color teamColor = (ship.team() == 0 ? teamRed : teamBlue);
 
+   glPushMatrix();
+   glTranslatev(ship.position());
+   glRotateq(ship.orientation());
+
    foreach (Module* module, ship.modules())
    {
-      Mesh& mesh = meshForType(typeOf(module));
-
       Color color = objectIs(module, FlightComputer) ? teamColor : Color(1, 1, 1, 1);
+      glColorc(Color(0.2, 0.2, 0.2, 1.0) * color);
 
-      mesh.render(module->absolutePosition(), module->absoluteOrientation(), 1.0, shitty, color);
+      glPushMatrix();
+      glTranslatev(module->position());
+      glRotateq(module->orientation());
+
+      meshForType(typeOf(module)).renderRawVerts(shitty);
+
+      glPopMatrix();
    }
+
+   glPopMatrix();
 }
 
 //! @}
@@ -272,9 +285,6 @@ void RenderCore::drawExplosions()
 {   
    glEnable(GL_BLEND);
 
-   glDisable(GL_COLOR_MATERIAL);
-
-   glDepthMask(GL_FALSE);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
    foreach(Explosion* explosion, world_->items().all<Explosion*>())
@@ -326,7 +336,6 @@ void RenderCore::drawExplosions()
 
    glDisable(GL_BLEND);
    glDisable(GL_TEXTURE_2D);
-   glDepthMask(GL_TRUE);
 }
 
 void RenderCore::drawExplosionFragment(Explosion* explosion, const Vector frag, double scale)
@@ -355,16 +364,20 @@ void RenderCore::drawExplosionFragment(Explosion* explosion, const Vector frag, 
 
 void RenderCore::drawEngineFlares()
 {
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
    foreach(Ship* ship, world_->ships())
    {
       foreach(Engine* engine, ship->modules().all<Engine*>())
       {
-         if (engine->power() > 0.1)
-         {
-            Mesh::THRUST.render(engine->absolutePosition(), engine->absoluteOrientation(), 1.0, shittyRange(engine->absolutePosition()));
-         }
+         Color color = Color(0.25, 0.75, 1.0, engine->glow());
+         Q_UNUSED(color);
+         //Mesh::THRUST.render(engine->absolutePosition(), engine->absoluteOrientation(), 1.0, shittyRange(engine->absolutePosition()), color);
       }
    }
+
+   glDisable(GL_BLEND);
 }
 
 //! @}

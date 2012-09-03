@@ -5,6 +5,7 @@
 #include <QString>
 
 // Spacegame
+#include <Color.h>
 #include <Quaternion.h>
 #include <Vector.h>
 
@@ -14,6 +15,7 @@ namespace RenderHelpers
    void glTranslatev(const Vector vertex);
    void glVertexv(const Vector vertex);
    void glNormalv(const Vector vertex);
+   void glColorc(const Color color);
 
    void glBillboard();
 }

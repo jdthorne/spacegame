@@ -27,6 +27,7 @@ private: // members
    ShipControl& ship_;
 
    SensorResult target_;
+   SensorResult projectedTarget_;
 };
 
 #endif

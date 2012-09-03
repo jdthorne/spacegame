@@ -11,7 +11,8 @@ Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector v
    : world_(world)
    , source_(source)
    , position_(position)
-   , velocity_(velocity.normalized() * SPEED)
+   , velocity_(velocity)
+   , direction_(velocity.normalized())
    , life_(MAX_LIFE)
    , team_(team)
 {
@@ -26,17 +27,13 @@ int Bullet::life()
    return life_;
 }
 
-void Bullet::simulate()
+void Bullet::simulateMovement()
 {
    position_ += velocity_;
+}
 
-   life_ -= 1;
-   if (life_ <= 0)
-   {  
-      world_.removeItem(this);
-      return;
-   }
-
+void Bullet::simulateCollisions()
+{
    foreach(Ship* ship, world_.ships())
    {
       if (ship != source_ && ship->team() != team_)
@@ -54,6 +51,16 @@ void Bullet::simulate()
             return;
          }
       }
+   }
+}
+
+void Bullet::simulateLogic()
+{
+   life_ -= 1;
+   if (life_ <= 0)
+   {  
+      world_.removeItem(this);
+      return;
    }
 }
 
@@ -77,3 +84,9 @@ int Bullet::team()
 {
    return team_;
 }
+
+const Vector Bullet::direction()
+{
+   return direction_;
+}
+

@@ -12,13 +12,17 @@ public:
    Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team);
    virtual ~Bullet();
 
-   virtual void simulate();
+   virtual void simulateMovement();
+   virtual void simulateCollisions();
+   virtual void simulateLogic();
 
    int life();
    int team();
    virtual const Vector position();
    virtual const Vector velocity();
    virtual const Quaternion orientation();
+
+   const Vector direction();
 
 public: // constants
    static const int MAX_LIFE;
@@ -31,6 +35,7 @@ private:
 
    Vector position_;
    Vector velocity_;
+   Vector direction_;
 
    int life_;
    int team_;

@@ -20,7 +20,10 @@ public:
    double glow();
    double size();
    double expansion();
-   virtual void simulate();
+
+   virtual void simulateMovement();
+   virtual void simulateCollisions();
+   virtual void simulateLogic();
 
    virtual const Vector position();
    virtual const Quaternion orientation();

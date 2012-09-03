@@ -83,7 +83,7 @@ void OpenGlCore::paintGL()
 
       Quaternion xQuat = Quaternion(M_PI * 4 * xRotation_, Vector(0, 1, 0));
       Quaternion yQuat = Quaternion(M_PI * yRotation_, Vector(1, 0, 0));
-      Quaternion userOrientation = xQuat * yQuat;
+      Quaternion userOrientation = simulation_->world().focusItem().orientation() * xQuat * yQuat;
 
       Vector cameraDistance = Vector(0, 0, distance_);
       Vector cameraOffset = cameraDistance.rotate(userOrientation);

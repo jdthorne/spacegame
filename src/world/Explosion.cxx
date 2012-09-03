@@ -27,14 +27,22 @@ Explosion::~Explosion()
 {
 }
 
-void Explosion::simulate()
+void Explosion::simulateMovement()
 {
    position_ += velocity_;
    for (int i = 0; i < fragments_.count(); i++)
    {
       fragments_[i] = fragments_[i] * 1.001;
    }  
+}
 
+void Explosion::simulateCollisions()
+{
+   // No collisions
+}
+
+void Explosion::simulateLogic()
+{
    ticks_++;
 
    if (ticks_ > lifetime_)

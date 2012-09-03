@@ -28,8 +28,6 @@ public: // These are the meshes you want
    static Mesh& THRUST;
 
 public:
-   void render(const Vector position, const Quaternion rotation, double scale, 
-               bool shitty, Color colorModifier = Color(1, 1, 1, 1));
    void renderRawVerts(bool shitty);
 
    void renderExplodingVerts(double distance);

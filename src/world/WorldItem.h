@@ -12,7 +12,9 @@ public:
    virtual ~WorldItem();
 
 public:
-   virtual void simulate() = 0;
+   virtual void simulateMovement() = 0;
+   virtual void simulateCollisions() = 0;
+   virtual void simulateLogic() = 0;
 
    virtual const Vector position() = 0;
    virtual const Quaternion orientation() = 0;

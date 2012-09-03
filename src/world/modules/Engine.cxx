@@ -17,6 +17,8 @@ void Engine::simulate()
    Vector thrust(0, 0, MAXIMUM_THRUST * power_);
 
    ship_.applyLocalForce(thrust.rotate(orientation_), position_);
+
+   glow_ = (0.99 * glow_) + (0.01 * power_);
 }
 
 void Engine::setPower(double power)
@@ -32,4 +34,9 @@ const Vector Engine::thrust()
 double Engine::power()
 {
    return power_;
+}
+
+double Engine::glow()
+{
+   return glow_;
 }

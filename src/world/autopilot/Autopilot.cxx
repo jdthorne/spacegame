@@ -1,6 +1,7 @@
 #include <QtGlobal>
 
 #include <Autopilot.h>
+#include <Bullet.h>
 #include <cmath>
 
 bool isFirst = true;
@@ -51,12 +52,31 @@ void Autopilot::findTarget()
          maxDistance = distance;
       }
    }
+
+   projectedTarget_ = target_;
+
+   double distance = target_.vector_.magnitude();
+   double interceptSpeed = target_.velocity_.z;
+   double interceptTime = distance / interceptSpeed;
+
+   if (interceptSpeed > 0.0 && distance > 0)
+   {
+      if (interceptTime > Bullet::MAX_LIFE)
+      {
+         interceptTime = Bullet::MAX_LIFE;
+      }
+
+      Vector movementWhileIntercepting = target_.velocity_ * interceptTime;
+
+      projectedTarget_ = target_;
+      projectedTarget_.vector_ = target_.vector_ + movementWhileIntercepting;
+   }
 }
 
 void Autopilot::rotateToFaceTarget()
 {
    Vector forward = Vector(0, 0, 1);
-   Vector toTarget = target_.vector_.normalized();
+   Vector toTarget = projectedTarget_.vector_.normalized();
 
    Vector targetRotationAxis = forward.cross(toTarget);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
@@ -80,6 +100,12 @@ void Autopilot::rotateToFaceTarget()
 
 void Autopilot::closeToWeaponsRange()
 {
+   Quaternion remainingTurn = Vector(0, 0, 1).rotationTo(target_.vector_.normalized());
+   if (remainingTurn.angle() > 0.2)
+   {
+      ship_.setEnginePowerLevel(Vector(0, 0, 0));
+   }
+
    Vector goal = target_.vector_ - Vector(0, 0, 25);
 
    double idealSpeed = goal.z;
@@ -93,12 +119,8 @@ void Autopilot::closeToWeaponsRange()
    {
       idealSpeed = 0;
    }
-   if (log_) qDebug("%f / %f ==> %f", accelerationRequiredToStop, maxAcceleration, idealSpeed);
 
-   if (idealSpeed > 5)
-   {
-      idealSpeed = 5;
-   }
+   idealSpeed = qBound(-0.5, idealSpeed, 0.5);
 
    double speedError = idealSpeed + target_.velocity_.z;
    double thrustError = speedError * ship_.mass();
@@ -108,9 +130,9 @@ void Autopilot::closeToWeaponsRange()
 
 void Autopilot::fire()
 {
-   Quaternion remainingTurn = Vector(0, 0, 1).rotationTo(target_.vector_.normalized());
+   Quaternion remainingTurn = Vector(0, 0, 1).rotationTo(projectedTarget_.vector_.normalized());
 
-   if (remainingTurn.angle() < 0.2)
+   if (remainingTurn.angle() < 0.2 && projectedTarget_.vector_.magnitude() < Bullet::RANGE)
    {
       ship_.fireWeapons();
    }

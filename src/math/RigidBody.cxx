@@ -3,6 +3,7 @@
 
 // Spacegame
 #include <RigidBody.h>
+#include <cmath>
 
 RigidBody::RigidBody()
    : position_()

@@ -23,8 +23,8 @@ Ship::Ship(World& world, const Vector position, int team)
    , team_(team)
    , deflectorPower_(1.0)
 {
+   velocity_ = Vector(0, 0, 0);
    position_ = position;
-   velocity_ = position * -0.002;
    orientation_.normalize();
 }
 
@@ -149,14 +149,23 @@ Hud& Ship::hud()
  * @{
  ******************************************************************************
  */
-void Ship::simulate()
+void Ship::simulateMovement()
+{
+   simulatePhysics();
+   simulateModules();
+}
+
+void Ship::simulateCollisions()
+{
+   simulateShipToShipCollisions();
+}
+
+void Ship::simulateLogic()
 {
    hud_.clear();
    autopilot_->run();
-   simulatePhysics();
-   simulateModules();
-   simulateCollisions();
 }
+
 void Ship::simulateModules()
 {
    foreach (Module* m, modules_)
@@ -165,16 +174,18 @@ void Ship::simulateModules()
    }
 }
 
-void Ship::simulateCollisions()
+void Ship::simulateShipToShipCollisions()
 {
    foreach(Ship* ship, world_.ships())
    {
       if (ship != this)
       {
+         Vector shipVelocity = ship->velocity();
+
          double range = (ship->position() - position_).magnitude();
          if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_))
          {
-            return;
+            velocity_ = (velocity_ * 0.9) + (shipVelocity * 0.1);
          }
       }
    }
@@ -199,7 +210,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 
 
    Vector localPosition = (position - position_).rotate(orientation_.inverse());
-   double collisionRadius = 1.0 + (velocity.magnitude() * 1.5);
+   double collisionRadius = 1.0 + ((velocity_ - velocity).magnitude() * 1.5);
 
    foreach (Module* module, modules_)
    {
@@ -238,11 +249,10 @@ double Ship::deflectorRadius()
 void Ship::lockToTestBench()
 {
    deflectorPower_ = 0.0;
-   return;
 
-   position_ = Vector(0, 0, 0);
+   //position_ = Vector(0, 0, 0);
    velocity_ = Vector(0, 0, 0);
-   orientation_ = Quaternion();
+   //orientation_ = Quaternion();
    angularMomentum_ = Vector(0, 0, 0);
 }
 

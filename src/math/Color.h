@@ -8,4 +8,6 @@ struct Color
    double r, g, b, a;
 };
 
+Color operator*(const Color lhs, const Color rhs);
+
 #endif

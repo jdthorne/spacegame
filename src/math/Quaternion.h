@@ -24,6 +24,7 @@ public:
 
 public: // operations
    void normalize();
+   double magnitude();
 
    Quaternion operator += (const Quaternion rhs);
 
