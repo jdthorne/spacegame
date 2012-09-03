@@ -44,7 +44,11 @@ public: // Debug
 
    // Physics
    const Vector angularVelocity();
+   const Vector angularMomentum();
+   const Vector inertialTensor();
    void setGyroPowerLevel(Vector power);
+
+   double maximumTorque();
 
    // Sensors
    QList<SensorResult> scan();

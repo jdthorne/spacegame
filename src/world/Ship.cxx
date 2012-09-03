@@ -24,6 +24,7 @@ Ship::Ship(World& world, const Vector position, int team)
    , deflectorPower_(1.0)
 {
    position_ = position;
+   velocity_ = position * -0.002;
    orientation_.normalize();
 }
 

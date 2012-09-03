@@ -17,6 +17,8 @@ public:
 
    void setPower(const Vector power);
 
+   static const double MAXIMUM_TORQUE;
+
 private:
    void applyTorqueAlongXAxis(double power);
    void applyTorqueAlongYAxis(double power);

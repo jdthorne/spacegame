@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <Helpers.h>
 #include <Ship.h>
+#include <ObjectType.h>
 
 World::World()
 {  
@@ -30,7 +31,7 @@ void World::simulate()
    {
       toRemove_.removeAll(item);
       all_.removeAll(item);
-      delete item;
+      //delete item;
    }
 }
 

@@ -3,9 +3,13 @@
 #include <Autopilot.h>
 #include <cmath>
 
+bool isFirst = true;
+
 Autopilot::Autopilot(ShipControl& ship)
    : ship_(ship)
 {
+   log_ = isFirst;
+   isFirst = false;
 }
 
 Autopilot::~Autopilot()
@@ -56,11 +60,21 @@ void Autopilot::rotateToFaceTarget()
    Vector targetRotationAxis = forward.cross(toTarget);
    double targetRotationAngle = asin(targetRotationAxis.magnitude());
 
-   Vector targetAngularVelocity = (targetRotationAxis.normalized() * targetRotationAngle) * -1;
+   Vector targetAngularVelocity = targetRotationAxis.normalized() * -targetRotationAngle;
+
+   double speed = ship_.angularVelocity().magnitude();
+   double distance = (targetAngularVelocity - ship_.angularVelocity()).magnitude();
+   double accelerationRequiredToStop = -(speed*speed) / (2*distance);
+
+   double maxAcceleration = ship_.maximumTorque() / ship_.inertialTensor().magnitude();
+   if (fabs(accelerationRequiredToStop) > maxAcceleration * 0.9)
+   {
+      targetAngularVelocity = Vector(0, 0, 0);
+   }
 
    Vector angularVelocityError = (targetAngularVelocity - ship_.angularVelocity());
 
-   ship_.setGyroPowerLevel(angularVelocityError);
+   ship_.setGyroPowerLevel(angularVelocityError.normalized());
 }
 
 void Autopilot::fireWeaponsIfReady()

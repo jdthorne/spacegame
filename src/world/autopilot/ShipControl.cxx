@@ -39,7 +39,17 @@ void ShipControl::displayOnHud(const Vector vector)
  */
 const Vector ShipControl::angularVelocity()
 {
-   return ship_.angularVelocity().rotate(ship_.orientation());
+   return ship_.angularVelocity().rotate(ship_.orientation().inverse());
+}
+
+const Vector ShipControl::angularMomentum()
+{
+   return ship_.angularMomentum_.rotate(ship_.orientation().inverse());
+}
+
+const Vector ShipControl::inertialTensor()
+{
+   return ship_.inertialTensor_;
 }
 
 void ShipControl::setGyroPowerLevel(Vector power)
@@ -48,6 +58,13 @@ void ShipControl::setGyroPowerLevel(Vector power)
    {
       gyro->setPower(power);
    }
+}
+
+double ShipControl::maximumTorque()
+{
+   double result = Gyro::MAXIMUM_TORQUE * (ship_.modules().all<Gyro*>()).count();
+
+   return result;
 }
 
 //! @}

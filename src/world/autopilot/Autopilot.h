@@ -22,10 +22,10 @@ private:
    double powerForSmoothApproach(double distance, double speed, double maxAcceleration);
 
 private: // members
+   bool log_;
    ShipControl& ship_;
 
    SensorResult target_;
-
 };
 
 #endif

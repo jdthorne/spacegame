@@ -64,6 +64,8 @@ private:
    RacistList<Module*> modules_;
 
    Hud hud_;
+
+   friend class ShipControl;
 };
 
 #endif
