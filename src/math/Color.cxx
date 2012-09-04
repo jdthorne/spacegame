@@ -29,8 +29,9 @@ Color Color::forTeam(int teamId)
 {
    switch (teamId)
    {
-      case 0: return Color(1.0, 0.75, 0.25, 1.0);
+      case 0: return Color(1.0, 0.4, 0.2, 1.0);
       case 1: return Color(0.25, 0.75, 1.0, 1.0);
+      case 2: return Color(0.25, 1.0, 0.25, 1.0);
    }
 
    return Color(0.2, 0.2, 0.2, 1.0);

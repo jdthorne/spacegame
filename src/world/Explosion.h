@@ -30,8 +30,6 @@ public:
    virtual const Vector position();
    virtual const Quaternion orientation();
 
-   QList<Vector> fragments();
-
    ObjectType explodingObjectType();
 
 private:

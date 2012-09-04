@@ -59,8 +59,8 @@ void Autopilot::findTargetProjection()
 {
    projectedTarget_ = target_;
 
-   double distance = target_.vector_.z;
-   double interceptSpeed = target_.velocity_.z;
+   double distance = target_.vector_.magnitude();
+   double interceptSpeed = Bullet::SPEED - target_.velocity_.z;
    double interceptTime = distance / interceptSpeed;
 
    if (interceptSpeed > 0.0 && distance > 1)

@@ -2,7 +2,7 @@
 #include <Engine.h>
 #include <Ship.h>
 
-const double Engine::MAXIMUM_THRUST = 0.05;
+const double Engine::MAXIMUM_THRUST = 0.1;
 
 Engine::Engine(Ship& ship, const Vector position, const Quaternion orientation)
    : Module(ship, position, orientation)
@@ -18,7 +18,7 @@ void Engine::simulate()
 
    ship_.applyLocalForce(thrust.rotate(orientation_), position_);
 
-   glow_ = (0.99 * glow_) + (0.01 * power_);
+   glow_ = (0.5 * glow_) + (0.5 * power_);
 }
 
 void Engine::setPower(double power)

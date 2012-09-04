@@ -33,8 +33,8 @@ void Camera::addUserOrientation(const Quaternion orientation)
 
 void Camera::updateFocusItem(const Vector position, const Quaternion orientation)
 {
-   position_ = position;
-   baseOrientation_ = orientation;
+   position_ = position; // Vector::interpolate(position_, position, 0.75);
+   baseOrientation_ = Quaternion::slerp(baseOrientation_, orientation, 0.95);
 }
 
 void Camera::addZoom(double zoom)

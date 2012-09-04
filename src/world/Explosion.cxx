@@ -10,18 +10,13 @@ Explosion::Explosion(World& world, double size, ObjectType explodingObjectType,
    : world_(world)
    , position_(position)
    , velocity_(velocity)
+   , orientation_(orientation)
    , team_(team)
    , size_(size / 3.0)
    , ticks_(0)
    , lifetime_(30.0 + (sqrt(size) * 90.0))
    , explodingObjectType_(explodingObjectType)
 {
-   int fragments = qBound(0.0, (size * 5.0), 10.0);
-
-   for (int i = 0; i < fragments; i++)
-   {
-      fragments_.append(world_.randomVector(-size / 2, size / 2));
-   }
 }
 
 Explosion::~Explosion()
@@ -33,7 +28,7 @@ void Explosion::simulateMovement()
    position_ += velocity_;
    for (int i = 0; i < fragments_.count(); i++)
    {
-      fragments_[i] = fragments_[i] * 1.001;
+      fragments_[i] = fragments_[i] * 1.02;
    }  
 }
 
@@ -51,11 +46,6 @@ void Explosion::simulateLogic()
       world_.removeItem(this);
       return;
    }
-}
-
-QList<Vector> Explosion::fragments()
-{
-   return fragments_;
 }
 
 double Explosion::size()

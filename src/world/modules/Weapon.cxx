@@ -7,6 +7,7 @@
 Weapon::Weapon(Ship& ship, const Vector position, const Quaternion orientation)
    : Module(ship, position, orientation)
    , cooldown_(0)
+   , cooldownStart_(1)
 {
 }
 
@@ -25,17 +26,31 @@ void Weapon::fire()
       return;
    }
 
-   Vector fireChamber = Vector(0, 0.3, 0);
-   Vector startPoint = absolutePositionOf(fireChamber);
+   Vector startPoint = newBulletPosition();
 
    double inaccuracy = 0.03;
    Vector initialVelocity = Vector(0, 0, Bullet::SPEED).rotate(absoluteOrientation());
    Vector randomVelocity = ship_.world().randomVector(-inaccuracy, inaccuracy);
 
-   Vector velocity = initialVelocity + randomVelocity + ship_.velocity();
+   Vector direction = initialVelocity + randomVelocity;
 
-   Bullet* bullet = new Bullet(ship_.world(), &ship_, startPoint, velocity, ship_.team());
+   Bullet* bullet = new Bullet(ship_.world(), &ship_, startPoint, ship_.velocity(), direction.normalized(), ship_.team());
    ship_.world().addItem(bullet);
 
-   cooldown_ = ship_.world().randomValue(35, 60);
+   cooldownStart_ = ship_.world().randomValue(35, 60);
+   cooldown_ = cooldownStart_;
 }
+
+double Weapon::cooldownRemaining()
+{
+   return ((double)cooldown_ / cooldownStart_);
+}
+
+Vector Weapon::newBulletPosition()
+{
+   Vector fireChamber = Vector(0, 0.3, -0.5);
+   Vector startPoint = absolutePositionOf(fireChamber);
+
+   return startPoint;
+}
+

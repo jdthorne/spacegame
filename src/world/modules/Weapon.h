@@ -14,11 +14,15 @@ public:
    Weapon(Ship& ship, const Vector position, const Quaternion orientation);
    virtual ~Weapon() {};
 
+   double cooldownRemaining();
    void fire();
    virtual void simulate();
 
+   Vector newBulletPosition();
+
 private:
    int cooldown_;
+   int cooldownStart_;
 
 };
 

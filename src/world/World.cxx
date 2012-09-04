@@ -7,6 +7,7 @@
 #include <ObjectType.h>
 
 World::World()
+   : focusItem_(NULL)
 {  
 }
 
@@ -15,9 +16,25 @@ void World::addItem(WorldItem* item)
    all_.append(item);
 }
 
+void World::replaceItem(WorldItem* item, WorldItem* withItem)
+{
+   if (focusItem_ == item)
+   {
+      focusItem_ = withItem;
+   }
+
+   removeItem(item);
+   addItem(withItem);
+}
+
 void World::removeItem(WorldItem* item)
 {
    toRemove_.append(item);
+
+   if (focusItem_ == item)
+   {
+      focusItem_ = NULL;
+   }
 }
 
 void World::simulate()
@@ -34,6 +51,11 @@ void World::simulate()
    }
 }
 
+void World::setSeed(int seed)
+{
+   srand(seed);
+}
+
 double World::randomValue(double min, double max)
 {
    return min + ( (double)rand() / RAND_MAX ) * (max - min);
@@ -48,7 +70,12 @@ const Vector World::randomVector(double min, double max)
 
 WorldItem& World::focusItem() const
 {
-   return *(ships()[0]);
+   if (focusItem_ == NULL)
+   {  
+      focusItem_ = ships()[0];
+   }
+
+   return *focusItem_;
 }
 
 QList<Ship*> World::ships() const

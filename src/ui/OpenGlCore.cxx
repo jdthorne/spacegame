@@ -52,7 +52,7 @@ void OpenGlCore::resizeGL(int w, int h)
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
 
-   gluPerspective(90.0f, (GLfloat)w/(GLfloat)h, 0.1f, 5000.0f);
+   gluPerspective(55.0f, (GLfloat)w/(GLfloat)h, 0.1f, 5000.0f);
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
@@ -71,38 +71,8 @@ void OpenGlCore::paintGL()
    {
       WorldItem* focusItem = &simulation_->world().focusItem();
 
-      Vector offset = Vector(0, 2, 0).rotate(focusItem->orientation());
-      camera_->updateFocusItem(focusItem->position() + offset, focusItem->orientation().inverse());
+      camera_->updateFocusItem(focusItem->position(), focusItem->orientation().inverse());
    }
-
-   /*
-   if (simulation_->world().hasRemainingShips())
-   {
-      Vector center;
-      foreach(Ship* ship, simulation_->world().ships())
-      {
-         center += ship->position();
-      }
-      center = center * (1.0/simulation_->world().ships().count());
-
-      //Vector focusPoint = simulation_->world().focusItem().position();
-      Vector focusPoint = center;
-
-      distance_ = qBound(1.0, distance_, 500.0);
-
-      //userOrientation = simulation_->world().focusItem().orientation() * Quaternion(0, 1, 0, 0);
-
-      Vector cameraDistance = Vector(0, 0, distance_);
-      Vector cameraOffset = cameraDistance.rotate(cameraOrientation_);
-
-      cameraPosition_ = focusPoint + cameraOffset;
-
-      //Vector cameraFocusPoint = focusPoint;
-
-      //Vector positionToFocus = (cameraPosition_ - cameraFocusPoint).normalized();
-      //cameraOrientation_ = Vector(0, 0, 1).rotationTo(positionToFocus);
-   }
-   */
 
    renderCore_->render(simulation_->world(), *camera_);
 }

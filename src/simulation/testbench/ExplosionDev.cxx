@@ -11,7 +11,7 @@ ExplosionDev::ExplosionDev()
    : Simulation()
    , laserCharge_(0)
 {
-   Ship* ship = Ship::createSwarmer(*world_, Vector(0, 0, 0), 0);
+   Ship* ship = Ship::createSwarmer(*world_, Vector(0, 0, 0), Vector(0, 0, 0), 0);
 
    world_->addItem(ship);
 }
@@ -24,7 +24,7 @@ void ExplosionDev::runSimulationSpecifics()
 {
    if (!world_->hasRemainingShips())
    {
-      Ship* newShip = Ship::createSwarmer(*world_, Vector(0, 0, 0), 0);
+      Ship* newShip = Ship::createSwarmer(*world_, Vector(0, 0, 0), Vector(0, 0, 0), 0);
       world_->addItem(newShip);
       return;
    }
@@ -48,7 +48,7 @@ void ExplosionDev::triggerEvent()
    }
 
    Vector randomness = world_->randomVector(-0.02, 0.02);
-   Bullet* bullet = new Bullet(*world_, NULL, Vector(0, 40, 40), Vector(0, -1, -1) + randomness, 1);
+   Bullet* bullet = new Bullet(*world_, NULL, Vector(0, 40, 40), Vector(0, 0, 0), Vector(0, -1, -1) + randomness, 1);
 
    world_->addItem(bullet);
    laserCharge_ = 40;

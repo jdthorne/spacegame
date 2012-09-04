@@ -187,7 +187,8 @@ void RenderCore::drawEffects()
 
    drawExplosions();  
    drawBullets();  
-   drawEngineFlares();
+   drawFlareMeshes();
+   drawFlareGlows();
 
    glDepthMask(GL_TRUE);
    glDisable(GL_BLEND);
@@ -207,10 +208,7 @@ void RenderCore::drawShip(Ship& ship)
    double distance = (camera_->position() - ship.position()).magnitude();
    bool shitty = (distance > 15);
  
-   Color teamRed = Color(1.0, 0.0, 0.0, 1.0);
-   Color teamBlue = Color(0.0, 0.0, 1.0, 1.0);
-
-   Color teamColor = (ship.team() == 0 ? teamRed : teamBlue);
+   Color teamColor = Color::forTeam(ship.team());
 
    glPushMatrix();
    glTranslatev(ship.position());
@@ -219,8 +217,8 @@ void RenderCore::drawShip(Ship& ship)
    foreach (Module* module, ship.modules())
    {
       bool isColored = objectIs(module, FlightComputer) || objectIs(module, Structure);
-      Color color = isColored ? teamColor : Color(1, 1, 1, 1);
-      glColorc(Color(0.2, 0.2, 0.2, 1.0) * color);
+      Color color = isColored ? teamColor : Color(0.2, 0.2, 0.2, 1);
+      glColorc(color);
 
       glPushMatrix();
       glTranslatev(module->position());
@@ -283,12 +281,6 @@ void RenderCore::drawExplosions()
       double alpha = explosion->glow();
       double scale = explosion->size();
 
-      glColorc(Color::glowForTeam(explosion->team(), 0.4 * alpha));
-      foreach(Vector frag, explosion->fragments())
-      {
-         drawExplosionFragment(explosion, frag, scale);
-      }
-
       glColorc(Color::glowForTeam(explosion->team(), 0.2 * alpha));
       drawExplosionFragment(explosion, Vector(0, 0, 0.01), scale * 15.0);
       drawExplosionFragment(explosion, Vector(0, 0, 0.01), scale * 30.0);
@@ -311,32 +303,83 @@ void RenderCore::drawBullets()
 
    foreach(Bullet* bullet, world_->items().all<Bullet*>())
    {
-      glColorc(Color::glowForTeam(bullet->team(), 0.1));
+      double glow = bullet->glow();
+
+      glColorc(Color::glowForTeam(bullet->team(), 0.1*glow));
       glSphere(bullet->position(), 2.0);
 
-      glColorc(Color::glowForTeam(bullet->team(), 1.0));
-      glSphere(bullet->position(), 0.2);
+      if (shittyRange(bullet->position()))
+      {
+         glColorc(Color::glowForTeam(bullet->team(), 1.0*glow));
+         glSphere(bullet->position(), 0.2);
+      }
+      else
+      {
+         glColorc(Color::glowForTeam(bullet->team(), 1.0*glow));
+         glSphere(bullet->position(), 0.2);
+         glSphere(bullet->position() + bullet->direction()*0.2, 0.2);
+         glSphere(bullet->position() - bullet->direction()*0.2, 0.2);
+      }
    }
 
    glDisable(GL_TEXTURE_2D);
 }
 
-void RenderCore::drawEngineFlares()
+void RenderCore::drawFlareMeshes()
 {
-   glEnable(GL_BLEND);
-   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
    foreach(Ship* ship, world_->ships())
    {
       foreach(Engine* engine, ship->modules().all<Engine*>())
       {
-         Color color = Color(0.25, 0.75, 1.0, engine->glow());
-         Q_UNUSED(color);
-         //Mesh::THRUST.render(engine->absolutePosition(), engine->absoluteOrientation(), 1.0, shittyRange(engine->absolutePosition()), color);
+         glPushMatrix();
+
+         glTranslatev(engine->absolutePosition());
+         glRotateq(engine->absoluteOrientation());
+         glColorc(Color::glowForTeam(ship->team(), engine->glow()));
+
+         Mesh::THRUST.renderRawVerts(shittyRange(engine->absolutePosition()));
+
+         glScalef(1.5, 1.5, 1.0);
+         glTranslatef(0, 0, -0.3);
+         glColorc(Color::glowForTeam(ship->team(), engine->glow() / 4));
+         Mesh::THRUST.renderRawVerts(shittyRange(engine->absolutePosition()));
+
+         glPopMatrix();
       }
    }
+}
 
-   glDisable(GL_BLEND);
+void RenderCore::drawFlareGlows()
+{
+   glEnable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, textures_[0]);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+   foreach(Ship* ship, world_->ships())
+   {
+      foreach(Weapon* weapon, ship->modules().all<Weapon*>())
+      {
+         if (weapon->cooldownRemaining() > 0.01)
+         {
+            glColorc(Color::glowForTeam(ship->team(), weapon->cooldownRemaining()));
+            glSphere(weapon->newBulletPosition(), 0.5);
+
+            glColorc(Color::glowForTeam(ship->team(), weapon->cooldownRemaining() / 5));
+            glSphere(weapon->newBulletPosition(), 3);
+         }
+      }
+
+      /*
+      foreach(Engine* engine, ship->modules().all<Engine*>())
+      {
+         //glColorc(Color::glowForTeam(ship->team(), engine->glow() / 2));
+         //glSphere(engine->absolutePositionOf(Vector(0, 0, -1.4)), 0.3);         
+      }
+      */
+   }
+
+   glDisable(GL_TEXTURE_2D);
+   
 }
 
 //! @}

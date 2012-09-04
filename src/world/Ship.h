@@ -21,12 +21,12 @@ class Ship : public RigidBody, public WorldItem
 {
 
 private:
-   Ship(World& world, const Vector position, int team);
+   Ship(World& world, const Vector position, const Vector velocity, int team);
    virtual ~Ship();
 
 public:
-   static Ship* createSwarmer(World& world, const Vector position, int team);
-   static Ship* createAstronach(World& world, const Vector position, int team);
+   static Ship* createSwarmer(World& world, const Vector position, const Vector velocity, int team);
+   static Ship* createAstronach(World& world, const Vector position, const Vector velocity, int team);
 
 public:
    RacistList<Module*> modules();
@@ -49,7 +49,8 @@ public:
    virtual const Vector velocity();
    virtual const Quaternion orientation();
 
-   void explodeModule(Module* module);
+   void explodeAllUnattachedModules(int forTeam);
+   void explodeModule(Module* module, int forTeam);
 
    double deflectorRadius();
    bool applyCollisionWith(double distance, const Vector position, const Vector velocity, int team);

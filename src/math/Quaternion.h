@@ -30,6 +30,8 @@ public: // operations
 
    Quaternion inverse() const;
 
+   static const Quaternion slerp(Quaternion q1, Quaternion q2, double t);
+
 public: // constants
    static const Quaternion DEFAULT;
    static const Quaternion SPIN_X;
@@ -50,6 +52,8 @@ public:
 #define printQuat(quat) qPrintable(quat.toString())
 
 Quaternion operator*(double scalar, const Quaternion quaternion);
+Quaternion operator*(const Quaternion quaternion, double scalar);
 Quaternion operator*(Quaternion a, Quaternion b);
+Quaternion operator+(Quaternion a, Quaternion b);
 
 #endif

@@ -43,6 +43,8 @@ public: // Operators
    static const Vector intersectionBetweenLineAndSphere(Vector lineStart, Vector direction,
                                                         Vector sphereCenter, double sphereRadius);
 
+   static const Vector interpolate(Vector v1, Vector v2, double t);
+
 public:
    double x;
    double y;

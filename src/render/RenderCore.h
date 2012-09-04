@@ -50,7 +50,8 @@ private: // helpers
 
    void drawExplosions();
    void drawExplosionFragment(Explosion* explosion, const Vector frag, double scale);
-   void drawEngineFlares();
+   void drawFlareMeshes();
+   void drawFlareGlows();
 
    bool shittyRange(const Vector position);
 

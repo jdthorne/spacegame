@@ -78,6 +78,11 @@ Quaternion operator*(double scalar, const Quaternion quat)
    return Quaternion(quat.w * scalar, quat.x * scalar, quat.y * scalar, quat.z * scalar);
 }
 
+Quaternion operator*(const Quaternion quat, double scalar)
+{
+   return scalar * quat;
+}
+
 Quaternion operator*(const Quaternion a, const Quaternion b)
 {
    return Quaternion( (a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z ),
@@ -96,6 +101,13 @@ Quaternion Quaternion::operator += (const Quaternion rhs)
    return *this;
 }
 
+Quaternion operator+(const Quaternion lhs, const Quaternion rhs)
+{
+   Quaternion result = lhs;
+   result += rhs;
+   return result;
+}
+
 Quaternion Quaternion::inverse() const
 {
    return Quaternion(w, -x, -y, -z);
@@ -110,3 +122,13 @@ Quaternion Quaternion::rotationTo(const Quaternion rhs) const
 {
    return rhs * this->inverse();
 }
+
+const Quaternion Quaternion::slerp(Quaternion q1, Quaternion q2, double t)
+{
+   // I'm lazy - use LERP for now
+   Quaternion result = (q1 * t) + (q2 * (1.0 - t));
+   result.normalize();
+   
+   return result;
+}
+

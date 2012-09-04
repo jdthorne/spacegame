@@ -9,7 +9,7 @@ class Bullet : public WorldItem
 {
 
 public:
-   Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team);
+   Bullet(World& world, Ship* source, const Vector position, const Vector velocity, const Vector direction, int team);
    virtual ~Bullet();
 
    virtual void simulateMovement();
@@ -21,6 +21,8 @@ public:
    virtual const Vector position();
    virtual const Vector velocity();
    virtual const Quaternion orientation();
+
+   double glow();
 
    const Vector direction();
 

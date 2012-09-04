@@ -172,3 +172,9 @@ const Vector Vector::intersectionBetweenLineAndSphere(Vector lineStart, Vector d
  
    return lineStart;  
 }
+
+const Vector Vector::interpolate(Vector v1, Vector v2, double t)
+{
+   return (v1 * t) + (v2 * (1.0 - t));
+}
+

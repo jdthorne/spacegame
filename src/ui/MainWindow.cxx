@@ -9,6 +9,7 @@ MainWindow::MainWindow()
 {
    widget_ = new QWidget(this);
    setCentralWidget(widget_);
+   layout()->setContentsMargins(0, 0, 0, 0);
 
    QHBoxLayout* layout = new QHBoxLayout(widget_);
 
@@ -21,6 +22,7 @@ MainWindow::MainWindow()
    layout->addWidget(right_);
 
    widget_->setLayout(layout);
+   layout->setContentsMargins(0, 0, 0, 0);
 }
 
 MainWindow::~MainWindow()

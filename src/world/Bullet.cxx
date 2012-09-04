@@ -4,18 +4,29 @@
 #include <Ship.h>
 
 const int Bullet::MAX_LIFE = 120;
-const double Bullet::SPEED = 0.5;
+const double Bullet::SPEED = 1.0;
 const double Bullet::RANGE = SPEED * MAX_LIFE;
 
-Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector velocity, int team)
+Bullet::Bullet(World& world, Ship* source, const Vector position, const Vector velocity, const Vector direction, int team)
    : world_(world)
    , source_(source)
    , position_(position)
-   , velocity_(velocity)
-   , direction_(velocity.normalized())
+   , velocity_(velocity + (direction * SPEED))
+   , direction_(direction)
    , life_(MAX_LIFE)
    , team_(team)
 {
+}
+
+double Bullet::glow()
+{
+   double lifeRemaining = ((double)life_ / MAX_LIFE);
+   if (lifeRemaining > 0.1)
+   {
+      return 1.0;
+   }
+
+   return lifeRemaining / 0.1;
 }
 
 Bullet::~Bullet()
