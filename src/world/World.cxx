@@ -7,7 +7,7 @@
 #include <ObjectType.h>
 
 World::World()
-   : focusItem_(NULL)
+   : camera_(*this)
 {  
 }
 
@@ -18,10 +18,7 @@ void World::addItem(WorldItem* item)
 
 void World::replaceItem(WorldItem* item, WorldItem* withItem)
 {
-   if (focusItem_ == item)
-   {
-      focusItem_ = withItem;
-   }
+   camera_.handleItemReplaced(item, withItem);
 
    removeItem(item);
    addItem(withItem);
@@ -29,12 +26,9 @@ void World::replaceItem(WorldItem* item, WorldItem* withItem)
 
 void World::removeItem(WorldItem* item)
 {
-   toRemove_.append(item);
+   camera_.handleItemRemoved(item);
 
-   if (focusItem_ == item)
-   {
-      focusItem_ = NULL;
-   }
+   toRemove_.append(item);
 }
 
 void World::simulate()
@@ -49,6 +43,8 @@ void World::simulate()
       all_.removeAll(item);
       //delete item;
    }
+
+   camera_.simulate();
 }
 
 void World::setSeed(int seed)
@@ -73,16 +69,6 @@ const Vector World::randomVector(double min, double max)
                   randomValue(min, max) );
 }
 
-WorldItem& World::focusItem() const
-{
-   if (focusItem_ == NULL)
-   {  
-      focusItem_ = ships()[0];
-   }
-
-   return *focusItem_;
-}
-
 QList<Ship*> World::ships() const
 {
    return all_.all<Ship>();
@@ -98,11 +84,13 @@ RacistList<WorldItem*> World::items() const
    return all_;
 }
 
-void World::nextFocusItem()
+Camera& World::camera()
 {
-   int index = randomValue(0, ships().count() - 1);
-   index = qBound(0, index, ships().count() - 1);
+   return camera_;
+}
 
-   focusItem_ = ships()[index];
+const Camera& World::camera() const
+{
+   return camera_;
 }
 

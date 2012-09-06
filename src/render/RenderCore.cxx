@@ -133,12 +133,12 @@ void RenderCore::loadTexture(QString file, int id)
  * @{
  ******************************************************************************
  */
-void RenderCore::render(const World& world, const Camera& camera)
+void RenderCore::render(const World& world)
 {
    PROFILE_FUNCTION("Render");
 
    world_ = &world;
-   camera_ = &camera;
+   camera_ = &(world.camera());
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();

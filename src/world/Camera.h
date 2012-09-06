@@ -8,6 +8,9 @@
 #include <Vector.h>
 #include <Quaternion.h>
 
+class World;
+class WorldItem;
+
 /**
  ******************************************************************************
  *
@@ -19,21 +22,30 @@ class Camera
 {
 
 public:
-   Camera();
+   Camera(World& world);
    ~Camera();
 
 public:
-   void updateFocusItem(const Vector position, const Quaternion orientation);
-
    const Vector position() const;
    const Quaternion orientation() const;
 
    void addUserOrientation(const Quaternion orientation);
    void addZoom(double zoom);
 
+public:
+   void handleItemReplaced(WorldItem* item, WorldItem* newItem);
+   void handleItemRemoved(WorldItem* item);
+
+   void simulate();
+   void focusOnRandomItem();
+
 private: // helpers
+   void updateFocusItem(const Vector position, const Quaternion orientation);
 
 private: // members
+   World& world_;
+   WorldItem* focusItem_;
+
    Quaternion userOrientation_;
    Quaternion baseOrientation_;
 

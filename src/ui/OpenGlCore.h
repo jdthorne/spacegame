@@ -24,7 +24,6 @@ public:
    virtual ~OpenGlCore();
 
    void loadSimulation(Simulation* simulation);
-   Camera& camera();
 
 public:
    virtual void initializeGL();
@@ -47,8 +46,6 @@ private:
 
 private:
    QTimer timer_;
-
-   Camera* camera_;
 
    Simulation* simulation_;
    RenderCore* renderCore_;

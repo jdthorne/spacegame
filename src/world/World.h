@@ -3,6 +3,7 @@
 
 #include <WorldItem.h>
 #include <RacistList.h>
+#include <Camera.h>
 
 #include <Vector.h>
 
@@ -31,12 +32,12 @@ public:
 
    QList<Ship*> ships() const;
 
-   WorldItem& focusItem() const;
-   void nextFocusItem();
+   Camera& camera();
+   const Camera& camera() const;
 
 private:
-   mutable WorldItem* focusItem_;
 
+   Camera camera_;
    RacistList<WorldItem*> all_;
    QList<WorldItem*> toRemove_;
 };

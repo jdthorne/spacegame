@@ -17,7 +17,6 @@
 OpenGlCore::OpenGlCore(QWidget* parent)
    : QGLWidget(parent)
    , timer_(this)
-   , camera_(new Camera())
    , simulation_(NULL)
    , renderCore_(new RenderCore())
    , frames_(FPS_SAMPLE_FRAMES)
@@ -75,13 +74,8 @@ void OpenGlCore::paintGL()
       return;
    }
 
-   renderCore_->render(simulation_->world(), *camera_);
+   renderCore_->render(simulation_->world());
    renderReady_ = false;
-}
-
-Camera& OpenGlCore::camera()
-{
-   return *camera_;
 }
 
 void OpenGlCore::handleTimeout()
@@ -96,12 +90,6 @@ void OpenGlCore::handleTimeout()
    if (simulation_ != NULL)
    {
       simulation_->simulate();
-
-      if (simulation_->world().hasRemainingShips())
-      {
-         WorldItem* focusItem = &simulation_->world().focusItem();
-         camera_->updateFocusItem(focusItem->position(), focusItem->orientation().inverse());
-      }
 
       renderReady_ = true;
    }
@@ -131,7 +119,7 @@ void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
       Quaternion xRotation = Quaternion(deltaX * -5, Vector(0, 1, 0));
       Quaternion yRotation = Quaternion(deltaY * +5, Vector(1, 0, 0));
 
-      camera_->addUserOrientation(xRotation * yRotation);
+      simulation_->world().camera().addUserOrientation(xRotation * yRotation);
    }
 
    xStart_ = event->x();
@@ -140,7 +128,7 @@ void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
 
 void OpenGlCore::wheelEvent(QWheelEvent* event)
 {
-   camera_->addZoom(event->delta() * 0.025);
+   simulation_->world().camera().addZoom(event->delta() * 0.025);
 }
 
 void OpenGlCore::mousePressEvent(QMouseEvent* event)
@@ -153,5 +141,5 @@ void OpenGlCore::mouseReleaseEvent(QMouseEvent* event)
 
 void OpenGlCore::keyPressEvent(QKeyEvent* event)
 {
-   simulation_->world().nextFocusItem();
+   simulation_->world().camera().focusOnRandomItem();
 }

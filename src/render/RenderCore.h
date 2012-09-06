@@ -33,7 +33,7 @@ public:
 
 public:
    void initialize();
-   void render(const World& world, const Camera& camera);
+   void render(const World& world);
    
 private: // helpers
    void loadGeneral();

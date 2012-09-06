@@ -23,8 +23,9 @@ void SpacegameCore::runSpacegame(int argc, char** argv)
    QApplication app(argc, argv);
 
    MainWindow* window = new MainWindow();
-   //window->loadSimulation(new EndlessBattle());
-   window->loadSimulation(new Shipyard());
+
+   window->loadSimulation(new EndlessBattle());
+   //window->loadSimulation(new Shipyard());
    window->resize(1280, 720);
    window->show();
 
