@@ -23,12 +23,15 @@ OpenGlCore::OpenGlCore(QWidget* parent)
    , frames_(FPS_SAMPLE_FRAMES)
    , xStart_(0)
    , yStart_(0)
+   , renderReady_(true)
 {
    setMouseTracking(true);
    time_.start();
 
    connect(&timer_, SIGNAL(timeout()), this, SLOT(handleTimeout()));
    timer_.start(1000 / 60);
+
+   setFocusPolicy(Qt::StrongFocus);
 }
 
 void OpenGlCore::loadSimulation(Simulation* simulation)
@@ -60,6 +63,11 @@ void OpenGlCore::resizeGL(int w, int h)
 
 void OpenGlCore::paintGL()
 {
+   if (!renderReady_)
+   {  
+      return;
+   }
+
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
    if (simulation_ == NULL)
@@ -67,14 +75,8 @@ void OpenGlCore::paintGL()
       return;
    }
 
-   if (simulation_->world().hasRemainingShips())
-   {
-      WorldItem* focusItem = &simulation_->world().focusItem();
-
-      camera_->updateFocusItem(focusItem->position(), focusItem->orientation().inverse());
-   }
-
    renderCore_->render(simulation_->world(), *camera_);
+   renderReady_ = false;
 }
 
 Camera& OpenGlCore::camera()
@@ -84,11 +86,24 @@ Camera& OpenGlCore::camera()
 
 void OpenGlCore::handleTimeout()
 {
+   if (renderReady_)
+   {
+      return;
+   }
+
    calculateFramerate();
 
    if (simulation_ != NULL)
    {
       simulation_->simulate();
+
+      if (simulation_->world().hasRemainingShips())
+      {
+         WorldItem* focusItem = &simulation_->world().focusItem();
+         camera_->updateFocusItem(focusItem->position(), focusItem->orientation().inverse());
+      }
+
+      renderReady_ = true;
    }
 
    update();
@@ -136,3 +151,7 @@ void OpenGlCore::mouseReleaseEvent(QMouseEvent* event)
 
 }
 
+void OpenGlCore::keyPressEvent(QKeyEvent* event)
+{
+   simulation_->world().nextFocusItem();
+}

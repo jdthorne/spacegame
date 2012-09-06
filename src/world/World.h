@@ -22,6 +22,7 @@ public:
 
    void setSeed(int seed);
    double randomValue(double min = 0.0, double max = 1.0);
+   int randomInt(int min = 0, int max = 1);
    const Vector randomVector(double min = 0.0, double max = 1.0);
 
    bool hasRemainingShips();
@@ -31,6 +32,7 @@ public:
    QList<Ship*> ships() const;
 
    WorldItem& focusItem() const;
+   void nextFocusItem();
 
 private:
    mutable WorldItem* focusItem_;

@@ -1,0 +1,1093 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bore",
+				"boredom_	int"
+			],
+			[
+				"random",
+				"randomValue()	double"
+			],
+			[
+				"wor",
+				"world_	World *"
+			],
+			[
+				"veloc",
+				"velocity_	Vector"
+			],
+			[
+				"def",
+				"deflectorRadius()	double"
+			],
+			[
+				"deflector",
+				"deflectorGlow_	double"
+			],
+			[
+				"deflect",
+				"deflectorGlow_	double"
+			],
+			[
+				"deflec",
+				"deflectorGlow_	double"
+			],
+			[
+				"see",
+				"seed48(unsigned short *)	unsigned short *"
+			],
+			[
+				"drawFla",
+				"drawFlareGlows()	void"
+			],
+			[
+				"position",
+				"absolutePositionOf(const Vector point)	Vector"
+			],
+			[
+				"ab",
+				"absolutePosition()	Vector"
+			],
+			[
+				"abs",
+				"absolutePosition()	Vector"
+			],
+			[
+				"render",
+				"renderRawVerts(bool shitty)	void"
+			],
+			[
+				"tea",
+				"glowForTeam(int teamId, double glow)	Color"
+			],
+			[
+				"coo",
+				"cooldownStart_	int"
+			],
+			[
+				"cool",
+				"cooldown_	int"
+			],
+			[
+				"Z",
+				"Z_ROT_270	const Quaternion"
+			],
+			[
+				"mod",
+				"modules_	RacistList<Module *>"
+			],
+			[
+				"forT",
+				"glowForTeam(int teamId)	Color"
+			],
+			[
+				"orient",
+				"orientation_	Quaternion"
+			],
+			[
+				"interce",
+				"interceptTime	double"
+			],
+			[
+				"vel",
+				"velocity_	Vector"
+			],
+			[
+				"normal",
+				"normalized() const	Vector"
+			],
+			[
+				"target",
+				"targetAngularVelocity	Vector"
+			],
+			[
+				"tar",
+				"targetPower =	double"
+			],
+			[
+				"spee",
+				"speedSign	int"
+			],
+			[
+				"targ",
+				"targetAcceleration	double"
+			],
+			[
+				"ang",
+				"angularSpeed	double"
+			],
+			[
+				"angul",
+				"angularMomentum_	Vector"
+			],
+			[
+				"nor",
+				"normalized() const	Vector"
+			],
+			[
+				"error_",
+				"previousError_	double"
+			],
+			[
+				"inertial",
+				"inertialTensor_	Vector"
+			],
+			[
+				"angular",
+				"angularVelocityError =	Vector"
+			],
+			[
+				"ve",
+				"vector_	Vector"
+			],
+			[
+				"v",
+				"vector_	Vector"
+			],
+			[
+				"sphere",
+				"sphereRadius	double"
+			],
+			[
+				"e",
+				"explodingObjectType()	ObjectType"
+			],
+			[
+				"explodi",
+				"explodingObjectType_	ObjectType"
+			],
+			[
+				"orie",
+				"orientation_	Quaternion"
+			],
+			[
+				"glVertex2d",
+				"glVertex2d(GLdouble x, GLdouble y)	void"
+			],
+			[
+				"GL_LINEAR_MIP",
+				"GL_LINEAR_MIPMAP_NEAREST	macro"
+			],
+			[
+				"create",
+				"createSwarmer(World &world, const Vector position, int team)	Ship *"
+			],
+			[
+				"face",
+				"faceData_	QVector<Vector> *"
+			],
+			[
+				"velo",
+				"velocity	const Vector"
+			],
+			[
+				"frame",
+				"fragments_	QList<Vector *>"
+			],
+			[
+				"fragm",
+				"fragments_	QList<Vector>"
+			],
+			[
+				"camera",
+				"cameraPosition_	Vector"
+			],
+			[
+				"write",
+				"writeAndOpen"
+			],
+			[
+				"veloci",
+				"velocityError"
+			],
+			[
+				"defle",
+				"deflectorPower_"
+			],
+			[
+				"defl",
+				"deflectorDamage"
+			],
+			[
+				"cam",
+				"cameraPosition"
+			],
+			[
+				"cameaO",
+				"cameraOrientation"
+			],
+			[
+				"yRo",
+				"yRotation"
+			],
+			[
+				"xRot",
+				"xRotation_"
+			],
+			[
+				"ori",
+				"orientation_"
+			],
+			[
+				"absol",
+				"absoluteOrientation"
+			],
+			[
+				"invers",
+				"inverseInertialTensor_"
+			],
+			[
+				"apply",
+				"applyTorqueAlongXAxis"
+			],
+			[
+				"return",
+				"returnTwoThings"
+			],
+			[
+				"world",
+				"worldCamera"
+			],
+			[
+				"curren",
+				"currentShipDef"
+			],
+			[
+				"local",
+				"localCombatTeam"
+			],
+			[
+				"handle",
+				"handleMouseDown"
+			],
+			[
+				"comp",
+				"computerPosition"
+			],
+			[
+				"posi",
+				"positionToGridCoordinates"
+			],
+			[
+				"posit",
+				"position"
+			],
+			[
+				"positionOff",
+				"positionOffsetInGridCoordinates"
+			],
+			[
+				"update",
+				"updateDeflectorPosition"
+			],
+			[
+				"dest",
+				"destroyedObjects"
+			],
+			[
+				"bul",
+				"BulletRenderer"
+			],
+			[
+				"aut",
+				"autopilotName"
+			],
+			[
+				"side",
+				"sidebarLayer"
+			],
+			[
+				"used",
+				"usedLabels"
+			],
+			[
+				"max",
+				"maxDeflectorPower"
+			],
+			[
+				"auto",
+				"autopilotModule"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/User/tup.sublime-build",
+	"command_palette":
+	{
+		"height": 27.0,
+		"selected_items":
+		[
+			[
+				"package contr",
+				"Package Control: Install Package"
+			],
+			[
+				"package control",
+				"Package Control: List Packages"
+			],
+			[
+				"package control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/james/Projects/Spacegame/src/ui/OpenGlCore.cxx",
+		"/Users/james/Projects/Spacegame/src/ui/OpenGlCore.h",
+		"/Users/james/Projects/Spacegame/src/render/Camera.cxx",
+		"/Users/james/Projects/Spacegame/src/render/Camera.h",
+		"/Users/james/Projects/Spacegame/src/world/Ship.h",
+		"/Users/james/Projects/Spacegame/src/world/Ship.cxx",
+		"/Users/james/Projects/Spacegame/src/render/RenderCore.cxx",
+		"/Users/james/Projects/Spacegame/src/render/RenderCore.h",
+		"/Users/james/Projects/Spacegame/src/world/Bullet.cxx",
+		"/Users/james/Projects/Spacegame/src/world/Bullet.h",
+		"/Users/james/Projects/Spacegame/src/math/Color.h",
+		"/Users/james/Projects/Spacegame/src/math/Color.cxx",
+		"/Users/james/Projects/Spacegame/src/render/RenderHelpers.h",
+		"/Users/james/Projects/Spacegame/src/render/RenderHelpers.cxx",
+		"/Users/james/Projects/Spacegame/src/world/Explosion.cxx",
+		"/Users/james/Projects/Spacegame/src/world/Explosion.h",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/Autopilot.cxx",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/Autopilot.h",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/BattleDev.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/BattleDev.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Weapon.cxx",
+		"/Users/james/Projects/Spacegame/src/world/modules/Weapon.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Engine.cxx",
+		"/Users/james/Projects/Spacegame/src/world/World.cxx",
+		"/Users/james/Projects/Spacegame/src/world/World.h",
+		"/Users/james/Projects/Spacegame/src/ui/MainWindow.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/ExplosionDev.cxx",
+		"/Users/james/Projects/Spacegame/src/math/Quaternion.h",
+		"/Users/james/Projects/Spacegame/src/math/Quaternion.cxx",
+		"/Users/james/Projects/Spacegame/src/math/Vector.h",
+		"/Users/james/Projects/Spacegame/src/math/Vector.cxx",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/ShipControl.cxx",
+		"/Users/james/Projects/Spacegame/src/ui/CameraSidebar.cxx",
+		"/Users/james/Projects/Spacegame/src/ui/Tupfile",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/Expand.py",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/PidController.h",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/PidController.cxx",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/ShipControl.h",
+		"/Users/james/Projects/Spacegame/src/math/RigidBody.cxx",
+		"/Users/james/Projects/Spacegame/src/math/RigidBody.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Gyro.cxx",
+		"/Users/james/Projects/Spacegame/src/world/modules/Gyro.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Engine.h",
+		"/Users/james/Projects/Spacegame/src/world/WorldItem.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Module.cxx",
+		"/Users/james/Projects/Spacegame/src/render/Mesh.cxx",
+		"/Users/james/Projects/Spacegame/src/render/Mesh.h",
+		"/Users/james/Projects/Spacegame/src/world/modules/Module.h",
+		"/Users/james/Projects/Spacegame/src/ui/CameraSidebar.h",
+		"/Users/james/Projects/Spacegame/src/render/camera/test",
+		"/Users/james/Projects/Spacegame/src/render/camera/Camera.h",
+		"/Users/james/Projects/Spacegame/src/render/camera/Camera.cxx",
+		"/Users/james/Projects/Spacegame/src/render/camera/Tupfile",
+		"/Users/james/Projects/Spacegame/src/ui/MainWindow.h",
+		"/Users/james/Projects/Spacegame/src/app/SpacegameCore.cxx",
+		"/Users/james/Projects/Starsplosion/src/simulation/ShipControls.py",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/James Theme.tmTheme",
+		"/Users/james/Projects/Spacegame/src/app/OfflineCore.h",
+		"/Users/james/Projects/Spacegame/src/app/OfflineCore.cxx",
+		"/Users/james/Projects/Spacegame/src/app/main.cxx",
+		"/Users/james/Projects/Spacegame/src/app/SpacegameCore.h",
+		"/Users/james/Projects/Spacegame/src/app/Tupfile",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/ExplosionDev.h",
+		"/Users/james/Projects/Spacegame/src/world/Hud.h",
+		"/Users/james/Projects/Spacegame/src/world/Hud.cxx",
+		"/Users/james/Projects/Spacegame/src/math/RacistList.h",
+		"/Users/james/Projects/Spacegame/src/world/autopilot/Tupfile",
+		"/Users/james/Projects/Spacegame/src/world/HUD.cxx",
+		"/Users/james/Projects/Spacegame/src/world/HUD.h",
+		"/Users/james/Projects/Spacegame/spacegame.sublime-project",
+		"/Users/james/Projects/Spacegame/runSpacegame.sh",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/PerformanceDev.h",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/PerformanceDev.cxx",
+		"/Users/james/Projects/Spacegame/bin/Tupfile",
+		"/Users/james/Projects/Spacegame/src/Tuprules.tup",
+		"/Tupfile",
+		"/Users/james/Projects/Spacegame/src/world/Tupfile",
+		"/Users/james/Projects/Spacegame/src/render/Tupfile",
+		"/Users/james/Projects/Spacegame/src/world/modules/Tupfile",
+		"/Users/james/Projects/Spacegame/src/shared/Tupfile",
+		"/Users/james/Projects/Spacegame/src/simulation/Simulation.h",
+		"/Users/james/Projects/Spacegame/src/simulation/Simulation.cxx",
+		"/Users/james/Projects/Spacegame/src/3rdparty/lodepng/Tupfile",
+		"/Users/james/Projects/Spacegame/src/math/Tupfile",
+		"/Users/james/Projects/Spacegame/src/simulation/Tupfile",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/Tupfile",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/Tup",
+		"/Users/james/Projects/Spacegame/bin/optionsScript.sh",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/SublimeClang/SublimeClang.sublime-settings",
+		"/Users/james/Projects/Spacegame/bin/findIncludes.sh",
+		"/Users/james/Projects/Spacegame/src/simulation/testbench/test.txt",
+		"/Users/james/Projects/Spacegame/bin/tup/findIncludes.sh",
+		"/Users/james/Projects/Spacegame/bin/tup/Tupfile",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/tup.sublime-build",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Weapon.cxx",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/Default/goto_line.py",
+		"/Users/james/Projects/Spacegame/src/3rdparty/lodepng/lodepng.h",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/james/Projects/Spacegame/src/simulation/Ship.h",
+		"/Users/james/Projects/Spacegame/src/simulation/Ship.cxx",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/HighlightSelection.py",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Engine.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Engine.h",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Module.h",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Module.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/FlightComputer.h",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Structure.h",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Structure.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/FlightComputer.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/modules/Gyro.cxx",
+		"/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/qgl.h",
+		"/Users/james/Projects/Spacegame/src/app/Helpers.h",
+		"/Users/james/Projects/Spacegame/src/app/ObjectType.h",
+		"/Users/james/Projects/Spacegame/src/app/ObjectType.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/misc/Explosion.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/misc/Explosion.h",
+		"/Users/james/Projects/Spacegame/src/simulation/misc/Bullet.cxx",
+		"/Users/james/Projects/Spacegame/src/simulation/misc/Bullet.h",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/NewClass.py",
+		"/Users/james/Projects/Spacegame/bin/Tuprules.tup",
+		"/Users/james/Projects/Spacegame/src/autopilot/Autopilot.cxx",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/SublimeClang.sublime-settings",
+		"/Users/james/Projects/Spacegame/bin/findSources.sh",
+		"/Users/james/Projects/Spacegame/src/simulation/touch.txt",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/User/Comment.py",
+		"/Users/james/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<open folders>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"Engine",
+			"Structure",
+			"0\\.5",
+			"\\*",
+			"mouseDown",
+			"velocity",
+			"target_",
+			"drawExplosions",
+			"GL_COLOR",
+			"goal",
+			"inverse",
+			"color_",
+			"position_",
+			"physics",
+			"simulatePhysics",
+			"testbench",
+			"applyCollisionWith",
+			"drawBullets",
+			"world_\\.",
+			"world",
+			"Engine",
+			"module",
+			"bin/\\.\\./",
+			"world",
+			"simulation_",
+			"world_\\.",
+			"world_.",
+			"(.*)",
+			"options_script",
+			"options",
+			"\\.\\./\\.\\./",
+			" \\.\\./",
+			" ../",
+			" \\.\\./",
+			"\\.\\./",
+			"drawBullets",
+			"delete ",
+			"\\(type.*\\((.*)\\)\\)",
+			"meshForModule",
+			"objectIs\\((.*), (.*)\\)",
+			"scope",
+			"error",
+			"line",
+			"gldepthmask",
+			"32",
+			"lodepng",
+			"decode",
+			"addShip",
+			"deflectorPower",
+			"\\*this",
+			"0.2",
+			"glTranslate3",
+			"rotationTo",
+			"match",
+			"auto",
+			"brack",
+			"auto",
+			"Mesh",
+			"Space\\\\\\\\ Game",
+			"sublime",
+			"font",
+			"facesLo_",
+			"virtual",
+			"face[.]",
+			"Lo",
+			"deflector",
+			"ships",
+			"simulate",
+			"focus",
+			"objectIs",
+			";;",
+			"installModule\\((.*)\\)",
+			"installMo",
+			"Q_FOREACH",
+			"gl",
+			"Bullet",
+			"position",
+			"L_BLEND",
+			"color",
+			"5",
+			"500",
+			"0.1",
+			"simulate",
+			"Engine",
+			"CFLAGS",
+			"(Vector|Quaternion)&",
+			"(Quaternion|Vector)&",
+			"return ",
+			"magnitude",
+			"void ",
+			"1[.]0",
+			"Engine",
+			"faces_",
+			"applyForce",
+			"(\\w+) (.*);",
+			"modules_[.]append",
+			"[.][.]",
+			"unsupported",
+			"availableDeflector",
+			"currentShip = ",
+			"focus = ",
+			"WorldEffects",
+			"loadAuto",
+			"design",
+			"loadAuto",
+			"setupWorld",
+			"setupWorldOnFirstSimCycle",
+			"setupWorld",
+			"clearWorld",
+			"damaged",
+			"destroyed",
+			"removeObject",
+			"inWorld",
+			"addShip",
+			"explodeModule",
+			"handleDestroyed",
+			"onDestroy",
+			"Module.setPos",
+			"moveGrid",
+			"explodeMo",
+			"hideGrid",
+			"self.hideGrid",
+			"self.currentShip.",
+			"deflector",
+			"vectorSu",
+			"self.right",
+			"on",
+			"world"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"Structure",
+			"Gyro",
+			"1",
+			"+",
+			"world_->",
+			"",
+			"world_->",
+			"\"\\1\",",
+			"../",
+			" ../../",
+			"../../",
+			"../../\n../../",
+			"typeIs(type, $1)",
+			"(type == ClassType($2))",
+			"ship",
+			"0.5",
+			"Spacegame",
+			"face->",
+			";",
+			"modules_.append($1);",
+			"Explosion",
+			"worldSize",
+			"5",
+			"accuracy",
+			"render",
+			"Weapon",
+			"LFLAGS",
+			"$1",
+			"void Gyro::",
+			"0.8",
+			"Gyro",
+			"applyLocalForce",
+			"$1 Class::$2;",
+			"installModule",
+			"$(BASE)",
+			"0",
+			"self.drawable",
+			"Sprite.Sprite",
+			"$1 = lambda module: module$2",
+			"object",
+			"App.world",
+			"",
+			"from Scalar import *",
+			"scalarBound",
+			"scalarSign",
+			"scalarMix",
+			"",
+			"@Timing.timedFunction\\ndef ",
+			"item",
+			"vectorN",
+			"vectorD",
+			"vectorR",
+			"vectorO",
+			"vectorM",
+			"vectorS",
+			"vectorA",
+			"vectorS",
+			"from Vector import *",
+			"def vector",
+			"S",
+			"",
+			"@Timing.timedFunction\\n   def simulate",
+			"",
+			"@Timing.timedFunction\\ndef ",
+			"Misc.Bullet(",
+			"module = Modules.",
+			"Sprite.draw",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.clang":
+	{
+		"height": 100.0
+	},
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"openglcore",
+				"src/ui/OpenGlCore.cxx"
+			],
+			[
+				"opengl",
+				"src/ui/OpenGlCore.cxx"
+			],
+			[
+				"ship.cxx",
+				"src/world/Ship.cxx"
+			],
+			[
+				"battlede",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"battle",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"weapon.cxx",
+				"src/world/modules/Weapon.cxx"
+			],
+			[
+				"world",
+				"src/world/World.cxx"
+			],
+			[
+				"world.cxx",
+				"src/world/World.cxx"
+			],
+			[
+				"bullet.cxx",
+				"src/world/Bullet.cxx"
+			],
+			[
+				"shipcontrol",
+				"src/world/autopilot/ShipControl.cxx"
+			],
+			[
+				"autop",
+				"src/world/autopilot/Autopilot.cxx"
+			],
+			[
+				"auto",
+				"src/world/autopilot/Autopilot.cxx"
+			],
+			[
+				"battl",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"bat",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"rendercore",
+				"src/render/RenderCore.cxx"
+			],
+			[
+				"ship.cx",
+				"src/world/Ship.cxx"
+			],
+			[
+				"battledev",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"vector",
+				"src/math/Vector.h"
+			],
+			[
+				"camera",
+				"src/render/Camera.cxx"
+			],
+			[
+				"explosiondev",
+				"src/simulation/testbench/ExplosionDev.cxx"
+			],
+			[
+				"explosion",
+				"src/world/Explosion.cxx"
+			],
+			[
+				"enginecxx",
+				"src/world/modules/Engine.cxx"
+			],
+			[
+				"worl",
+				"src/world/World.cxx"
+			],
+			[
+				"rendercore.",
+				"src/render/RenderCore.cxx"
+			],
+			[
+				"color.cxx",
+				"src/math/Color.cxx"
+			],
+			[
+				"explo",
+				"src/world/Explosion.cxx"
+			],
+			[
+				"weapon",
+				"src/world/modules/Weapon.cxx"
+			],
+			[
+				"engine.cxx",
+				"src/world/modules/Engine.cxx"
+			],
+			[
+				"openglc",
+				"src/ui/OpenGlCore.cxx"
+			],
+			[
+				"ship.",
+				"src/world/Ship.cxx"
+			],
+			[
+				"ship",
+				"src/world/Ship.cxx"
+			],
+			[
+				"camera.cxx",
+				"src/render/Camera.cxx"
+			],
+			[
+				"explosion.cxx",
+				"src/world/Explosion.cxx"
+			],
+			[
+				"bullet",
+				"src/world/Bullet.cxx"
+			],
+			[
+				"expand",
+				"Packages/User/Expand.py"
+			],
+			[
+				"mainwindow",
+				"src/ui/MainWindow.cxx"
+			],
+			[
+				"mesh.cxx",
+				"src/render/Mesh.cxx"
+			],
+			[
+				"rigid",
+				"src/math/RigidBody.cxx"
+			],
+			[
+				"quaternion",
+				"src/math/Quaternion.cxx"
+			],
+			[
+				"gyro",
+				"src/world/modules/Gyro.cxx"
+			],
+			[
+				"gyro.cxx",
+				"src/world/modules/Gyro.cxx"
+			],
+			[
+				"rigidbody",
+				"src/math/RigidBody.cxx"
+			],
+			[
+				"battled",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"shipcontrols",
+				"Starsplosion/src/simulation/ShipControls.py"
+			],
+			[
+				"",
+				"src/world/autopilot/Autopilot.cxx"
+			],
+			[
+				"vector.cxx",
+				"src/math/Vector.cxx"
+			],
+			[
+				"autopi",
+				"src/world/autopilot/Autopilot.cxx"
+			],
+			[
+				"autopilot",
+				"src/world/autopilot/Autopilot.cxx"
+			],
+			[
+				"gyro.cx",
+				"src/world/modules/Gyro.cxx"
+			],
+			[
+				"batt",
+				"src/simulation/testbench/BattleDev.cxx"
+			],
+			[
+				"weap",
+				"src/world/modules/Weapon.cxx"
+			],
+			[
+				"shipcontro",
+				"src/world/autopilot/ShipControl.cxx"
+			],
+			[
+				"rigidbo",
+				"src/math/RigidBody.h"
+			],
+			[
+				"main.cxx",
+				"src/app/main.cxx"
+			],
+			[
+				"vector.h",
+				"src/math/Vector.h"
+			],
+			[
+				"tuprules",
+				"src/Tuprules.tup"
+			],
+			[
+				"ship.h",
+				"src/world/Ship.h"
+			],
+			[
+				"shell",
+				"Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+			],
+			[
+				"simulation",
+				"src/simulation/Simulation.cxx"
+			],
+			[
+				"simulation.cxx",
+				"src/simulation/Simulation.cxx"
+			],
+			[
+				"racist",
+				"src/math/RacistList.h"
+			],
+			[
+				"sublime",
+				"Packages/SublimeClang/SublimeClang.sublime-settings"
+			],
+			[
+				"sublime-settings",
+				"Packages/SublimeClang/SublimeClang.sublime-settings"
+			],
+			[
+				"glcore",
+				"src/ui/OpenGlCore.cxx"
+			],
+			[
+				"module",
+				"src/simulation/modules/Weapon.cxx"
+			],
+			[
+				"tupfile",
+				"bin/Tupfile"
+			],
+			[
+				"wea",
+				"src/simulation/modules/Weapon.cxx"
+			],
+			[
+				"mesh",
+				"src/render/Mesh.cxx"
+			],
+			[
+				"engine.h",
+				"src/simulation/modules/Engine.h"
+			],
+			[
+				"expl",
+				"src/simulation/misc/Explosion.h"
+			],
+			[
+				"newclas",
+				"User/NewClass.py"
+			],
+			[
+				"color.h",
+				"src/math/Color.h"
+			],
+			[
+				"new",
+				"User/NewClass.py"
+			],
+			[
+				"render",
+				"src/render/RenderCore.h"
+			],
+			[
+				"newcl",
+				"User/NewClass.py"
+			],
+			[
+				"quate",
+				"src/math/Quaternion.cxx"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 189.0,
+	"status_bar_visible": false
+}

@@ -89,12 +89,17 @@ void RenderCore::loadGeneral()
 
 void RenderCore::loadTextures()
 {
-   int numberOfTextures = 1;
+   int numberOfTextures = 2;
 
    textures_ = new GLuint[numberOfTextures];
    glGenTextures(numberOfTextures, textures_);
 
-   glBindTexture(GL_TEXTURE_2D, textures_[0]);
+   loadTexture("./meshes/textures/splosion.png", 0);
+   loadTexture("./meshes/textures/deflector-128.png", 1);
+}
+void RenderCore::loadTexture(QString file, int id)
+{
+   glBindTexture(GL_TEXTURE_2D, textures_[id]);
    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -106,14 +111,13 @@ void RenderCore::loadTextures()
    unsigned int height = 128;
    unsigned char* data = new unsigned char[4 * width * height];
 
-   int error = lodepng_decode32_file(&data, &width, &height, "./meshes/textures/splosion.png");
+   int error = lodepng_decode32_file(&data, &width, &height, qPrintable(file));
    if (error)
    {
       qDebug("Error loading texture: %d (%s)", error, lodepng_error_text(error));
    }
 
    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
    
    delete [] data;
 }
@@ -189,6 +193,7 @@ void RenderCore::drawEffects()
    drawBullets();  
    drawFlareMeshes();
    drawFlareGlows();
+   drawDeflectors();
 
    glDepthMask(GL_TRUE);
    glDisable(GL_BLEND);
@@ -368,18 +373,27 @@ void RenderCore::drawFlareGlows()
             glSphere(weapon->newBulletPosition(), 3);
          }
       }
+   }
 
-      /*
-      foreach(Engine* engine, ship->modules().all<Engine*>())
+   glDisable(GL_TEXTURE_2D);   
+}
+
+void RenderCore::drawDeflectors()
+{
+   glEnable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, textures_[1]);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+   foreach(Ship* ship, world_->ships())
+   {
+      if (ship->deflectorGlow() > 0.1)
       {
-         //glColorc(Color::glowForTeam(ship->team(), engine->glow() / 2));
-         //glSphere(engine->absolutePositionOf(Vector(0, 0, -1.4)), 0.3);         
+         glColorc(Color::glowForTeam(ship->team(), 0.1 * ship->deflectorGlow()));
+         glSphere(ship->position(), ship->deflectorRadius());
       }
-      */
    }
 
    glDisable(GL_TEXTURE_2D);
-   
 }
 
 //! @}

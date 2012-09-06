@@ -21,7 +21,9 @@ Ship::Ship(World& world, const Vector position, const Vector velocity, int team)
    , shipControl_(new ShipControl(*this))
    , autopilot_(new Autopilot(*shipControl_))
    , team_(team)
+   , boredom_(0)
    , deflectorPower_(1.0)
+   , deflectorGlow_(1000.0)
 {
    static int id = 0;
 
@@ -75,7 +77,7 @@ Ship* Ship::createAstronach(World& world, const Vector position, const Vector ve
    Ship* ship = new Ship(world, position, velocity, team);
 
    // Rear engine pod
-   ship->modules_.append(new Structure(*ship, Vector(0, 0, 0), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(0, 0, 0), Quaternion::DEFAULT));
 
    ship->modules_.append(new Structure(*ship, Vector(+1, 0, 0), Quaternion::DEFAULT));
    ship->modules_.append(new Structure(*ship, Vector(-1, 0, 0), Quaternion::DEFAULT));
@@ -98,6 +100,11 @@ Ship* Ship::createAstronach(World& world, const Vector position, const Vector ve
    ship->modules_.append(new Weapon(*ship, Vector(-1, -2, 1), Quaternion::DEFAULT));   
    ship->modules_.append(new Weapon(*ship, Vector(+1, -2, 1), Quaternion::DEFAULT));   
 
+   ship->modules_.append(new Weapon(*ship, Vector(-1, +2, 3), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(+1, +2, 3), Quaternion::SPIN_Z));   
+   ship->modules_.append(new Weapon(*ship, Vector(-1, -2, 3), Quaternion::DEFAULT));   
+   ship->modules_.append(new Weapon(*ship, Vector(+1, -2, 3), Quaternion::DEFAULT));   
+
    ship->modules_.append(new Weapon(*ship, Vector(+2, +1, 1), Quaternion::SPIN_Z));   
    ship->modules_.append(new Weapon(*ship, Vector(-2, +1, 1), Quaternion::SPIN_Z));   
    ship->modules_.append(new Weapon(*ship, Vector(+2, -1, 1), Quaternion::DEFAULT));   
@@ -105,6 +112,11 @@ Ship* Ship::createAstronach(World& world, const Vector position, const Vector ve
 
    ship->modules_.append(new Weapon(*ship, Vector(-3, 0, 1), Quaternion::Z_ROT_270));   
    ship->modules_.append(new Weapon(*ship, Vector(+3, 0, 1), Quaternion::Z_ROT_090));   
+
+   ship->modules_.append(new Weapon(*ship, Vector(-2, 1, 3), Quaternion::Z_ROT_270));   
+   ship->modules_.append(new Weapon(*ship, Vector(+2, 1, 3), Quaternion::Z_ROT_090));   
+   ship->modules_.append(new Weapon(*ship, Vector(-2, -1, 3), Quaternion::Z_ROT_270));   
+   ship->modules_.append(new Weapon(*ship, Vector(+2, -1, 3), Quaternion::Z_ROT_090));   
 
    // More structure
    ship->core_ = new FlightComputer(*ship, Vector(0, 0, 2), Quaternion::DEFAULT);
@@ -129,7 +141,7 @@ Ship* Ship::createAstronach(World& world, const Vector position, const Vector ve
    ship->modules_.append(new Structure(*ship, Vector(+1, +1, 3), Quaternion::SPIN_X));
 
    // Forward weapons pod
-   ship->modules_.append(new Structure(*ship, Vector(0, 0, 4), Quaternion::DEFAULT));
+   ship->modules_.append(new Engine(*ship, Vector(0, 0, 4), Quaternion::SPIN_X));
 
    ship->modules_.append(new Weapon(*ship, Vector(0, +1, 4), Quaternion::SPIN_Z));   
    ship->modules_.append(new Weapon(*ship, Vector(0, -1, 4), Quaternion::DEFAULT));   
@@ -166,9 +178,12 @@ void Ship::normalizeModules()
    inverseInertialTensor_ = inertialTensor_.inverse();
 
    // Move modules
+   maxModuleRadius_ = 0;
    foreach (Module* m, modules_)
    {
       m->setPosition(m->position() - centerOfMass);
+
+      maxModuleRadius_ = qMax(maxModuleRadius_, m->position().magnitude());
    }
 }
 //! @}
@@ -219,6 +234,17 @@ int Ship::id()
 {
    return id_;
 }
+
+double Ship::deflectorGlow()
+{
+   return deflectorGlow_;
+}
+
+int Ship::boredom()
+{
+   return boredom_;
+}
+
 //! @}
 
 /**
@@ -236,6 +262,15 @@ void Ship::simulateMovement()
 
 void Ship::simulateCollisions()
 {
+   if (deflectorGlow_ > 0.1)
+   {
+      deflectorGlow_ = deflectorGlow_ * 0.95;
+   }
+   else
+   {
+      deflectorGlow_ = 0;
+   }
+
    simulateShipToShipCollisions();
 }
 
@@ -243,6 +278,8 @@ void Ship::simulateLogic()
 {
    hud_.clear();
    autopilot_->run();
+
+   boredom_++;
 }
 
 void Ship::simulateModules()
@@ -259,16 +296,24 @@ void Ship::simulateShipToShipCollisions()
    {
       if (ship != this)
       {
-         Vector shipVelocity = ship->velocity();
+         Vector shipPosition = ship->position();
 
          double range = (ship->position() - position_).magnitude();
          if (range < 50.0 && ship->applyCollisionWith(range, position_, velocity_, team_))
          {
-            velocity_ = (velocity_ * 0.5) + (shipVelocity * 0.5);
+            Vector toShip = (shipPosition - position()).normalized();
+
+            velocity_ += (toShip * (-0.1 / range));
          }
       }
    }
 }
+
+void Ship::handleExcitement()
+{
+   boredom_ = 0;
+}
+
 //! @}
 
 /**
@@ -282,13 +327,23 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 {
    if (distance <= deflectorRadius())
    {
-      deflectorPower_ -= (0.5 / mass_);
+      if (deflectorGlow_ < 3.0)
+      {
+         deflectorGlow_ += 1.0;
+      }
+
+      deflectorPower_ -= (1.0 / mass_);
+      handleExcitement();
       return true;
    }
 
+   double collisionRadius = 1.0 + ((velocity_ - velocity).magnitude() * 1.5);
+   if (distance + collisionRadius <= maxModuleRadius_)
+   {
+      return false;
+   }
 
    Vector localPosition = (position - position_).rotate(orientation_.inverse());
-   double collisionRadius = 1.0 + ((velocity_ - velocity).magnitude() * 1.5);
 
    foreach (Module* module, modules_)
    {
@@ -298,17 +353,7 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
 
          if (module == core_)
          {
-            Explosion* explosion = new Explosion(world_, 10.0, NullType,
-                                                 module->absolutePosition(), 
-                                                 module->absoluteOrientation(), 
-                                                 velocity_, team);
-            modules_.removeAll(module);
-            world_.replaceItem(this, explosion);
-
-            foreach(Module* module, modules_)
-            {
-               explodeModule(module, team);
-            }
+            explode(team);
             return true;
          }
 
@@ -321,10 +366,27 @@ bool Ship::applyCollisionWith(double distance, const Vector position, const Vect
    return false;
 }
 
+void Ship::explode(int team)
+{
+   Explosion* explosion = new Explosion(world_, 10.0, NullType,
+                                        core_->absolutePosition(), 
+                                        core_->absoluteOrientation(), 
+                                        velocity_, team);
+   modules_.removeAll(core_);
+
+   core_ = NULL;
+   foreach(Module* module, modules_)
+   {
+      explodeModule(module, team);
+   }
+
+   world_.replaceItem(this, explosion);
+}
+
 void Ship::explodeAllUnattachedModules(int forTeam)
 {
    QList<Module*> attachedModules;
-   attachedModules.append(core_);
+   if (core_ != NULL) attachedModules.append(core_);
 
    QList<Module*> freeModules;
    freeModules.append(modules_);

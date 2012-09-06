@@ -35,6 +35,8 @@ public:
    int id();
    World& world();
 
+   int boredom();
+
    virtual void simulateMovement();
    virtual void simulateCollisions();
    virtual void simulateLogic();
@@ -51,9 +53,13 @@ public:
 
    void explodeAllUnattachedModules(int forTeam);
    void explodeModule(Module* module, int forTeam);
+   void explode(int forTeam);
 
    double deflectorRadius();
+   double deflectorGlow();
    bool applyCollisionWith(double distance, const Vector position, const Vector velocity, int team);
+
+   void handleExcitement();
 
    Hud& hud();
 
@@ -63,8 +69,12 @@ private:
    Autopilot* autopilot_;
    int team_;
    int id_;
+   int boredom_;
 
    double deflectorPower_;
+   double deflectorGlow_;
+
+   double maxModuleRadius_;
 
    Module* core_;
    RacistList<Module*> modules_;

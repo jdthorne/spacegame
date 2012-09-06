@@ -38,6 +38,7 @@ public:
 private: // helpers
    void loadGeneral();
    void loadTextures();
+   void loadTexture(QString file, int id);
 
    void setupCamera();
 
@@ -52,6 +53,7 @@ private: // helpers
    void drawExplosionFragment(Explosion* explosion, const Vector frag, double scale);
    void drawFlareMeshes();
    void drawFlareGlows();
+   void drawDeflectors();
 
    bool shittyRange(const Vector position);
 

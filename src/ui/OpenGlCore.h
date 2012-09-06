@@ -37,6 +37,8 @@ protected:
    virtual void mousePressEvent(QMouseEvent* event);
    virtual void mouseReleaseEvent(QMouseEvent* event);
 
+   virtual void keyPressEvent(QKeyEvent* event);
+
 private slots:
    void handleTimeout();
 
@@ -56,6 +58,8 @@ private:
 
    double xStart_;
    double yStart_;
+
+   bool renderReady_;
 };
 
 #endif

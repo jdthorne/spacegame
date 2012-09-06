@@ -37,8 +37,10 @@ void Weapon::fire()
    Bullet* bullet = new Bullet(ship_.world(), &ship_, startPoint, ship_.velocity(), direction.normalized(), ship_.team());
    ship_.world().addItem(bullet);
 
-   cooldownStart_ = ship_.world().randomValue(35, 60);
+   cooldownStart_ = ship_.world().randomValue(70, 120);
    cooldown_ = cooldownStart_;
+
+   ship_.handleExcitement();
 }
 
 double Weapon::cooldownRemaining()

@@ -29,6 +29,7 @@ private: // helpers
    void addShip(int team);
 
 private: // members
+   bool ftl_;
 
 };
 

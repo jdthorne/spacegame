@@ -61,6 +61,11 @@ double World::randomValue(double min, double max)
    return min + ( (double)rand() / RAND_MAX ) * (max - min);
 }
 
+int World::randomInt(int min, int max)
+{
+   return min + ( rand() % (max - min + 1) );
+}
+
 const Vector World::randomVector(double min, double max)
 {
    return Vector( randomValue(min, max),
@@ -91,5 +96,13 @@ bool World::hasRemainingShips()
 RacistList<WorldItem*> World::items() const
 {
    return all_;
+}
+
+void World::nextFocusItem()
+{
+   int index = randomValue(0, ships().count() - 1);
+   index = qBound(0, index, ships().count() - 1);
+
+   focusItem_ = ships()[index];
 }
 
