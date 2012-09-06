@@ -24,8 +24,6 @@ public:
    World& world();
    void simulate();
 
-   virtual void triggerEvent() = 0;
-
 protected:
    virtual void runSimulationSpecifics() = 0;
 

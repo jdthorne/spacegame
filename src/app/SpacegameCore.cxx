@@ -6,7 +6,8 @@
 #include <SpacegameCore.h>
 #include <MainWindow.h>
 #include <ExplosionDev.h>
-#include <BattleDev.h>
+#include <EndlessBattle.h>
+#include <Shipyard.h>
 
 SpacegameCore::SpacegameCore()
 {
@@ -22,7 +23,8 @@ void SpacegameCore::runSpacegame(int argc, char** argv)
    QApplication app(argc, argv);
 
    MainWindow* window = new MainWindow();
-   window->loadSimulation(new BattleDev());
+   //window->loadSimulation(new EndlessBattle());
+   window->loadSimulation(new Shipyard());
    window->resize(1280, 720);
    window->show();
 

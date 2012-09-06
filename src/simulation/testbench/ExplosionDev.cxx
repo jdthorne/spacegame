@@ -40,6 +40,7 @@ void ExplosionDev::runSimulationSpecifics()
    }
 }
 
+/*
 void ExplosionDev::triggerEvent()
 {
    if (laserCharge_ > 0)
@@ -53,4 +54,4 @@ void ExplosionDev::triggerEvent()
    world_->addItem(bullet);
    laserCharge_ = 40;
 }
-
+*/

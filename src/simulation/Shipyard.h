@@ -1,5 +1,5 @@
-#ifndef BATTLEDEV
-#define BATTLEDEV
+#ifndef SHIPYARD
+#define SHIPYARD
 
 // Qt
 #include <QString>
@@ -10,26 +10,22 @@
 /**
  ******************************************************************************
  *
- * \brief            BattleDev
+ * \brief            Shipyard
  *
  ******************************************************************************
  */
-class BattleDev : public Simulation
+class Shipyard : public Simulation
 {
 
 public:
-   BattleDev();
-   ~BattleDev();
+   Shipyard();
+   ~Shipyard();
 
-public:
-   virtual void triggerEvent();
    virtual void runSimulationSpecifics();
 
 private: // helpers
-   void addShip(int team);
 
 private: // members
-   bool ftl_;
 
 };
 

@@ -1,5 +1,5 @@
-#ifndef EXPLOSIONDEV
-#define EXPLOSIONDEV
+#ifndef ENDLESSBATTLE
+#define ENDLESSBATTLE
 
 // Qt
 #include <QString>
@@ -10,24 +10,24 @@
 /**
  ******************************************************************************
  *
- * \brief            ExplosionDev
+ * \brief            EndlessBattle
  *
  ******************************************************************************
  */
-class ExplosionDev : public Simulation
+class EndlessBattle : public Simulation
 {
 
 public:
-   ExplosionDev();
-   ~ExplosionDev();
+   EndlessBattle();
+   ~EndlessBattle();
 
 public:
    virtual void runSimulationSpecifics();
 
-private: // helpers
+   void addRandomShip();
 
 private: // members
-   int laserCharge_;
+   bool ftl_;
 
 };
 
