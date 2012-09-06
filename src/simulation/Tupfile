@@ -4,6 +4,7 @@ include_rules
 SRC = ..
 
 CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/shared
 CFLAGS += -I$(SRC)/world
 CFLAGS += -I$(SRC)/world/modules
 

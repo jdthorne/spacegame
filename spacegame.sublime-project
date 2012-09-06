@@ -9,13 +9,7 @@
 		},
 		{
 			"path": "bin"
-		},
-		{
-			"path": "/Users/james/Projects/Starsplosion"
-		},
-      {
-         "path": "/Users/james/Library/Application Support/Sublime Text 2/Packages"
-      }
+		}
 	],
 	"settings":
 	{
@@ -27,20 +21,19 @@
 			"-I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers/",
 			"-I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
 			"-I/System/Library/Frameworks/GLUT.framework/Headers",
-
-         "-I/Users/james/Projects/Spacegame/src",
-         "-I/Users/james/Projects/Spacegame/src/3rdparty",
-         "-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
-         "-I/Users/james/Projects/Spacegame/src/app",
-         "-I/Users/james/Projects/Spacegame/src/math",
-         "-I/Users/james/Projects/Spacegame/src/shared",
-         "-I/Users/james/Projects/Spacegame/src/render",
-         "-I/Users/james/Projects/Spacegame/src/simulation",
-         "-I/Users/james/Projects/Spacegame/src/simulation/testbench",
-         "-I/Users/james/Projects/Spacegame/src/ui",
-         "-I/Users/james/Projects/Spacegame/src/world",
-         "-I/Users/james/Projects/Spacegame/src/world/autopilot",
-         "-I/Users/james/Projects/Spacegame/src/world/modules"
+			"-I/Users/james/Projects/Spacegame/src",
+			"-I/Users/james/Projects/Spacegame/src/3rdparty",
+			"-I/Users/james/Projects/Spacegame/src/3rdparty/lodepng",
+			"-I/Users/james/Projects/Spacegame/src/app",
+			"-I/Users/james/Projects/Spacegame/src/math",
+			"-I/Users/james/Projects/Spacegame/src/shared",
+			"-I/Users/james/Projects/Spacegame/src/render",
+			"-I/Users/james/Projects/Spacegame/src/simulation",
+			"-I/Users/james/Projects/Spacegame/src/simulation/testbench",
+			"-I/Users/james/Projects/Spacegame/src/ui",
+			"-I/Users/james/Projects/Spacegame/src/world",
+			"-I/Users/james/Projects/Spacegame/src/world/autopilot",
+			"-I/Users/james/Projects/Spacegame/src/world/modules"
 		]
 	}
 }

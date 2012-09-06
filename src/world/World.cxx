@@ -85,7 +85,7 @@ WorldItem& World::focusItem() const
 
 QList<Ship*> World::ships() const
 {
-   return all_.all<Ship*>();
+   return all_.all<Ship>();
 }
 
 bool World::hasRemainingShips()

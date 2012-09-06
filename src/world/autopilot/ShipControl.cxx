@@ -63,7 +63,7 @@ const Vector ShipControl::inertialTensor()
 
 void ShipControl::setGyroPowerLevel(Vector power)
 {
-   foreach(Gyro* gyro, ship_.modules().all<Gyro*>())
+   foreach(Gyro* gyro, ship_.modules().all<Gyro>())
    {
       gyro->setPower(power);
    }
@@ -71,14 +71,14 @@ void ShipControl::setGyroPowerLevel(Vector power)
 
 double ShipControl::maximumTorque()
 {
-   double result = Gyro::MAXIMUM_TORQUE * ship_.modules().all<Gyro*>().count();
+   double result = Gyro::MAXIMUM_TORQUE * ship_.modules().all<Gyro>().count();
 
    return result;
 }
 
 double ShipControl::maximumForce()
 {
-   double result = Engine::MAXIMUM_THRUST * ship_.modules().all<Engine*>().count() * 0.5;
+   double result = Engine::MAXIMUM_THRUST * ship_.modules().all<Engine>().count() * 0.5;
 
    return result;
 }
@@ -86,7 +86,7 @@ double ShipControl::maximumForce()
 
 void ShipControl::setEnginePowerLevel(Vector power)
 {
-   foreach(Engine* engine, ship_.modules().all<Engine*>())
+   foreach(Engine* engine, ship_.modules().all<Engine>())
    {
       double direction = engine->thrust().z * power.z;
       if (direction > 0)
@@ -147,7 +147,7 @@ QList<SensorResult> ShipControl::scan()
  */
 void ShipControl::fireWeapons()
 {
-   foreach(Weapon* weapon, ship_.modules().all<Weapon*>())
+   foreach(Weapon* weapon, ship_.modules().all<Weapon>())
    {
       weapon->fire();
    }

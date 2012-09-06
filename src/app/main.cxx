@@ -7,6 +7,7 @@
 // Space Game
 #include <stdio.h>
 #include <OpenGlCore.h>
+#include <Profile.h>
 #include <ExplosionDev.h>
 #include <BattleDev.h>
 #include <OfflineCore.h>
@@ -23,5 +24,7 @@ int main(int argc, char** argv)
    {
       SpacegameCore::runSpacegame(argc, argv);
    }
+
+   Profile::printTimingInformation();
 }
 

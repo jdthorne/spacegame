@@ -5,6 +5,7 @@
 #include <OfflineCore.h>
 #include <World.h>
 #include <Simulation.h>
+#include <Profile.h>
 
 OfflineCore::OfflineCore()
 {
@@ -45,6 +46,11 @@ void OfflineCore::runSimulation(Simulation* simulation)
 
          qDebug(" => Running at %.5ffps (%d objects)", (240 / timePassed), simulation->world().items().count());
          delta = clock();
+      }
+
+      if (frame % 2400 == 0)
+      {
+         Profile::printTimingInformation();
       }
    }
 

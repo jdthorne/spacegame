@@ -2,6 +2,7 @@
 // Qt
 
 // Spacegame
+#include <Profile.h>
 #include <Simulation.h>
 #include <World.h>
 
@@ -22,6 +23,8 @@ World& Simulation::world()
 
 void Simulation::simulate()
 {
+   PROFILE_FUNCTION("Simulation");
+
    runSimulationSpecifics();
    world_->simulate();
 }

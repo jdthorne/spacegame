@@ -4,6 +4,7 @@ include_rules
 SRC = ..
 
 CFLAGS += -I$(SRC)/math
+CFLAGS += -I$(SRC)/shared
 CFLAGS += -I$(SRC)/simulation
 CFLAGS += -I$(SRC)/simulation/testbench
 CFLAGS += -I$(SRC)/world

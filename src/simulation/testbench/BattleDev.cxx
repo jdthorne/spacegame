@@ -117,7 +117,7 @@ void BattleDev::runSimulationSpecifics()
       world_->addItem(ship);
    }
 
-   if (ftl_ && (world_->randomInt(0, 5) == 0))
+   if ((world_->randomInt(0, 40) == 0))
    {
       foreach(Ship* ship, world_->ships())
       {

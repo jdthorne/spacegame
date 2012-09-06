@@ -10,7 +10,6 @@
 CameraSidebar::CameraSidebar(QWidget* parent)
    : QWidget(parent)
 {
-   /*
    QVBoxLayout* layout = new QVBoxLayout(this);
 
    viewAll_ = new QRadioButton(this);
@@ -32,7 +31,6 @@ CameraSidebar::CameraSidebar(QWidget* parent)
    layout->addItem(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));
 
    setLayout(layout);
-   */
    setMinimumWidth(200);
 }
 

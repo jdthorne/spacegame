@@ -1,4 +1,7 @@
 
+// System
+#include <cmath>
+
 // Qt
 #include <QGLWidget>
 
@@ -21,6 +24,7 @@
 
 #include <Bullet.h>
 #include <Explosion.h>
+#include <Profile.h>
 
 #include <glut.h>
 
@@ -131,6 +135,8 @@ void RenderCore::loadTexture(QString file, int id)
  */
 void RenderCore::render(const World& world, const Camera& camera)
 {
+   PROFILE_FUNCTION("Render");
+
    world_ = &world;
    camera_ = &camera;
 
@@ -153,6 +159,8 @@ void RenderCore::setupCamera()
 
 void RenderCore::drawStars()
 {
+   PROFILE_FUNCTION("Render/Stars");
+
    glPushMatrix();
    glDisable(GL_LIGHTING);
 
@@ -172,6 +180,8 @@ void RenderCore::drawStars()
 
 void RenderCore::drawBasicMeshes()
 {
+   PROFILE_FUNCTION("Render/Basic Meshes");
+
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
 
@@ -185,6 +195,8 @@ void RenderCore::drawBasicMeshes()
 
 void RenderCore::drawEffects()
 {
+   PROFILE_FUNCTION("Render/Effects");
+
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
    glDepthMask(GL_FALSE);
@@ -210,8 +222,7 @@ void RenderCore::drawEffects()
  */
 void RenderCore::drawShip(Ship& ship)
 {
-   double distance = (camera_->position() - ship.position()).magnitude();
-   bool shitty = (distance > 15);
+   bool shitty = shittyRange(ship.position());
  
    Color teamColor = Color::forTeam(ship.team());
 
@@ -250,7 +261,7 @@ void RenderCore::drawExplosions()
 {   
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-   foreach(Explosion* explosion, world_->items().all<Explosion*>())
+   foreach(Explosion* explosion, world_->items().all<Explosion>())
    {
       if (explosion->explodingObjectType() == NullType)
       {
@@ -281,7 +292,7 @@ void RenderCore::drawExplosions()
    glEnable(GL_TEXTURE_2D);
    glBindTexture(GL_TEXTURE_2D, textures_[0]);
 
-   foreach(Explosion* explosion, world_->items().all<Explosion*>())
+   foreach(Explosion* explosion, world_->items().all<Explosion>())
    {
       double alpha = explosion->glow();
       double scale = explosion->size();
@@ -306,7 +317,7 @@ void RenderCore::drawBullets()
    glBindTexture(GL_TEXTURE_2D, textures_[0]);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
-   foreach(Bullet* bullet, world_->items().all<Bullet*>())
+   foreach(Bullet* bullet, world_->items().all<Bullet>())
    {
       double glow = bullet->glow();
 
@@ -334,7 +345,7 @@ void RenderCore::drawFlareMeshes()
 {
    foreach(Ship* ship, world_->ships())
    {
-      foreach(Engine* engine, ship->modules().all<Engine*>())
+      foreach(Engine* engine, ship->modules().all<Engine>())
       {
          glPushMatrix();
 
@@ -362,7 +373,7 @@ void RenderCore::drawFlareGlows()
 
    foreach(Ship* ship, world_->ships())
    {
-      foreach(Weapon* weapon, ship->modules().all<Weapon*>())
+      foreach(Weapon* weapon, ship->modules().all<Weapon>())
       {
          if (weapon->cooldownRemaining() > 0.01)
          {
@@ -407,7 +418,7 @@ void RenderCore::drawDeflectors()
 
 bool RenderCore::shittyRange(const Vector position)
 {
-   return (position - camera_->position()).magnitude() > 90;
+   return (position - camera_->position()).magnitude() > 25;
 }
 
 Mesh& RenderCore::meshForType(ObjectType type)

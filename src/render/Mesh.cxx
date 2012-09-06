@@ -7,6 +7,7 @@
 #include <Mesh.h>
 #include <Color.h>
 #include <RenderHelpers.h>
+#include <Profile.h>
 
 using namespace RenderHelpers;
 
