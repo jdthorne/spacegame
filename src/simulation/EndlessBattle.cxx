@@ -82,7 +82,7 @@ void EndlessBattle::addRandomShip()
       team = world_->randomInt(0, 2);
    }
 
-   Vector position = world_->randomVector(-100, 100);
+   Vector position = world_->randomVector(-70, 70);
    Vector velocity = world_->randomVector(-0.5, 0.5);
 
    Ship* ship = NULL;

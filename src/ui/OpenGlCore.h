@@ -25,6 +25,8 @@ public:
 
    void loadSimulation(Simulation* simulation);
 
+   void renderConnectionPoints(bool renderConnectionPoints);
+
 public:
    virtual void initializeGL();
    virtual void resizeGL(int w, int h);
@@ -47,6 +49,8 @@ private:
 private:
    QTimer timer_;
 
+   bool renderConnectionPoints_;
+
    Simulation* simulation_;
    RenderCore* renderCore_;
 
@@ -55,6 +59,9 @@ private:
 
    double xStart_;
    double yStart_;
+
+   double xRotation_;
+   double yRotation_;
 
    bool renderReady_;
 };

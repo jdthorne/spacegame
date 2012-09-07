@@ -8,7 +8,15 @@ Gyro::Gyro(Ship& ship, const Vector position)
    : Module(ship, position, Quaternion())
    , power_(0, 0, 0)
 {
+   // Sides
+   connectionPoints_.append(Vector(+0.5, 0, 0));
+   connectionPoints_.append(Vector(-0.5, 0, 0));
+   connectionPoints_.append(Vector(0, +0.5, 0));
+   connectionPoints_.append(Vector(0, -0.5, 0));
 
+   // Ends
+   connectionPoints_.append(Vector(0, 0, +0.5));
+   connectionPoints_.append(Vector(0, 0, -0.5));
 }
 
 void Gyro::simulate()

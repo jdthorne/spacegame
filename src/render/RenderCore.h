@@ -34,6 +34,7 @@ public:
 public:
    void initialize();
    void render(const World& world);
+   void renderConnectionPoints(const World& world);
    
 private: // helpers
    void loadGeneral();

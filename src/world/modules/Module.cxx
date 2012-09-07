@@ -6,7 +6,6 @@ Module::Module(Ship& ship, const Vector position, const Quaternion orientation)
    , position_(position)
    , orientation_(orientation)
 {
-
 }
 
 Vector Module::absolutePosition()
@@ -46,3 +45,20 @@ const Quaternion Module::orientation()
    return orientation_;
 }
 
+QList<Vector> Module::connectionPoints()
+{
+   return connectionPoints_;
+}
+
+bool Module::isConnectedAtAbsolutePoint(Vector point)
+{
+   foreach(Vector connection, connectionPoints_)
+   {
+      Vector distance = (absolutePositionOf(connection) - point);
+      if (distance.magnitude() < 0.4)
+      {
+         return true;
+      }
+   }
+   return false;
+}

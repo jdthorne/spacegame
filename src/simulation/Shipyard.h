@@ -7,6 +7,8 @@
 // Spacegame
 #include <Simulation.h>
 
+class Ship;
+
 /**
  ******************************************************************************
  *
@@ -26,6 +28,7 @@ public:
 private: // helpers
 
 private: // members
+   Ship* ship_;
 
 };
 

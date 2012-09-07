@@ -29,7 +29,7 @@ public:
    const Vector position() const;
    const Quaternion orientation() const;
 
-   void addUserOrientation(const Quaternion orientation);
+   void setUserOrientation(const Quaternion orientation);
    void addZoom(double zoom);
 
 public:

@@ -93,6 +93,4 @@ private: // members
 
 };
 
-#define objectIs(object, Type) (dynamic_cast<Type*>(object) != NULL)
-
 #endif

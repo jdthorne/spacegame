@@ -211,6 +211,46 @@ void RenderCore::drawEffects()
    glDisable(GL_BLEND);
 }
 
+void RenderCore::renderConnectionPoints(const World& world)
+{
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+   glEnable(GL_TEXTURE_2D);
+   glBindTexture(GL_TEXTURE_2D, textures_[0]);
+
+   glDepthMask(GL_FALSE);
+
+   foreach(Ship* ship, world_->ships())
+   {
+      foreach(Module* module, ship->modules())
+      {
+         foreach(Vector point, module->connectionPoints())
+         {
+            bool connected = false;
+            Vector position = module->absolutePositionOf(point * 1.1);
+
+            foreach(Module* otherModule, ship->modules())
+            {
+               if (otherModule != module && otherModule->isConnectedAtAbsolutePoint(position))
+               {
+                  connected = true;
+                  break;
+               }
+            }
+
+            glColorc(connected ? Color(0, 1, 0, 1) : Color(1, 1, 1, 1));
+            glSphere(position, 0.2);
+         }
+      }
+   }
+
+   glDepthMask(GL_TRUE);
+   glDisable(GL_TEXTURE_2D);
+   glDisable(GL_BLEND);
+}
+
+
 //! @}
 
 /**

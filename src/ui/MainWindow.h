@@ -31,7 +31,9 @@ private: // helpers
 private: // members
    QWidget* widget_;
    OpenGlCore* core_;
-   CameraSidebar* right_;
+
+   QLayout* rightSidebarLayout_;
+   QWidget* rightSidebar_;
 };
 
 #endif

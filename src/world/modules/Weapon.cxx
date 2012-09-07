@@ -9,6 +9,9 @@ Weapon::Weapon(Ship& ship, const Vector position, const Quaternion orientation)
    , cooldown_(0)
    , cooldownStart_(1)
 {
+   // Sides
+   connectionPoints_.append(Vector(0, +0.5, +0.5));
+   connectionPoints_.append(Vector(0, +0.5, -0.5));
 }
 
 void Weapon::simulate()

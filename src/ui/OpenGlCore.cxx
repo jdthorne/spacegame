@@ -17,11 +17,14 @@
 OpenGlCore::OpenGlCore(QWidget* parent)
    : QGLWidget(parent)
    , timer_(this)
+   , renderConnectionPoints_(false)
    , simulation_(NULL)
    , renderCore_(new RenderCore())
    , frames_(FPS_SAMPLE_FRAMES)
    , xStart_(0)
    , yStart_(0)
+   , xRotation_(0)
+   , yRotation_(0)
    , renderReady_(true)
 {
    setMouseTracking(true);
@@ -41,6 +44,11 @@ void OpenGlCore::loadSimulation(Simulation* simulation)
 OpenGlCore::~OpenGlCore()
 {
 }  
+
+void OpenGlCore::renderConnectionPoints(bool renderConnectionPoints)
+{
+   renderConnectionPoints_ = renderConnectionPoints;
+}
 
 void OpenGlCore::initializeGL()
 {
@@ -76,6 +84,11 @@ void OpenGlCore::paintGL()
 
    renderCore_->render(simulation_->world());
    renderReady_ = false;
+
+   if (renderConnectionPoints_)
+   {
+      renderCore_->renderConnectionPoints(simulation_->world());
+   }
 }
 
 void OpenGlCore::handleTimeout()
@@ -116,10 +129,13 @@ void OpenGlCore::mouseMoveEvent(QMouseEvent* event)
       double deltaX = ((double)(event->x() - xStart_) / width());
       double deltaY = ((double)(event->y() - yStart_) / height());
 
-      Quaternion xRotation = Quaternion(deltaX * -5, Vector(0, 1, 0));
-      Quaternion yRotation = Quaternion(deltaY * +5, Vector(1, 0, 0));
+      xRotation_ += deltaX;
+      yRotation_ += deltaY;
 
-      simulation_->world().camera().addUserOrientation(xRotation * yRotation);
+      Quaternion xRotation = Quaternion(xRotation_ * -5, Vector(0, 1, 0));
+      Quaternion yRotation = Quaternion(yRotation_ * -5, Vector(1, 0, 0));
+
+      simulation_->world().camera().setUserOrientation(yRotation * xRotation);
    }
 
    xStart_ = event->x();
@@ -133,6 +149,8 @@ void OpenGlCore::wheelEvent(QWheelEvent* event)
 
 void OpenGlCore::mousePressEvent(QMouseEvent* event)
 {
+   xStart_ = event->x();
+   yStart_ = event->y();
 }
 void OpenGlCore::mouseReleaseEvent(QMouseEvent* event)
 {

@@ -13,7 +13,7 @@ public:
    void run();
 
 private:
-   void findTarget();
+   bool findTarget();
    void findTargetProjection();
    void rotateToFaceTarget();
    void closeToWeaponsRange();

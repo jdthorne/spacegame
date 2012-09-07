@@ -5,7 +5,7 @@
 #include <QString>
 
 // Spacegame
-#include <Module.h>
+#include <Structure.h>
 
 /**
  ******************************************************************************
@@ -14,7 +14,7 @@
  *
  ******************************************************************************
  */
-class FlightComputer : public Module
+class FlightComputer : public Structure
 {
 
 public:

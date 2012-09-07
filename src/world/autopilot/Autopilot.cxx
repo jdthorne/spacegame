@@ -26,7 +26,12 @@ Autopilot::~Autopilot()
  */
 void Autopilot::run()
 {
-   findTarget();
+   bool hasTarget = findTarget();
+   if (!hasTarget)
+   {
+      return;
+   }
+
    findTargetProjection();
 
    rotateToFaceTarget();
@@ -34,9 +39,14 @@ void Autopilot::run()
    fire();
 }
 
-void Autopilot::findTarget()
+bool Autopilot::findTarget()
 {
    QList<SensorResult> targets = ship_.scan();
+
+   if (targets.count() == 0)
+   {
+      return false;
+   }
 
    double maxDistance = 1.0/0.0;
    foreach(SensorResult target, targets)
@@ -53,6 +63,8 @@ void Autopilot::findTarget()
          maxDistance = distance;
       }
    }
+
+   return true;
 }
 
 void Autopilot::findTargetProjection()
