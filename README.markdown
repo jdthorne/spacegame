@@ -8,5 +8,5 @@ It was basically an excuse to learn 3D physics, real-time control systems and Op
 Screenshots!
 ------------
 
-![Screenshot 1](images/battle1.png)
-![Screenshot 2](images/battle2.png)
+![Screenshot 1](/images/battle1.png)
+![Screenshot 2](/images/battle2.png)
